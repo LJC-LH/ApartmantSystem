@@ -49,6 +49,41 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
     private String sex;
 
+    /**
+     * 增加省份、学籍和校区
+     */
+    @Excel(name = "省份")
+    private String province;
+    @Excel(name = "学籍状态", readConverterExp = "0=注册学籍,1=已离校,2=保留学籍")
+    private String schoolRoll;
+
+    @Excel(name = "校区", readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区")
+    private String schoolArea;
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getSchoolRoll() {
+        return schoolRoll;
+    }
+
+    public void setSchoolRoll(String schoolRoll) {
+        this.schoolRoll = schoolRoll;
+    }
+
+    public String getSchoolArea() {
+        return schoolArea;
+    }
+
+    public void setSchoolArea(String schoolArea) {
+        this.schoolArea = schoolArea;
+    }
+
     /** 用户头像 */
     private String avatar;
 
@@ -307,6 +342,9 @@ public class SysUser extends BaseEntity
             .append("email", getEmail())
             .append("phonenumber", getPhonenumber())
             .append("sex", getSex())
+            .append("province",getProvince())
+            .append("schoolRoll",getSchoolRoll())
+            .append("schoolArea",getSchoolArea())
             .append("avatar", getAvatar())
             .append("password", getPassword())
             .append("status", getStatus())
