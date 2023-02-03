@@ -61,6 +61,12 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>fzu_apartment</artifactId>
+            <version>3.8.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>
