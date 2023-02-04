@@ -54,8 +54,12 @@ public class SysUser extends BaseEntity
      */
     @Excel(name = "省份")
     private String province;
+
     @Excel(name = "学籍状态", readConverterExp = "0=注册学籍,1=已离校,2=保留学籍")
     private String schoolRoll;
+
+    @Excel(name = "就读学历层次")
+    private String studyLevel;
 
     @Excel(name = "校区", readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区")
     private String schoolArea;
@@ -74,6 +78,14 @@ public class SysUser extends BaseEntity
 
     public void setSchoolRoll(String schoolRoll) {
         this.schoolRoll = schoolRoll;
+    }
+
+    public String getStudyLevel() {
+        return studyLevel;
+    }
+
+    public void setStudyLevel(String studyLevel) {
+        this.studyLevel = studyLevel;
     }
 
     public String getSchoolArea() {
@@ -108,7 +120,7 @@ public class SysUser extends BaseEntity
     /** 部门对象 */
     @Excels({
         @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
-        @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
+//        @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
     })
     private SysDept dept;
 
@@ -122,6 +134,7 @@ public class SysUser extends BaseEntity
     private Long[] postIds;
 
     /** 角色ID */
+    @Excel(name = "用户角色", type = Type.IMPORT, cellType = ColumnType.NUMERIC, readConverterExp = "2=学生,100=辅导员,101=学工处,102=校区管理办公室,103=物业管理部门,104=楼管人员,105=维修人员")
     private Long roleId;
 
     public SysUser()
@@ -344,6 +357,7 @@ public class SysUser extends BaseEntity
             .append("sex", getSex())
             .append("province",getProvince())
             .append("schoolRoll",getSchoolRoll())
+            .append("studyLevel",getStudyLevel())
             .append("schoolArea",getSchoolArea())
             .append("avatar", getAvatar())
             .append("password", getPassword())

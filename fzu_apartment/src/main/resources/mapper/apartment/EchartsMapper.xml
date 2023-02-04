@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.EchartsMapper">
+
+<select id="groupByStudyLevel"  resultType="EchartData">
+    SELECT study_level as name ,COUNT(user_id) as value FROM sys_user WHERE study_level IS NOT NULL GROUP BY study_level;
+</select>
+
+</mapper>
