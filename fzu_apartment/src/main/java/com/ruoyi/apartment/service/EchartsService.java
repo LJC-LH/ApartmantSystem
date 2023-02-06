@@ -9,5 +9,12 @@ import java.util.List;
  * @create 2023-02-04 20:34
  */
 public interface EchartsService {
+
     public List<EchartData> groupByStudyLevel();
+
+    public List<EchartData> getPeopleNum();
+
+    public List<EchartData> getStudentProvince();
+
+    public List<EchartData> getEachCollageSex();
 }

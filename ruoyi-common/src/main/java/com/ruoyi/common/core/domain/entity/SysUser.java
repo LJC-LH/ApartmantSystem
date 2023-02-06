@@ -137,6 +137,26 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户角色", type = Type.IMPORT, cellType = ColumnType.NUMERIC, readConverterExp = "2=学生,100=辅导员,101=学工处,102=校区管理办公室,103=物业管理部门,104=楼管人员,105=维修人员")
     private Long roleId;
 
+    private Date startTime;
+
+    private Date endTime;
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     public SysUser()
     {
 
@@ -371,6 +391,8 @@ public class SysUser extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
             .append("dept", getDept())
+            .append("startTime", getStartTime())
+            .append("endTime", getEndTime())
             .toString();
     }
 }

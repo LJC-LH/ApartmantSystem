@@ -3,8 +3,42 @@
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.EchartsMapper">
 
-<select id="groupByStudyLevel"  resultType="EchartData">
-    SELECT study_level as name ,COUNT(user_id) as value FROM sys_user WHERE study_level IS NOT NULL GROUP BY study_level;
-</select>
+    <select id="groupByStudyLevel"  resultType="EchartData">
+        SELECT study_level as name ,COUNT(user_id) as value FROM sys_user WHERE study_level IS NOT NULL GROUP BY study_level;
+    </select>
+
+    <select id="getTotalPeopleNum"  resultType="EchartData">
+        SELECT "用户总人数" AS NAME,COUNT(user_id)AS VALUE FROM sys_user WHERE user_id != 1;
+    </select>
+
+    <select id="getStudentNum"  resultType="EchartData">
+        SELECT "学生用户" AS NAME,COUNT(u.user_id)AS VALUE FROM sys_user u,sys_user_role ur WHERE u.`user_id`= ur.`user_id` AND role_id = 2;
+    </select>
+
+    <select id="getTeacherNum"  resultType="EchartData">
+        SELECT "教职工用户" AS NAME,COUNT(u.user_id)AS VALUE FROM sys_user u,sys_user_role ur WHERE u.`user_id`= ur.`user_id` AND role_id IN (100,101,102);
+    </select>
+
+    <select id="getWuyeData"  resultType="EchartData">
+        SELECT "物业用户" AS NAME,COUNT(u.user_id)AS VALUE FROM sys_user u,sys_user_role ur WHERE u.`user_id`= ur.`user_id` AND role_id NOT IN (1,2,100,101,102);
+    </select>
+
+    <select id="getStudentProvince" resultType="EchartData">
+        SELECT provincial AS NAME, COUNT(province) AS VALUE FROM (SELECT province FROM sys_user,sys_user_role WHERE sys_user.user_id = sys_user_role.user_id AND role_id = 2) AS temp
+        RIGHT JOIN provincial ON temp.`province` = provincial.`provincial` GROUP BY provincial
+    </select>
+
+    <select id="getEachCollageNum" resultType="EchartData">
+        SELECT dept_name AS NAME,COUNT(dept_name) AS VALUE FROM sys_user,sys_user_role,sys_dept WHERE sys_user.`user_id` = sys_user_role.`user_id` AND sys_user.`dept_id` = sys_dept.`dept_id` AND role_id = 2 GROUP BY dept_name;
+    </select>
+
+    <select id="getEachCollageSex0" resultType="EchartData">
+        SELECT dept_name AS NAME,COUNT(dept_name) AS VALUE FROM sys_user,sys_user_role,sys_dept WHERE sys_user.`user_id` = sys_user_role.`user_id` AND sys_user.`dept_id` = sys_dept.`dept_id` AND role_id = 2 AND sex = 0 GROUP BY dept_name ORDER BY dept_name DESC;
+    </select>
+
+    <select id="getEachCollageSex1" resultType="EchartData">
+        SELECT dept_name AS NAME,COUNT(dept_name) AS VALUE FROM sys_user,sys_user_role,sys_dept WHERE sys_user.`user_id` = sys_user_role.`user_id` AND sys_user.`dept_id` = sys_dept.`dept_id` AND role_id = 2 AND sex = 1 GROUP BY dept_name ORDER BY dept_name DESC;
+    </select>
+
 
 </mapper>
