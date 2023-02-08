@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.FzuSysUserMapper">
+    
+    <resultMap type="FzuDormitoryInfo" id="FzuSysUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="buildingNo"    column="building_no"    />
+        <result property="roomNo"    column="room_no"    />
+        <result property="userName"    column="user_name"    />
+        <result property="niceName"    column="nick_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="bedNo"    column="bed_no"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="province"    column="province"    />
+        <result property="stuPhone"    column="phonenumber"    />
+        <result property="feesCategory"    column="fees_category"    />
+        <result property="dormStatus"    column="dorm_status"    />
+        <result property="contactPerson"    column="contact_person"    />
+        <result property="contactPhone"    column="contact_Phone"    />
+        <result property="schoolRoll"    column="school_roll"    />
+        <result property="schoolArea"    column="school_area"    />
+    </resultMap>
+
+    <sql id="selectFzuSysUserVo">
+        SELECT u.user_id, d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
+               s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category,
+               d.dorm_status, d.contact_person, d.contact_phone, u.school_roll,
+               u.school_area
+        FROM	fzu_dormitory d, sys_user u, fzu_student_dormitory s
+
+    </sql>
+
+    <select id="selectFzuSysUserList" parameterType="FzuDormitoryInfo" resultMap="FzuSysUserResult">
+        <include refid="selectFzuSysUserVo"/>
+        <where>  u.user_id = s.student_id AND s.dorm_id = d.dorm_id
+            <if test="buildingNo != null "> and building_no = #{buildingNo}</if>
+            <if test="roomNo != null "> and room_no = #{roomNo}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="niceName != null  and niceName != ''"> and nice_name like concat('%', #{niceName}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="bedNo != null  and bedNo != ''"> and bed_No = #{bedNo}</if>
+            <if test="deptId != null  and deptId != ''"> and dept_Id = #{deptId}</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="stuPhone != null  and stuPhone != ''"> and stu_Phone = #{stuPhone}</if>
+            <if test="feesCategory != null  and feesCategory != ''"> and fees_category = #{feesCategory}</if>
+            <if test="dormStatus != null  and dormStatus != ''"> and dorm_status = #{dormStatus}</if>
+            <if test="contactPerson != null  and contactPerson != ''"> and cntact_person = #{contactPerson}</if>
+            <if test="contactPhone != null  and contactPhone != ''"> and contact_phone = #{contactPhone}</if>
+            <if test="schoolRoll != null  and schoolRoll != ''"> and school_roll = #{schoolRoll}</if>
+            <if test="schoolArea != null  and schoolArea != ''"> and school_area = #{schoolArea}</if>
+        </where>
+    </select>
+    
+    <select id="selectFzuSysUserByUserId" parameterType="Long" resultMap="FzuSysUserResult">
+        <include refid="selectFzuSysUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertFzuSysUser" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="userId">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="niceName != null and niceName != ''">nick_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="deptId != null">dept_Id,</if>
+            <if test="province != null">province,</if>
+            <if test="stuPhone != null">phonenumber,</if>
+            <if test="schoolRoll != null">school_roll,</if>
+            <if test="schoolArea != null">school_area,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="niceName != null and niceName != ''">#{niceName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="province != null">#{province},</if>
+            <if test="stuPhone != null">#{stuPhone},</if>
+            <if test="schoolRoll != null">#{schoolRoll},</if>
+            <if test="schoolArea != null">#{schoolArea},</if>
+         </trim>
+         <selectKey resultType="Long" order="AFTER" keyProperty="userId">
+             select LAST_INSERT_ID()
+         </selectKey>
+    </insert>
+
+    <update id="updateFzuSysUser" parameterType="FzuDormitoryInfo">
+        update fzu_dormitory d, sys_user u, fzu_student_dormitory s
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingNo != null">d.building_no = #{buildingNo},</if>
+            <if test="roomNo != null">d.room_no = #{roomNo},</if>
+            <if test="userName != null">u.user_name = #{userName},</if>
+            <if test="niceName != null">u.nick_name = #{niceName},</if>
+            <if test="sex != null">u.sex = #{sex},</if>
+            <if test="bedNo != null">s.bed_no = #{bedNo},</if>
+            <if test="deptId != null">u.dept_id = #{deptId},</if>
+            <if test="province != null">u.province = #{province},</if>
+            <if test="stuPhone != null">u.phonenumber = #{stuPhone},</if>
+            <if test="feesCategory != null">d.fees_category = #{feesCategory},</if>
+            <if test="dormStatus != null">d.dorm_status = #{dormStatus},</if>
+            <if test="contactPerson != null">d.contact_person = #{contactPerson},</if>
+            <if test="contactPhone != null">d.contact_Phone = #{contactPhone},</if>
+            <if test="schoolRoll != null">u.school_roll = #{schoolRoll},</if>
+            <if test="schoolArea != null">u.school_area = #{schoolArea},</if>
+        </trim>
+        where u.user_id = #{userId} and u.user_id = s.student_id AND s.dorm_id = d.dorm_id
+    </update>
+
+    <delete id="deleteFzuSysUserByUserId" parameterType="Long">
+        delete from sys_user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteFzuSysUserByUserIds" parameterType="String">
+        delete from sys_user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

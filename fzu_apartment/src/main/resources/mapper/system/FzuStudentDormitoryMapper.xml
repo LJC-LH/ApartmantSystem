@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FzuStudentDormitoryMapper">
+    
+    <resultMap type="FzuStudentDormitory" id="FzuStudentDormitoryResult">
+        <result property="studentId"    column="student_id"    />
+        <result property="dormId"    column="dorm_id"    />
+        <result property="bedNo"    column="bed_no"    />
+    </resultMap>
+
+    <sql id="selectFzuStudentDormitoryVo">
+        select student_id, dorm_id, bed_no from fzu_student_dormitory
+    </sql>
+
+    <select id="selectFzuStudentDormitoryList" parameterType="FzuStudentDormitory" resultMap="FzuStudentDormitoryResult">
+        <include refid="selectFzuStudentDormitoryVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+            <if test="bedNo != null  and bedNo != ''"> and bed_no = #{bedNo}</if>
+        </where>
+    </select>
+    
+    <select id="selectFzuStudentDormitoryByStudentId" parameterType="Long" resultMap="FzuStudentDormitoryResult">
+        <include refid="selectFzuStudentDormitoryVo"/>
+        where student_id = #{studentId}
+    </select>
+        
+    <insert id="insertFzuStudentDormitory" parameterType="FzuStudentDormitory">
+        insert into fzu_student_dormitory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="dormId != null">dorm_id,</if>
+            <if test="bedNo != null">bed_no,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="dormId != null">#{dormId},</if>
+            <if test="bedNo != null">#{bedNo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFzuStudentDormitory" parameterType="FzuStudentDormitory">
+        update fzu_student_dormitory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dormId != null">dorm_id = #{dormId},</if>
+            <if test="bedNo != null">bed_no = #{bedNo},</if>
+        </trim>
+        where student_id = #{studentId}
+    </update>
+
+    <delete id="deleteFzuStudentDormitoryByStudentId" parameterType="Long">
+        delete from fzu_student_dormitory where student_id = #{studentId}
+    </delete>
+
+    <delete id="deleteFzuStudentDormitoryByStudentIds" parameterType="String">
+        delete from fzu_student_dormitory where student_id in 
+        <foreach item="studentId" collection="array" open="(" separator="," close=")">
+            #{studentId}
+        </foreach>
+    </delete>
+</mapper>
