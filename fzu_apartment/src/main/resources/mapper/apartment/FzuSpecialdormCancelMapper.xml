@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.FzuSpecialdormCancelMapper">
+    
+    <resultMap type="FzuSpecialdormCancel" id="FzuSpecialdormCancelResult">
+        <result property="cancelId"    column="cancel_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="fdyId"    column="fdy_id"    />
+        <result property="fdyOpinion"    column="fdy_opinion"    />
+        <result property="xgcId"    column="xgc_id"    />
+        <result property="xgcOpinion"    column="xgc_opinion"    />
+        <result property="manageId"    column="manage_id"    />
+        <result property="manageOpinion"    column="manage_opinion"    />
+        <result property="cancelStatus"    column="cancel_status"    />
+        <result property="dormId"    column="dorm_id"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectFzuSpecialdormCancelVo">
+        select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, cancel_status, dorm_id, remark from fzu_specialdorm_cancel
+    </sql>
+
+    <select id="selectFzuSpecialdormCancelList" parameterType="FzuSpecialdormCancel" resultMap="FzuSpecialdormCancelResult">
+        <include refid="selectFzuSpecialdormCancelVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+            <if test="fdyId != null "> and fdy_id = #{fdyId}</if>
+            <if test="fdyOpinion != null  and fdyOpinion != ''"> and fdy_opinion = #{fdyOpinion}</if>
+            <if test="xgcId != null "> and xgc_id = #{xgcId}</if>
+            <if test="xgcOpinion != null  and xgcOpinion != ''"> and xgc_opinion = #{xgcOpinion}</if>
+            <if test="manageId != null "> and manage_id = #{manageId}</if>
+            <if test="manageOpinion != null  and manageOpinion != ''"> and manage_opinion = #{manageOpinion}</if>
+            <if test="cancelStatus != null  and cancelStatus != ''"> and cancel_status = #{cancelStatus}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+        </where>
+    </select>
+    
+    <select id="selectFzuSpecialdormCancelByCancelId" parameterType="Long" resultMap="FzuSpecialdormCancelResult">
+        <include refid="selectFzuSpecialdormCancelVo"/>
+        where cancel_id = #{cancelId}
+    </select>
+        
+    <insert id="insertFzuSpecialdormCancel" parameterType="FzuSpecialdormCancel" useGeneratedKeys="true" keyProperty="cancelId">
+        insert into fzu_specialdorm_cancel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="studentName != null">student_name,</if>
+            <if test="fdyId != null">fdy_id,</if>
+            <if test="fdyOpinion != null">fdy_opinion,</if>
+            <if test="xgcId != null">xgc_id,</if>
+            <if test="xgcOpinion != null">xgc_opinion,</if>
+            <if test="manageId != null">manage_id,</if>
+            <if test="manageOpinion != null">manage_opinion,</if>
+            <if test="cancelStatus != null">cancel_status,</if>
+            <if test="dormId != null">dorm_id,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="studentName != null">#{studentName},</if>
+            <if test="fdyId != null">#{fdyId},</if>
+            <if test="fdyOpinion != null">#{fdyOpinion},</if>
+            <if test="xgcId != null">#{xgcId},</if>
+            <if test="xgcOpinion != null">#{xgcOpinion},</if>
+            <if test="manageId != null">#{manageId},</if>
+            <if test="manageOpinion != null">#{manageOpinion},</if>
+            <if test="cancelStatus != null">#{cancelStatus},</if>
+            <if test="dormId != null">#{dormId},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFzuSpecialdormCancel" parameterType="FzuSpecialdormCancel">
+        update fzu_specialdorm_cancel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="fdyId != null">fdy_id = #{fdyId},</if>
+            <if test="fdyOpinion != null">fdy_opinion = #{fdyOpinion},</if>
+            <if test="xgcId != null">xgc_id = #{xgcId},</if>
+            <if test="xgcOpinion != null">xgc_opinion = #{xgcOpinion},</if>
+            <if test="manageId != null">manage_id = #{manageId},</if>
+            <if test="manageOpinion != null">manage_opinion = #{manageOpinion},</if>
+            <if test="cancelStatus != null">cancel_status = #{cancelStatus},</if>
+            <if test="dormId != null">dorm_id = #{dormId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where cancel_id = #{cancelId}
+    </update>
+
+    <delete id="deleteFzuSpecialdormCancelByCancelId" parameterType="Long">
+        delete from fzu_specialdorm_cancel where cancel_id = #{cancelId}
+    </delete>
+
+    <delete id="deleteFzuSpecialdormCancelByCancelIds" parameterType="String">
+        delete from fzu_specialdorm_cancel where cancel_id in 
+        <foreach item="cancelId" collection="array" open="(" separator="," close=")">
+            #{cancelId}
+        </foreach>
+    </delete>
+</mapper>
