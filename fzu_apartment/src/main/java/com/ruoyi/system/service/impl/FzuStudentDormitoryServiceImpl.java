@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.FzuStudentDormitoryMapper;
@@ -45,14 +47,13 @@ public class FzuStudentDormitoryServiceImpl implements IFzuStudentDormitoryServi
 
     /**
      * 新增【请填写功能名称】
-     * 
-     * @param fzuStudentDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
     @Override
-    public int insertFzuStudentDormitory(FzuStudentDormitory fzuStudentDormitory)
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return fzuStudentDormitoryMapper.insertFzuStudentDormitory(fzuStudentDormitory);
+        return fzuStudentDormitoryMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
     }
 
     /**

@@ -2,6 +2,8 @@ package com.ruoyi.system.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,9 +77,9 @@ public class FzuDormitoryController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:dormitory:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FzuDormitory fzuDormitory)
+    public AjaxResult add(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return toAjax(fzuDormitoryService.insertFzuDormitory(fzuDormitory));
+        return toAjax(fzuDormitoryService.insertFzuDormitory(fzuDormitoryInfo));
     }
 
     /**

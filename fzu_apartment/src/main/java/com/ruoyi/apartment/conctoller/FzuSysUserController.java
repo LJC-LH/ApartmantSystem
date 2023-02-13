@@ -1,10 +1,14 @@
 package com.ruoyi.apartment.conctoller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.domain.FzuUserRoot;
+import com.ruoyi.common.core.domain.model.LoginUser;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.domain.FzuDormitory;
 import com.ruoyi.system.domain.FzuStudentDormitory;
 import com.ruoyi.system.service.IFzuDormitoryService;
@@ -58,15 +62,15 @@ public class FzuSysUserController extends BaseController
     /**
      * 导出用户信息列表
      */
-//    @PreAuthorize("@ss.hasPermi('apartment:user:export')")
-//    @Log(title = "用户信息", businessType = BusinessType.EXPORT)
-//    @PostMapping("/export")
-//    public void export(HttpServletResponse response, FzuSysUser fzuDormitoryInfo)
-//    {
-//        List<FzuDormitoryInfo> list = fzuSysUserService.selectFzuSysUserList(fzuDormitoryInfo);
-//        ExcelUtil<FzuSysUser> util = new ExcelUtil<FzuSysUser>(FzuSysUser.class);
-//        util.exportExcel(response, list, "用户信息数据");
-//    }
+    @PreAuthorize("@ss.hasPermi('apartment:user:export')")
+    @Log(title = "用户信息", businessType = BusinessType.EXPORT)
+    @PostMapping("/export")
+    public void export(HttpServletResponse response, FzuDormitoryInfo fzuDormitoryInfo)
+    {
+        List<FzuDormitoryInfo> list = fzuSysUserService.selectFzuSysUserList(fzuDormitoryInfo);
+        ExcelUtil<FzuDormitoryInfo> util = new ExcelUtil<FzuDormitoryInfo>(FzuDormitoryInfo.class);
+        util.exportExcel(response, list, "用户信息数据");
+    }
 
     /**
      * 获取用户信息详细信息
@@ -87,9 +91,9 @@ public class FzuSysUserController extends BaseController
     public AjaxResult add(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
         fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo);
-//        System.out.println("-------------------------"+fzuDormitoryInfo.getUserId());
         Long userId = fzuDormitoryInfo.getUserId();
-//        逻辑还没写完，student_domority主键
+        fzuStudentDormitoryService.insertFzuStudentDormitory(fzuDormitoryInfo);
+        fzuDormitoryService.insertFzuDormitory(fzuDormitoryInfo);
         return toAjax(fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo));
     }
 
@@ -101,8 +105,11 @@ public class FzuSysUserController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-//        fzuStudentDormitory = fzuStudentDormitoryService.selectFzuStudentDormitoryByStudentId();
-        return toAjax(fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo));
+        int i = fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo);
+        fzuDormitoryService.insertFzuDormitory(fzuDormitoryInfo);
+        fzuStudentDormitoryService.insertFzuStudentDormitory(fzuDormitoryInfo);
+
+        return toAjax(i);
 
     }
 
@@ -117,4 +124,22 @@ public class FzuSysUserController extends BaseController
     {
         return toAjax(fzuSysUserService.deleteFzuSysUserByUserIds(userIds));
     }
+
+
+    //test
+    @GetMapping("/root")
+    public Integer GetRoot() {
+        String username = SecurityUtils.getUsername();
+        System.out.println(username);
+        FzuUserRoot root = fzuSysUserService.getRoot(username);
+        Date date = new Date();
+        int i1 = date.compareTo(root.getStartTime());
+        int i2 = date.compareTo(root.getEndTime());
+        if (i1 == 1 && i2 == -1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }

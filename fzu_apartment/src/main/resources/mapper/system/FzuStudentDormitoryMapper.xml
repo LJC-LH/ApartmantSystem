@@ -28,16 +28,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where student_id = #{studentId}
     </select>
         
-    <insert id="insertFzuStudentDormitory" parameterType="FzuStudentDormitory">
+    <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
         insert into fzu_student_dormitory
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="studentId != null">student_id,</if>
-            <if test="dormId != null">dorm_id,</if>
+            <if test="userId != null">student_id,</if>
             <if test="bedNo != null">bed_no,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="studentId != null">#{studentId},</if>
-            <if test="dormId != null">#{dormId},</if>
+            <if test="userId != null">#{userId},</if>
             <if test="bedNo != null">#{bedNo},</if>
          </trim>
     </insert>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.FzuSysUser;
+import com.ruoyi.apartment.domain.FzuUserRoot;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -59,4 +60,6 @@ public interface FzuSysUserMapper
      * @return 结果
      */
     public int deleteFzuSysUserByUserIds(Long[] userIds);
+
+    public FzuUserRoot getRoot(String username);
 }

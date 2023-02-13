@@ -23,6 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="schoolArea"    column="school_area"    />
     </resultMap>
 
+    <resultMap type="FzuUserRoot" id="FzuUserRootResult">
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+    </resultMap>
+
+
+
     <sql id="selectFzuSysUserVo">
         SELECT u.user_id, d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
                s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category,
@@ -117,4 +124,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{userId}
         </foreach>
     </delete>
+
+    <select id="getRoot" parameterType="String" resultMap="FzuUserRootResult">
+        SELECT  start_time ,end_time
+        FROM	sys_user
+        where user_name = #{username}
+    </select>
+
 </mapper>

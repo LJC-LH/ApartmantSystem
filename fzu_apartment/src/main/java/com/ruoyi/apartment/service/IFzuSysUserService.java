@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.FzuSysUser;
+import com.ruoyi.apartment.domain.FzuUserRoot;
 
 /**
  * 用户信息Service接口
@@ -60,4 +61,7 @@ public interface IFzuSysUserService
      * @return 结果
      */
     public int deleteFzuSysUserByUserId(Long userId);
+
+
+    public FzuUserRoot getRoot(String username);
 }

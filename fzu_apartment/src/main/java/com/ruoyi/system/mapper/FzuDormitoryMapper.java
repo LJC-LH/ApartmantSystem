@@ -1,6 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.system.domain.FzuDormitory;
 
 /**
@@ -29,11 +31,10 @@ public interface FzuDormitoryMapper
 
     /**
      * 新增【请填写功能名称】
-     * 
-     * @param fzuDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
-    public int insertFzuDormitory(FzuDormitory fzuDormitory);
+    public int insertFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 
     /**
      * 修改【请填写功能名称】

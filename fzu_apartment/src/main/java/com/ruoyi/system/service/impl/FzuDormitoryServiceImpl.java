@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.FzuDormitoryMapper;
@@ -50,9 +52,9 @@ public class FzuDormitoryServiceImpl implements IFzuDormitoryService
      * @return 结果
      */
     @Override
-    public int insertFzuDormitory(FzuDormitory fzuDormitory)
+    public int insertFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return fzuDormitoryMapper.insertFzuDormitory(fzuDormitory);
+        return fzuDormitoryMapper.insertFzuDormitory(fzuDormitoryInfo);
     }
 
     /**

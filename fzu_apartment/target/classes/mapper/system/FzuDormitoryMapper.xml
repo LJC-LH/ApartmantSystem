@@ -40,44 +40,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where dorm_id = #{dormId}
     </select>
         
-    <insert id="insertFzuDormitory" parameterType="FzuDormitory" useGeneratedKeys="true" keyProperty="dormId">
+    <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
         insert into fzu_dormitory
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="buildingNo != null">building_no,</if>
             <if test="roomNo != null">room_no,</if>
-            <if test="fees != null">fees,</if>
-            <if test="feesStatus != null">fees_status,</if>
             <if test="feesCategory != null">fees_category,</if>
             <if test="dormStatus != null">dorm_status,</if>
             <if test="contactPerson != null">contact_person,</if>
             <if test="contactPhone != null">contact_phone,</if>
-            <if test="remark != null">remark,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="buildingNo != null">#{buildingNo},</if>
             <if test="roomNo != null">#{roomNo},</if>
-            <if test="fees != null">#{fees},</if>
-            <if test="feesStatus != null">#{feesStatus},</if>
             <if test="feesCategory != null">#{feesCategory},</if>
             <if test="dormStatus != null">#{dormStatus},</if>
             <if test="contactPerson != null">#{contactPerson},</if>
             <if test="contactPhone != null">#{contactPhone},</if>
-            <if test="remark != null">#{remark},</if>
          </trim>
     </insert>
 
-    <update id="updateFzuDormitory" parameterType="FzuDormitory">
+    <update id="updateFzuDormitory" parameterType="FzuDormitoryInfo">
         update fzu_dormitory
         <trim prefix="SET" suffixOverrides=",">
             <if test="buildingNo != null">building_no = #{buildingNo},</if>
             <if test="roomNo != null">room_no = #{roomNo},</if>
-            <if test="fees != null">fees = #{fees},</if>
-            <if test="feesStatus != null">fees_status = #{feesStatus},</if>
             <if test="feesCategory != null">fees_category = #{feesCategory},</if>
             <if test="dormStatus != null">dorm_status = #{dormStatus},</if>
             <if test="contactPerson != null">contact_person = #{contactPerson},</if>
             <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
-            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where dorm_id = #{dormId}
     </update>

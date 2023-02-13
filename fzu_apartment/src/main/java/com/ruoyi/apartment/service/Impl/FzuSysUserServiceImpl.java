@@ -1,8 +1,9 @@
-package com.ruoyi.apartment.service.impl;
+package com.ruoyi.apartment.service.Impl;
 
 import java.util.List;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.domain.FzuUserRoot;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,8 +62,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
 
     /**
      * 修改用户信息
-     * 
-     * @param fzuSysUser 用户信息
+     *
      * @return 结果
      */
     @Override
@@ -94,5 +94,10 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     public int deleteFzuSysUserByUserId(Long userId)
     {
         return fzuSysUserMapper.deleteFzuSysUserByUserId(userId);
+    }
+
+    @Override
+    public FzuUserRoot getRoot(String username) {
+        return fzuSysUserMapper.getRoot(username);
     }
 }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.FzuSpecialdormApprovalMapper">
+
+    <resultMap type="FzuSpecialdormApproval" id="FzuSpecialdormApprovalResult">
+        <result property="approvalId"    column="approval_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="approvalCategory"    column="approval_category"    />
+        <result property="approvalReason"    column="approval_reason"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="fdyId"    column="fdy_id"    />
+        <result property="fdyOpinion"    column="fdy_opinion"    />
+        <result property="xgcId"    column="xgc_id"    />
+        <result property="xgcOpinion"    column="xgc_opinion"    />
+        <result property="manageId"    column="manage_id"    />
+        <result property="manageOpinion"    column="manage_opinion"    />
+        <result property="approvalStatus"    column="approval_status"    />
+        <result property="dormId"    column="dorm_id"    />
+    </resultMap>
+
+    <sql id="selectFzuSpecialdormApprovalVo">
+        select approval_id, student_id, student_name, approval_category, approval_reason, start_time, end_time, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, approval_status, dorm_id from fzu_specialdorm_approval
+    </sql>
+
+    <select id="selectFzuSpecialdormApprovalList" parameterType="FzuSpecialdormApproval" resultMap="FzuSpecialdormApprovalResult">
+        <include refid="selectFzuSpecialdormApprovalVo"/>
+        <where>
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+            <if test="approvalCategory != null  and approvalCategory != ''"> and approval_category = #{approvalCategory}</if>
+            <if test="approvalReason != null  and approvalReason != ''"> and approval_reason = #{approvalReason}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="fdyId != null "> and fdy_id = #{fdyId}</if>
+            <if test="fdyOpinion != null  and fdyOpinion != ''"> and fdy_opinion = #{fdyOpinion}</if>
+            <if test="xgcId != null "> and xgc_id = #{xgcId}</if>
+            <if test="xgcOpinion != null  and xgcOpinion != ''"> and xgc_opinion = #{xgcOpinion}</if>
+            <if test="manageId != null "> and manage_id = #{manageId}</if>
+            <if test="manageOpinion != null  and manageOpinion != ''"> and manage_opinion = #{manageOpinion}</if>
+            <if test="approvalStatus != null  and approvalStatus != ''"> and approval_status = #{approvalStatus}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+        </where>
+    </select>
+
+    <select id="selectFzuSpecialdormApprovalByApprovalId" parameterType="Long" resultMap="FzuSpecialdormApprovalResult">
+        <include refid="selectFzuSpecialdormApprovalVo"/>
+        where approval_id = #{approvalId}
+    </select>
+
+    <insert id="insertFzuSpecialdormApproval" parameterType="FzuSpecialdormApproval" useGeneratedKeys="true" keyProperty="approvalId">
+        insert into fzu_specialdorm_approval
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="studentName != null">student_name,</if>
+            <if test="approvalCategory != null">approval_category,</if>
+            <if test="approvalReason != null">approval_reason,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="fdyId != null">fdy_id,</if>
+            <if test="fdyOpinion != null">fdy_opinion,</if>
+            <if test="xgcId != null">xgc_id,</if>
+            <if test="xgcOpinion != null">xgc_opinion,</if>
+            <if test="manageId != null">manage_id,</if>
+            <if test="manageOpinion != null">manage_opinion,</if>
+            <if test="approvalStatus != null">approval_status,</if>
+            <if test="dormId != null">dorm_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="studentName != null">#{studentName},</if>
+            <if test="approvalCategory != null">#{approvalCategory},</if>
+            <if test="approvalReason != null">#{approvalReason},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="fdyId != null">#{fdyId},</if>
+            <if test="fdyOpinion != null">#{fdyOpinion},</if>
+            <if test="xgcId != null">#{xgcId},</if>
+            <if test="xgcOpinion != null">#{xgcOpinion},</if>
+            <if test="manageId != null">#{manageId},</if>
+            <if test="manageOpinion != null">#{manageOpinion},</if>
+            <if test="approvalStatus != null">#{approvalStatus},</if>
+            <if test="dormId != null">#{dormId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFzuSpecialdormApproval" parameterType="FzuSpecialdormApproval">
+        update fzu_specialdorm_approval
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="approvalCategory != null">approval_category = #{approvalCategory},</if>
+            <if test="approvalReason != null">approval_reason = #{approvalReason},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="fdyId != null">fdy_id = #{fdyId},</if>
+            <if test="fdyOpinion != null">fdy_opinion = #{fdyOpinion},</if>
+            <if test="xgcId != null">xgc_id = #{xgcId},</if>
+            <if test="xgcOpinion != null">xgc_opinion = #{xgcOpinion},</if>
+            <if test="manageId != null">manage_id = #{manageId},</if>
+            <if test="manageOpinion != null">manage_opinion = #{manageOpinion},</if>
+            <if test="approvalStatus != null">approval_status = #{approvalStatus},</if>
+            <if test="dormId != null">dorm_id = #{dormId},</if>
+        </trim>
+        where approval_id = #{approvalId}
+    </update>
+
+    <delete id="deleteFzuSpecialdormApprovalByApprovalId" parameterType="Long">
+        delete from fzu_specialdorm_approval where approval_id = #{approvalId}
+    </delete>
+
+    <delete id="deleteFzuSpecialdormApprovalByApprovalIds" parameterType="String">
+        delete from fzu_specialdorm_approval where approval_id in
+        <foreach item="approvalId" collection="array" open="(" separator="," close=")">
+            #{approvalId}
+        </foreach>
+    </delete>
+</mapper>

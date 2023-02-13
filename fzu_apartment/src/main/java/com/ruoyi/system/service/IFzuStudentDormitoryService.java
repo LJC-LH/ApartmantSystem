@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.system.domain.FzuStudentDormitory;
 
 /**
@@ -29,11 +31,10 @@ public interface IFzuStudentDormitoryService
 
     /**
      * 新增【请填写功能名称】
-     * 
-     * @param fzuStudentDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
-    public int insertFzuStudentDormitory(FzuStudentDormitory fzuStudentDormitory);
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 
     /**
      * 修改【请填写功能名称】
