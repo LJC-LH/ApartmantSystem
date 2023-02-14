@@ -60,6 +60,18 @@ public class FzuSysUserController extends BaseController
     }
 
     /**
+     * 查询fdy信息列表
+     */
+    @PreAuthorize("@ss.hasPermi('apartment:fdy:list')")
+    @GetMapping("/fdylist")
+    public TableDataInfo Fdylist(FzuDormitoryInfo fzuDormitoryInfo)
+    {
+        startPage();
+        List<FzuDormitoryInfo> list = fzuSysUserService.selectFdyUserList(fzuDormitoryInfo);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出用户信息列表
      */
     @PreAuthorize("@ss.hasPermi('apartment:user:export')")
@@ -90,11 +102,11 @@ public class FzuSysUserController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-        fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo);
+        int i = fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo);
         Long userId = fzuDormitoryInfo.getUserId();
-        fzuStudentDormitoryService.insertFzuStudentDormitory(fzuDormitoryInfo);
-        fzuDormitoryService.insertFzuDormitory(fzuDormitoryInfo);
-        return toAjax(fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo));
+        fzuSysUserService.insertFzuDormitory(fzuDormitoryInfo);
+        fzuSysUserService.insertFzuStudentDormitory(fzuDormitoryInfo);
+        return toAjax(i);
     }
 
     /**
@@ -105,13 +117,15 @@ public class FzuSysUserController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-        int i = fzuSysUserService.insertFzuSysUser(fzuDormitoryInfo);
-        fzuDormitoryService.insertFzuDormitory(fzuDormitoryInfo);
-        fzuStudentDormitoryService.insertFzuStudentDormitory(fzuDormitoryInfo);
+        int i = fzuSysUserService.updateFzuSysUser(fzuDormitoryInfo);
+//        fzuDormitoryService.updateFzuDormitory(fzuDormitoryInfo);
+        fzuSysUserService.updateFzuDormitory(fzuDormitoryInfo);
+        fzuSysUserService.updateFzuStudentDormitory(fzuDormitoryInfo);
 
         return toAjax(i);
-
     }
+
+
 
     /**
      * 删除用户信息

@@ -10,6 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="bedNo"    column="bed_no"    />
     </resultMap>
 
+
+
     <sql id="selectFzuStudentDormitoryVo">
         select student_id, dorm_id, bed_no from fzu_student_dormitory
     </sql>
@@ -27,18 +29,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectFzuStudentDormitoryVo"/>
         where student_id = #{studentId}
     </select>
-        
+
     <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
         insert into fzu_student_dormitory
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">student_id,</if>
+            <if test="dormId != null">dorm_id,</if>
             <if test="bedNo != null">bed_no,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
+            <if test="dormId != null">#{dormId},</if>
             <if test="bedNo != null">#{bedNo},</if>
-         </trim>
+        </trim>
     </insert>
+
 
     <update id="updateFzuStudentDormitory" parameterType="FzuStudentDormitory">
         update fzu_student_dormitory

@@ -36,8 +36,11 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "学生电话")
     private String stuPhone;
 
-    @Excel(name = "缴费情况")
+    @Excel(name = "缴费类别")
     private String feesCategory;
+
+    @Excel(name = "缴费情况")
+    private String feesStatus;
 
     @Excel(name = "宿舍使用情况")
     private String dormStatus;
@@ -53,6 +56,16 @@ public class FzuDormitoryInfo extends BaseEntity {
 
     @Excel(name = "校区")
     private Character schoolArea;
+
+    private Long dormId;
+
+    public Long getDormId() {
+        return dormId;
+    }
+
+    public void setDormId(Long dormId) {
+        this.dormId = dormId;
+    }
 
     public Long getUserId() {
         return userId;
@@ -182,6 +195,14 @@ public class FzuDormitoryInfo extends BaseEntity {
         this.schoolArea = schoolArea;
     }
 
+    public String getFeesStatus() {
+        return feesStatus;
+    }
+
+    public void setFeesStatus(String feesStatus) {
+        this.feesStatus = feesStatus;
+    }
+
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("userId", getUserId())
@@ -195,6 +216,7 @@ public class FzuDormitoryInfo extends BaseEntity {
                 .append("Province", getProvince())
                 .append("StuPhone", getStuPhone())
                 .append("FeesCategory", getFeesCategory())
+                .append("FeesStatus", getFeesStatus())
                 .append("DormStatus", getDormStatus())
                 .append("ContactPerson", getContactPerson())
                 .append("ContactPhone", getContactPhone())

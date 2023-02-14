@@ -17,6 +17,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
     </resultMap>
 
+    <resultMap type="FzuDormitoryInfo" id="FzuSysUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="dormId"    column="dorm_id"    />
+        <result property="buildingNo"    column="building_no"    />
+        <result property="roomNo"    column="room_no"    />
+        <result property="userName"    column="user_name"    />
+        <result property="niceName"    column="nick_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="bedNo"    column="bed_no"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="province"    column="province"    />
+        <result property="stuPhone"    column="phonenumber"    />
+        <result property="feesCategory"    column="fees_category"    />
+        <result property="feesStatus"    column="fees_status"    />
+        <result property="dormStatus"    column="dorm_status"    />
+        <result property="contactPerson"    column="contact_person"    />
+        <result property="contactPhone"    column="contact_Phone"    />
+        <result property="schoolRoll"    column="school_roll"    />
+        <result property="schoolArea"    column="school_area"    />
+    </resultMap>
+
     <sql id="selectFzuDormitoryVo">
         select dorm_id, building_no, room_no, fees, fees_status, fees_category, dorm_status, contact_person, contact_phone, remark from fzu_dormitory
     </sql>

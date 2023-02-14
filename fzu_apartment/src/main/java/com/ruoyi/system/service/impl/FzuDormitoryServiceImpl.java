@@ -47,8 +47,7 @@ public class FzuDormitoryServiceImpl implements IFzuDormitoryService
 
     /**
      * 新增【请填写功能名称】
-     * 
-     * @param fzuDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
     @Override
@@ -59,14 +58,13 @@ public class FzuDormitoryServiceImpl implements IFzuDormitoryService
 
     /**
      * 修改【请填写功能名称】
-     * 
-     * @param fzuDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
     @Override
-    public int updateFzuDormitory(FzuDormitory fzuDormitory)
+    public int updateFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return fzuDormitoryMapper.updateFzuDormitory(fzuDormitory);
+        return fzuDormitoryMapper.updateFzuDormitory(fzuDormitoryInfo);
     }
 
     /**

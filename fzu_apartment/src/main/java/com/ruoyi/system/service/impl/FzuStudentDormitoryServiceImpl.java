@@ -58,14 +58,13 @@ public class FzuStudentDormitoryServiceImpl implements IFzuStudentDormitoryServi
 
     /**
      * 修改【请填写功能名称】
-     * 
-     * @param fzuStudentDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
     @Override
-    public int updateFzuStudentDormitory(FzuStudentDormitory fzuStudentDormitory)
+    public int updateFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return fzuStudentDormitoryMapper.updateFzuStudentDormitory(fzuStudentDormitory);
+        return fzuStudentDormitoryMapper.updateFzuStudentDormitory(fzuDormitoryInfo);
     }
 
     /**

@@ -20,6 +20,8 @@ public class FzuSysUser extends BaseEntity
     /** 用户ID */
     private Long userId;
 
+    private Long dormId;
+
     /** 部门ID */
     @Excel(name = "部门ID")
     private Long deptId;

@@ -30,7 +30,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
      * @return 用户信息
      */
     @Override
-    public FzuSysUser selectFzuSysUserByUserId(Long userId)
+    public FzuDormitoryInfo selectFzuSysUserByUserId(Long userId)
     {
         return fzuSysUserMapper.selectFzuSysUserByUserId(userId);
     }
@@ -45,6 +45,12 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     public List<FzuDormitoryInfo> selectFzuSysUserList(FzuDormitoryInfo fzuSysUser)
     {
         return fzuSysUserMapper.selectFzuSysUserList(fzuSysUser);
+    }
+
+    @Override
+    public List<FzuDormitoryInfo> selectFdyUserList(FzuDormitoryInfo fzuSysUser)
+    {
+        return fzuSysUserMapper.selectFzuFdyUserList(fzuSysUser);
     }
 
     /**
@@ -99,5 +105,22 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     @Override
     public FzuUserRoot getRoot(String username) {
         return fzuSysUserMapper.getRoot(username);
+    }
+
+    @Override
+    public int updateFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo) {return fzuSysUserMapper.updateFzuDormitory(fzuDormitoryInfo);};
+
+    @Override
+    public int updateFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo) {return fzuSysUserMapper.updateFzuStudentDormitory(fzuDormitoryInfo);}
+
+    @Override
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo)
+    {
+        return fzuSysUserMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
+    }
+
+    public int insertFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo)
+    {
+        return fzuSysUserMapper.insertFzuDormitory(fzuDormitoryInfo);
     }
 }

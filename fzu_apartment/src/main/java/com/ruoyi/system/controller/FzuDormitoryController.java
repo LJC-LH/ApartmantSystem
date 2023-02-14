@@ -82,16 +82,16 @@ public class FzuDormitoryController extends BaseController
         return toAjax(fzuDormitoryService.insertFzuDormitory(fzuDormitoryInfo));
     }
 
-    /**
-     * 修改【请填写功能名称】
-     */
-    @PreAuthorize("@ss.hasPermi('system:dormitory:edit')")
-    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody FzuDormitory fzuDormitory)
-    {
-        return toAjax(fzuDormitoryService.updateFzuDormitory(fzuDormitory));
-    }
+//    /**
+//     * 修改【请填写功能名称】
+//     */
+//    @PreAuthorize("@ss.hasPermi('system:dormitory:edit')")
+//    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody FzuDormitory fzuDormitory)
+//    {
+//        return toAjax(fzuDormitoryService.updateFzuDormitory(fzuDormitory));
+//    }
 
     /**
      * 删除【请填写功能名称】

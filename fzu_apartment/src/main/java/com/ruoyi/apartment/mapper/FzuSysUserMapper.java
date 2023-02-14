@@ -21,7 +21,7 @@ public interface FzuSysUserMapper
      * @param userId 用户信息主键
      * @return 用户信息
      */
-    public FzuSysUser selectFzuSysUserByUserId(Long userId);
+    public FzuDormitoryInfo selectFzuSysUserByUserId(Long userId);
 
     /**
      * 查询用户信息列表
@@ -30,6 +30,8 @@ public interface FzuSysUserMapper
      * @return 用户信息集合
      */
     public List<FzuDormitoryInfo> selectFzuSysUserList(FzuDormitoryInfo fzuSysUser);
+
+    public List<FzuDormitoryInfo> selectFzuFdyUserList(FzuDormitoryInfo fzuSysUser);
 
     /**
      * 新增用户信息
@@ -62,4 +64,12 @@ public interface FzuSysUserMapper
     public int deleteFzuSysUserByUserIds(Long[] userIds);
 
     public FzuUserRoot getRoot(String username);
+
+    public int updateFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int updateFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int insertFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 }

@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="FzuDormitoryInfo" id="FzuSysUserResult">
         <result property="userId"    column="user_id"    />
+        <result property="dormId"    column="dorm_id"    />
         <result property="buildingNo"    column="building_no"    />
         <result property="roomNo"    column="room_no"    />
         <result property="userName"    column="user_name"    />
@@ -16,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="province"    column="province"    />
         <result property="stuPhone"    column="phonenumber"    />
         <result property="feesCategory"    column="fees_category"    />
+        <result property="feesStatus"    column="fees_status"    />
         <result property="dormStatus"    column="dorm_status"    />
         <result property="contactPerson"    column="contact_person"    />
         <result property="contactPhone"    column="contact_Phone"    />
@@ -31,12 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <sql id="selectFzuSysUserVo">
-        SELECT u.user_id, d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
-               s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category,
+        SELECT u.user_id, d.dorm_id ,d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
+               s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category, d.fees_status,
                d.dorm_status, d.contact_person, d.contact_phone, u.school_roll,
                u.school_area
         FROM	fzu_dormitory d, sys_user u, fzu_student_dormitory s
-
     </sql>
 
     <select id="selectFzuSysUserList" parameterType="FzuDormitoryInfo" resultMap="FzuSysUserResult">
@@ -59,10 +60,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="schoolArea != null  and schoolArea != ''"> and school_area = #{schoolArea}</if>
         </where>
     </select>
+
+    <select id="selectFzuFdyUserList" parameterType="FzuDormitoryInfo" resultMap="FzuSysUserResult">
+        SELECT fzu_dormitory.building_no, fzu_dormitory.room_no, sys_user.user_name, sys_user.nick_name, sys_user.sex,
+               fzu_student_dormitory.bed_no, sys_user.dept_id, sys_user.province, sys_user.phonenumber, fzu_dormitory.fees_category, fzu_dormitory.fees_status,
+               fzu_dormitory.dorm_status, fzu_dormitory.contact_person, fzu_dormitory.contact_phone, sys_user.school_roll,
+               sys_user.school_area
+        FROM	fzu_dormitory, sys_user, fzu_student_dormitory
+        WHERE  fzu_student_dormitory.dorm_id = fzu_dormitory.dorm_id AND sys_user.dept_id = (SELECT sys_user.dept_id FROM sys_user WHERE sys_user.user_name = 222210141) AND sys_user.user_id = fzu_student_dormitory.student_id
+
+    </select>
     
     <select id="selectFzuSysUserByUserId" parameterType="Long" resultMap="FzuSysUserResult">
         <include refid="selectFzuSysUserVo"/>
-        where user_id = #{userId}
+        where u.user_id = #{userId} AND u.user_id = s.student_id AND s.dorm_id = d.dorm_id
     </select>
         
     <insert id="insertFzuSysUser" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="userId">
@@ -105,6 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="province != null">u.province = #{province},</if>
             <if test="stuPhone != null">u.phonenumber = #{stuPhone},</if>
             <if test="feesCategory != null">d.fees_category = #{feesCategory},</if>
+            <if test="feesStatus != null">d.fees_status = #{feesStatus},</if>
             <if test="dormStatus != null">d.dorm_status = #{dormStatus},</if>
             <if test="contactPerson != null">d.contact_person = #{contactPerson},</if>
             <if test="contactPhone != null">d.contact_Phone = #{contactPhone},</if>
@@ -131,4 +143,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where user_name = #{username}
     </select>
 
+
+    <update id="updateFzuDormitory" parameterType="FzuDormitoryInfo">
+        update fzu_dormitory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingNo != null">building_no = #{buildingNo},</if>
+            <if test="roomNo != null">room_no = #{roomNo},</if>
+            <if test="feesCategory != null">fees_category = #{feesCategory},</if>
+            <if test="dormStatus != null">dorm_status = #{dormStatus},</if>
+            <if test="contactPerson != null">contact_person = #{contactPerson},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+        </trim>
+        where dorm_id = #{dormId}
+    </update>
+
+    <update id="updateFzuStudentDormitory" parameterType="FzuStudentDormitory">
+        update fzu_student_dormitory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dormId != null">dorm_id = #{dormId},</if>
+            <if test="bedNo != null">bed_no = #{bedNo},</if>
+        </trim>
+        where student_id = #{userId}
+    </update>
+
+    <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
+        insert into fzu_student_dormitory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">student_id,</if>
+            <if test="dormId != null">dorm_id,</if>
+            <if test="bedNo != null">bed_no,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="dormId != null">#{dormId},</if>
+            <if test="bedNo != null">#{bedNo},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
+        insert into fzu_dormitory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingNo != null">building_no,</if>
+            <if test="roomNo != null">room_no,</if>
+            <if test="feesCategory != null">fees_category,</if>
+            <if test="dormStatus != null">dorm_status,</if>
+            <if test="contactPerson != null">contact_person,</if>
+            <if test="contactPhone != null">contact_phone,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingNo != null">#{buildingNo},</if>
+            <if test="roomNo != null">#{roomNo},</if>
+            <if test="feesCategory != null">#{feesCategory},</if>
+            <if test="dormStatus != null">#{dormStatus},</if>
+            <if test="contactPerson != null">#{contactPerson},</if>
+            <if test="contactPhone != null">#{contactPhone},</if>
+        </trim>
+    </insert>
 </mapper>

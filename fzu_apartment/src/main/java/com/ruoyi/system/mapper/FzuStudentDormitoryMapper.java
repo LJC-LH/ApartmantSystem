@@ -38,11 +38,10 @@ public interface FzuStudentDormitoryMapper
 
     /**
      * 修改【请填写功能名称】
-     * 
-     * @param fzuStudentDormitory 【请填写功能名称】
+     *
      * @return 结果
      */
-    public int updateFzuStudentDormitory(FzuStudentDormitory fzuStudentDormitory);
+    public int updateFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 
     /**
      * 删除【请填写功能名称】

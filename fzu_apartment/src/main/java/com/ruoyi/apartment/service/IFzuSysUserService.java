@@ -20,7 +20,7 @@ public interface IFzuSysUserService
      * @param userId 用户信息主键
      * @return 用户信息
      */
-    public FzuSysUser selectFzuSysUserByUserId(Long userId);
+    public FzuDormitoryInfo selectFzuSysUserByUserId(Long userId);
 
     /**
      * 查询用户信息列表
@@ -30,6 +30,8 @@ public interface IFzuSysUserService
      */
     public List<FzuDormitoryInfo> selectFzuSysUserList(FzuDormitoryInfo fzuSysUser);
 
+
+    public List<FzuDormitoryInfo> selectFdyUserList(FzuDormitoryInfo fzuSysUser);
     /**
      * 新增用户信息
      * 
@@ -64,4 +66,15 @@ public interface IFzuSysUserService
 
 
     public FzuUserRoot getRoot(String username);
+
+
+    //测试为什么空指针错误
+    public int updateFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int updateFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int insertFzuDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
 }
