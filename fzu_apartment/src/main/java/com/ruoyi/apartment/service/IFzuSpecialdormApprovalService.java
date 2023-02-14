@@ -2,6 +2,7 @@ package com.ruoyi.apartment.service;
 
 import java.util.List;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormApproval;
+import com.ruoyi.common.core.domain.entity.SysUser;
 
 /**
  * 特殊宿舍申请Service接口
@@ -58,5 +59,13 @@ public interface IFzuSpecialdormApprovalService
      * @return 结果
      */
     public int deleteFzuSpecialdormApprovalByApprovalId(Long approvalId);
+
+    /**
+     * 查询角色userId列表
+     *
+     * @param sysUser 查询条件
+     * @return 结果
+     */
+    public List<SysUser> selectUserListByRoleId(SysUser sysUser);
 }
 

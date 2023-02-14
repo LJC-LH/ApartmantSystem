@@ -1,16 +1,12 @@
-package com.ruoyi.apartment.conctoller;
+package com.ruoyi.apartment.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.FzuUserRoot;
-import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.system.domain.FzuDormitory;
-import com.ruoyi.system.domain.FzuStudentDormitory;
 import com.ruoyi.system.service.IFzuDormitoryService;
 import com.ruoyi.system.service.IFzuStudentDormitoryService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,14 +23,13 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.apartment.domain.FzuSysUser;
 import com.ruoyi.apartment.service.IFzuSysUserService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 用户信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2023-02-05
  */

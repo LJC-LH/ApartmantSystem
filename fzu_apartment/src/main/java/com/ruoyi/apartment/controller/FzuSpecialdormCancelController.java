@@ -1,7 +1,10 @@
 package com.ruoyi.apartment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 特殊退宿申请Controller
- * 
+ *
  * @author wsh
  * @date 2023-02-09
  */
@@ -100,5 +103,28 @@ public class FzuSpecialdormCancelController extends BaseController
     public AjaxResult remove(@PathVariable Long[] cancelIds)
     {
         return toAjax(fzuSpecialdormCancelService.deleteFzuSpecialdormCancelByCancelIds(cancelIds));
+    }
+
+    /**
+     * 根据指定角色类型获取用户列表
+     */
+    @PostMapping("/getRoleList")
+    public TableDataInfo selectUserListByRoleId(Long fdyRoleId, Long xgcRoleId, Long xqglRoleId, Long deptId)
+    {
+        SysUser sysUser1 = new SysUser();
+        sysUser1.setRoleId(fdyRoleId);
+        sysUser1.setDeptId(deptId);
+        List<SysUser> sysUserList1 = fzuSpecialdormCancelService.selectUserListByRoleId(sysUser1);
+        SysUser sysUser2 = new SysUser();
+        sysUser2.setRoleId(xgcRoleId);
+        List<SysUser> sysUserList2 = fzuSpecialdormCancelService.selectUserListByRoleId(sysUser2);
+        SysUser sysUser3 = new SysUser();
+        sysUser3.setRoleId(xqglRoleId);
+        List<SysUser> sysUserList3 = fzuSpecialdormCancelService.selectUserListByRoleId(sysUser3);
+        ArrayList<Object> arrayList = new ArrayList<>();
+        arrayList.add(sysUserList1);
+        arrayList.add(sysUserList2);
+        arrayList.add(sysUserList3);
+        return getDataTable(arrayList);
     }
 }
