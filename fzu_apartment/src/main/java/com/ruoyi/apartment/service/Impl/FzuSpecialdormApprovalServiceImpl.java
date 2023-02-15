@@ -1,8 +1,6 @@
 package com.ruoyi.apartment.service.Impl;
 
 import java.util.List;
-
-import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.FzuSpecialdormApprovalMapper;
@@ -91,17 +89,5 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
     public int deleteFzuSpecialdormApprovalByApprovalId(Long approvalId)
     {
         return fzuSpecialdormApprovalMapper.deleteFzuSpecialdormApprovalByApprovalId(approvalId);
-    }
-
-    /**
-     * 查询角色userId列表
-     *
-     * @param sysUser
-     * @return 结果
-     */
-
-    @Override
-    public List<SysUser> selectUserListByRoleId(SysUser sysUser) {
-        return fzuSpecialdormApprovalMapper.selectUserListByRoleId(sysUser);
     }
 }

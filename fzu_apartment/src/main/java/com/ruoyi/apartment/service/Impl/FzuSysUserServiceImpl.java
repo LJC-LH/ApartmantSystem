@@ -123,4 +123,15 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     {
         return fzuSysUserMapper.insertFzuDormitory(fzuDormitoryInfo);
     }
+
+    @Override
+    public Long getRolesDeptId(String username) {
+        return fzuSysUserMapper.getRolesDeptId(username);
+    };
+
+    @Override
+    public Long selectUserIdByUserName(FzuDormitoryInfo fzuDormitoryInfo) {return fzuSysUserMapper.selectUserIdByUserName(fzuDormitoryInfo);};
+
+    @Override
+    public Long selectDormIdByRoomInfo(FzuDormitoryInfo fzuDormitoryInfo) {return fzuSysUserMapper.selectDormIdByRoomInfo(fzuDormitoryInfo);};
 }

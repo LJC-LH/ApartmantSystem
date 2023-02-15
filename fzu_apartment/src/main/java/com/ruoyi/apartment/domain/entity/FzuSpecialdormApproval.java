@@ -50,9 +50,6 @@ public class FzuSpecialdormApproval extends BaseEntity
     @Excel(name = "辅导员ID")
     private Long fdyId;
 
-    @Excel(name = "辅导员姓名")
-    private String fdyName;
-
     /** 辅导员意见 */
     @Excel(name = "辅导员意见")
     private String fdyOpinion;
@@ -60,8 +57,6 @@ public class FzuSpecialdormApproval extends BaseEntity
     /** 学工处审批人ID */
     @Excel(name = "学工处审批人ID")
     private Long xgcId;
-    @Excel(name = "学工处审批人姓名")
-    private String xgcName;
 
     /** 学工处意见 */
     @Excel(name = "学工处意见")
@@ -70,9 +65,6 @@ public class FzuSpecialdormApproval extends BaseEntity
     /** 校区管理办公室ID */
     @Excel(name = "校区管理办公室ID")
     private Long manageId;
-
-    @Excel(name = "校区管理办公室姓名")
-    private String manageName;
 
     /** 校区管理办公室意见 */
     @Excel(name = "校区管理办公室意见")
@@ -85,31 +77,6 @@ public class FzuSpecialdormApproval extends BaseEntity
     /** 宿舍ID */
     @Excel(name = "宿舍ID")
     private Long dormId;
-
-
-    public String getFdyName() {
-        return fdyName;
-    }
-
-    public void setFdyName(String fdyName) {
-        this.fdyName = fdyName;
-    }
-
-    public String getXgcName() {
-        return xgcName;
-    }
-
-    public void setXgcName(String xgcName) {
-        this.xgcName = xgcName;
-    }
-
-    public String getManageName() {
-        return manageName;
-    }
-
-    public void setManageName(String manageName) {
-        this.manageName = manageName;
-    }
 
     public void setApprovalId(Long approvalId)
     {
@@ -265,9 +232,6 @@ public class FzuSpecialdormApproval extends BaseEntity
                 .append("manageOpinion", getManageOpinion())
                 .append("approvalStatus", getApprovalStatus())
                 .append("dormId", getDormId())
-                .append("manageName", getManageName())
-                .append("fdyName", getFdyName())
-                .append("xgcName", getXgcName())
                 .toString();
     }
 }

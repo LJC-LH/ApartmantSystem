@@ -77,4 +77,10 @@ public interface IFzuSysUserService
 
     public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 
+    public Long getRolesDeptId(String username);
+
+    public Long selectUserIdByUserName(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public Long selectDormIdByRoomInfo(FzuDormitoryInfo fzuDormitoryInfo);
+
 }
