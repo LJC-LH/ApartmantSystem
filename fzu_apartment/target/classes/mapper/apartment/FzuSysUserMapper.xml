@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="buildingNo != null "> and building_no = #{buildingNo}</if>
             <if test="roomNo != null "> and room_no = #{roomNo}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-            <if test="niceName != null  and niceName != ''"> and nice_name like concat('%', #{niceName}, '%')</if>
+            <if test="niceName != null  and niceName != ''"> and nick_name like concat('%', #{niceName}, '%')</if>
             <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
             <if test="bedNo != null  and bedNo != ''"> and bed_No = #{bedNo}</if>
             <if test="deptId != null  and deptId != ''"> and dept_Id = #{deptId}</if>
@@ -127,11 +127,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteFzuSysUserByUserId" parameterType="Long">
-        delete from sys_user where user_id = #{userId}
+        delete from sys_user where student_id = #{userId}
     </delete>
 
-    <delete id="deleteFzuSysUserByUserIds" parameterType="String">
-        delete from sys_user where user_id in 
+    <delete id="deleteFzuSysUserByUserIds" parameterType="Long">
+        delete from fzu_student_dormitory where student_id in
         <foreach item="userId" collection="array" open="(" separator="," close=")">
             #{userId}
         </foreach>
@@ -140,9 +140,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getRoot" parameterType="String" resultMap="FzuUserRootResult">
         SELECT  start_time ,end_time
         FROM	sys_user
-        where user_name = #{username}
+        where user_name = #{userName}
     </select>
 
+
+
+    <select id="getRolesDeptId" parameterType="FzuDormitoryInfo" resultType="Long">
+        SELECT  dept_id
+        FROM	sys_user
+        where user_name = #{userName}
+    </select>
+
+    <select id="selectUserIdByUserName" parameterType="FzuDormitoryInfo" resultType="Long">
+        SELECT  user_id
+        FROM	sys_user
+        where user_name = #{userName}
+    </select>
+
+    <select id="selectDormIdByRoomInfo" parameterType="String" resultType="Long">
+        SELECT  dorm_id
+        FROM	fzu_dormitory
+        where building_no = #{buildingNo} and room_no = #{roomNo}
+    </select>
 
     <update id="updateFzuDormitory" parameterType="FzuDormitoryInfo">
         update fzu_dormitory
