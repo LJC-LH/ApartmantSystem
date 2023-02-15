@@ -209,4 +209,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">#{contactPhone},</if>
         </trim>
     </insert>
+
+    <select id="selectOne" parameterType="FzuDormitoryInfo" resultMap="FzuSysUserResult">
+        select student_id as user_id,dorm_id from fzu_student_dormitory
+        <where>
+            <if test="userId != null "> and student_id = #{userId}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+        </where>
+    </select>
 </mapper>

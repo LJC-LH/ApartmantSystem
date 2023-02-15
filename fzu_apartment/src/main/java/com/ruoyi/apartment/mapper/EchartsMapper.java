@@ -1,7 +1,6 @@
 package com.ruoyi.apartment.mapper;
 
 import com.ruoyi.apartment.domain.EchartData;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

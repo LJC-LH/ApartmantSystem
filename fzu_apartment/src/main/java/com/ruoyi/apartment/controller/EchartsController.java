@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/apartment/echarts")
-public class EchartsContoller extends BaseController {
+public class EchartsController extends BaseController {
 
     @Autowired
     private EchartsService echartsService;

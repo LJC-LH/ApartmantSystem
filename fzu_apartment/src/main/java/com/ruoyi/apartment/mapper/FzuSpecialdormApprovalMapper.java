@@ -2,6 +2,7 @@ package com.ruoyi.apartment.mapper;
 
 import java.util.List;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormApproval;
+import com.ruoyi.common.core.domain.entity.SysUser;
 
 
 /**
@@ -59,4 +60,12 @@ public interface FzuSpecialdormApprovalMapper
      * @return 结果
      */
     public int deleteFzuSpecialdormApprovalByApprovalIds(Long[] approvalIds);
+
+    /**
+     * 查询角色userId列表
+     *
+     * @param sysUser
+     * @return 结果
+     */
+    public List<SysUser> selectUserListByRoleId(SysUser sysUser);
 }

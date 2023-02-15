@@ -186,17 +186,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
-        insert into fzu_student_dormitory
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">student_id,</if>
-            <if test="dormId != null">dorm_id,</if>
-            <if test="bedNo != null">bed_no,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">#{userId},</if>
-            <if test="dormId != null">#{dormId},</if>
-            <if test="bedNo != null">#{bedNo},</if>
-        </trim>
+        INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no) SELECT #{userId}, #{dormId}, #{bedNo}
+            WHERE NOT EXISTS (SELECT * FROM fzu_student_dormitory WHERE student_id = #{userId})
     </insert>
 
     <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
@@ -218,4 +209,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">#{contactPhone},</if>
         </trim>
     </insert>
+
+    <select id="selectOne" parameterType="FzuDormitoryInfo" resultMap="FzuSysUserResult">
+        select student_id as user_id,dorm_id from fzu_student_dormitory
+        <where>
+            <if test="userId != null "> and student_id = #{userId}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+        </where>
+    </select>
 </mapper>

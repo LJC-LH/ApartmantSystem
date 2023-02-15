@@ -22,19 +22,19 @@ public class SysUser extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 用户ID */
-    @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
+//    @Excel(name = "用户序号", cellType = ColumnType.NUMERIC, prompt = "用户编号")
     private Long userId;
 
     /** 部门ID */
-    @Excel(name = "部门编号", type = Type.IMPORT)
+    @Excel(name = "学院/部门", type = Type.IMPORT,  prompt = "填写学院或部门全称")
     private Long deptId;
 
     /** 用户账号 */
-    @Excel(name = "登录名称")
+    @Excel(name = "工号/学号")
     private String userName;
 
     /** 用户昵称 */
-    @Excel(name = "用户名称")
+    @Excel(name = "真实名称")
     private String nickName;
 
     /** 用户邮箱 */
@@ -46,22 +46,22 @@ public class SysUser extends BaseEntity
     private String phonenumber;
 
     /** 用户性别 */
-    @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
+    @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知", prompt = "填写：男、女",combo = "男,女")
     private String sex;
 
     /**
      * 增加省份、学籍和校区
      */
-    @Excel(name = "省份")
+    @Excel(name = "省份", prompt = "仅学生填写：省份如（福建），不需要带“省”字")
     private String province;
 
-    @Excel(name = "学籍状态", readConverterExp = "0=注册学籍,1=已离校,2=保留学籍")
+    @Excel(name = "学籍状态", readConverterExp = "0=注册学籍,1=已离校,2=保留学籍", prompt = "仅学生填写：注册学籍、已离校、保留学籍",combo = "注册学籍,已离校,保留学籍")
     private String schoolRoll;
 
-    @Excel(name = "就读学历层次")
+    @Excel(name = "就读学历层次", prompt = "仅学生填写：本科生、研究生、博士生",combo = "本科生,研究生,博士生")
     private String studyLevel;
 
-    @Excel(name = "校区", readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区")
+    @Excel(name = "校区", readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区", prompt = "仅学生填写：如，铜盘校区、旗山校区等")
     private String schoolArea;
 
     public String getProvince() {
@@ -103,7 +103,7 @@ public class SysUser extends BaseEntity
     private String password;
 
     /** 帐号状态（0正常 1停用） */
-    @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
+    @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用", prompt = "填写：正常、停用",combo = "正常,停用")
     private String status;
 
     /** 删除标志（0代表存在 2代表删除） */
@@ -134,7 +134,7 @@ public class SysUser extends BaseEntity
     private Long[] postIds;
 
     /** 角色ID */
-    @Excel(name = "用户角色", type = Type.IMPORT, cellType = ColumnType.NUMERIC, readConverterExp = "2=学生,100=辅导员,101=学工处,102=校区管理办公室,103=物业管理部门,104=楼管人员,105=维修人员")
+    @Excel(name = "用户角色", type = Type.IMPORT, cellType = ColumnType.NUMERIC, readConverterExp = "2=学生,100=辅导员,101=学工处,102=校区管理办公室,103=物业管理部门,104=楼管人员,105=维修人员", prompt = "填写：学生、辅导员、学工处、校区管理办公室、物业管理部门、楼管人员、维修人员",combo ="学生,辅导员,学工处,校区管理办公室,物业管理部门,楼管人员,维修人员")
     private Long roleId;
 
     private Date startTime;

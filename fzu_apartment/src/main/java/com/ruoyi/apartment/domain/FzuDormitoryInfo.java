@@ -1,12 +1,13 @@
 package com.ruoyi.apartment.domain;
 
 import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.annotation.Excel.Type;
 import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 public class FzuDormitoryInfo extends BaseEntity {
-    @Excel(name = "Userid")
+//    @Excel(name = "Userid")
     private Long userId;
 
     @Excel(name = "楼栋号")
@@ -21,40 +22,40 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "学生姓名")
     private String niceName;
 
-    @Excel(name = "性别")
+    @Excel(name = "性别", type = Type.EXPORT, readConverterExp = "0=男,1=女,2=未知")
     private Character sex;
 
     @Excel(name = "床位")
     private String bedNo;
 
-    @Excel(name = "学院")
+    @Excel(name = "学院", type = Type.EXPORT)
     private Long deptId;
 
-    @Excel(name = "省份")
+    @Excel(name = "省份", type = Type.EXPORT)
     private String province;
 
-    @Excel(name = "学生电话")
+    @Excel(name = "学生电话", type = Type.EXPORT)
     private String stuPhone;
 
-    @Excel(name = "缴费类别")
+    @Excel(name = "缴费类别", type = Type.EXPORT, readConverterExp = "1=水电费,2=其他费用")
     private String feesCategory;
 
-    @Excel(name = "缴费情况")
+    @Excel(name = "是否欠费", type = Type.EXPORT, readConverterExp = "0=未欠费,1=已欠费")
     private String feesStatus;
 
-    @Excel(name = "宿舍使用情况")
+    @Excel(name = "宿舍使用情况", type = Type.EXPORT, readConverterExp = "1=闲置,2=使用中,3=特殊宿舍")
     private String dormStatus;
 
-    @Excel(name = "单位联系人")
+    @Excel(name = "单位联系人", type = Type.EXPORT)
     private String contactPerson;
 
-    @Excel(name = "单位联系人电话")
+    @Excel(name = "单位联系人电话", type = Type.EXPORT)
     private String contactPhone;
 
-    @Excel(name = "学籍状态")
+    @Excel(name = "学籍状态", type = Type.EXPORT, readConverterExp = "0=注册学籍,1=已离校,2=保留学籍")
     private Character schoolRoll;
 
-    @Excel(name = "校区")
+    @Excel(name = "校区", type = Type.EXPORT, readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区")
     private Character schoolArea;
 
     private Long dormId;

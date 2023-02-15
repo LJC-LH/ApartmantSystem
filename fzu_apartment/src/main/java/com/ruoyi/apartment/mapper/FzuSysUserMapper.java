@@ -78,4 +78,6 @@ public interface FzuSysUserMapper
     public Long selectUserIdByUserName(FzuDormitoryInfo fzuDormitoryInfo);
 
     public Long selectDormIdByRoomInfo(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public FzuDormitoryInfo selectOne(FzuDormitoryInfo fzuDormitoryInfo);
 }

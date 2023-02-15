@@ -16,7 +16,7 @@ public class FzuStuDormitory extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 宿舍ID */
-    @Excel(name = "宿舍ID")
+//    @Excel(name = "宿舍ID")
     private Long dormId;
 
     /** 楼栋号 */
@@ -32,15 +32,15 @@ public class FzuStuDormitory extends BaseEntity
     private Long fees;
 
     /** 是否欠费 */
-    @Excel(name = "是否欠费")
+    @Excel(name = "是否欠费", readConverterExp = "0=未欠费,1=已欠费", prompt = "填写：未欠费、已欠费",combo = "未欠费,已欠费")
     private String feesStatus;
 
     /** 缴费类别 */
-    @Excel(name = "缴费类别")
+    @Excel(name = "缴费类别", readConverterExp = "1=水电费,2=其他费用", prompt = "填写：水电费、其他费用",combo = "水电费,其他费用")
     private String feesCategory;
 
     /** 宿舍使用状态 */
-    @Excel(name = "宿舍使用状态")
+    @Excel(name = "宿舍使用状态", readConverterExp = "1=闲置,2=使用中,3=特殊宿舍", prompt = "填写：闲置、使用中、特殊宿舍",combo = "闲置,使用中,特殊宿舍")
     private String dormStatus;
 
     /** 单位负责人 */

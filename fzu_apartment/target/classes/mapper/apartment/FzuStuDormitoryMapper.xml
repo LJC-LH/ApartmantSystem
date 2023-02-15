@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.FzuStuDormitoryMapper">
-    
+
     <resultMap type="FzuStuDormitory" id="FzuStuDormitoryResult">
         <result property="dormId"    column="dorm_id"    />
         <result property="buildingNo"    column="building_no"    />
@@ -18,27 +18,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFzuStuDormitoryVo">
-        select dorm_id, building_no, room_no, fees, fees_status, fees_category, dorm_status, contact_person, contact_phone, remark from fzu_studormitory
+        select dorm_id, building_no, room_no, fees, fees_status, fees_category, dorm_status, contact_person, contact_phone, remark from fzu_dormitory
     </sql>
 
-    <select id="selectFzuStuDormitoryList" parameterType="String" resultMap="FzuStuDormitoryResult">
-        SELECT fzu_dormitory.dorm_id, fzu_dormitory.building_no, fzu_dormitory.room_no, fzu_dormitory.fees, fzu_dormitory.fees_status, fzu_dormitory.fees_category, fzu_dormitory.dorm_status, fzu_dormitory.contact_person, fzu_dormitory.contact_phone, fzu_dormitory.remark
-        FROM sys_user, fzu_dormitory, fzu_student_dormitory
-        WHERE sys_user.user_name = #{username} AND
-                fzu_dormitory.dorm_id = (SELECT fzu_student_dormitory.dorm_id FROM fzu_student_dormitory WHERE  fzu_student_dormitory.student_id =
-                                                                                                                (SELECT sys_user.user_id  FROM sys_user WHERE sys_user.user_name = #{username}))
+    <select id="selectFzuStuDormitoryList" parameterType="FzuStuDormitory" resultMap="FzuStuDormitoryResult">
+        <include refid="selectFzuStuDormitoryVo"/>
+        <where>
+            <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
+            <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
+            <if test="feesStatus != null  and feesStatus != ''"> and fees_status = #{feesStatus}</if>
+            <if test="feesCategory != null  and feesCategory != ''"> and fees_category = #{feesCategory}</if>
+            <if test="dormStatus != null  and dormStatus != ''"> and dorm_status = #{dormStatus}</if>
+        </where>
     </select>
-    
+
     <select id="selectFzuStuDormitoryByDormId" parameterType="Long" resultMap="FzuStuDormitoryResult">
         <include refid="selectFzuStuDormitoryVo"/>
         where dorm_id = #{dormId}
     </select>
-        
+
     <insert id="insertFzuStuDormitory" parameterType="FzuStuDormitory" useGeneratedKeys="true" keyProperty="dormId">
-        insert into fzu_studormitory
+        insert into fzu_dormitory
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="buildingNo != null">building_no,</if>
-            <if test="roomNo != null">room_no,</if>
+            <if test="buildingNo != null and buildingNo != ''">building_no,</if>
+            <if test="roomNo != null and roomNo != ''">room_no,</if>
             <if test="fees != null">fees,</if>
             <if test="feesStatus != null">fees_status,</if>
             <if test="feesCategory != null">fees_category,</if>
@@ -46,10 +49,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPerson != null">contact_person,</if>
             <if test="contactPhone != null">contact_phone,</if>
             <if test="remark != null">remark,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="buildingNo != null">#{buildingNo},</if>
-            <if test="roomNo != null">#{roomNo},</if>
+            <if test="buildingNo != null and buildingNo != ''">#{buildingNo},</if>
+            <if test="roomNo != null and roomNo != ''">#{roomNo},</if>
             <if test="fees != null">#{fees},</if>
             <if test="feesStatus != null">#{feesStatus},</if>
             <if test="feesCategory != null">#{feesCategory},</if>
@@ -57,14 +60,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPerson != null">#{contactPerson},</if>
             <if test="contactPhone != null">#{contactPhone},</if>
             <if test="remark != null">#{remark},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateFzuStuDormitory" parameterType="FzuStuDormitory">
-        update fzu_studormitory
+        update fzu_dormitory
         <trim prefix="SET" suffixOverrides=",">
-            <if test="buildingNo != null">building_no = #{buildingNo},</if>
-            <if test="roomNo != null">room_no = #{roomNo},</if>
+            <if test="buildingNo != null and buildingNo != ''">building_no = #{buildingNo},</if>
+            <if test="roomNo != null and roomNo != ''">room_no = #{roomNo},</if>
             <if test="fees != null">fees = #{fees},</if>
             <if test="feesStatus != null">fees_status = #{feesStatus},</if>
             <if test="feesCategory != null">fees_category = #{feesCategory},</if>
@@ -77,13 +80,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteFzuStuDormitoryByDormId" parameterType="Long">
-        delete from fzu_studormitory where dorm_id = #{dormId}
+        delete from fzu_dormitory where dorm_id = #{dormId}
     </delete>
 
     <delete id="deleteFzuStuDormitoryByDormIds" parameterType="String">
-        delete from fzu_studormitory where dorm_id in 
+        delete from fzu_dormitory where dorm_id in
         <foreach item="dormId" collection="array" open="(" separator="," close=")">
             #{dormId}
         </foreach>
     </delete>
+
+    <select id="selectFzuStuDormitoryByBuildNoAndRoomNo" parameterType="String" resultMap="FzuStuDormitoryResult">
+        <include refid="selectFzuStuDormitoryVo"/>
+        <where>
+            <if test="buildingNo != null"> and building_no = #{buildingNo}</if>
+            <if test="roomNo != null"> and room_no = #{roomNo}</if>
+        </where>
+    </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.ruoyi.apartment.service;
 import java.util.List;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.domain.FzuStuDormitory;
 import com.ruoyi.apartment.domain.FzuSysUser;
 import com.ruoyi.apartment.domain.FzuUserRoot;
 
@@ -82,5 +83,14 @@ public interface IFzuSysUserService
     public Long selectUserIdByUserName(FzuDormitoryInfo fzuDormitoryInfo);
 
     public Long selectDormIdByRoomInfo(FzuDormitoryInfo fzuDormitoryInfo);
+
+    /**
+     * 导入学生宿舍数据
+     *
+     * @param fzuDormitoryInfoList 学生宿舍数据列表
+     * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
+     * @return 结果
+     */
+    public String importFzuDormitoryInfo(List<FzuDormitoryInfo> fzuDormitoryInfoList, Boolean isUpdateSupport);
 
 }
