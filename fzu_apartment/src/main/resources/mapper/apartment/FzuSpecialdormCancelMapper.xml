@@ -23,12 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectFzuSpecialdormCancelVo">
-        select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, cancel_status, dorm_id, remarku1.nick_name as fdy_name,u2.nick_name as xgc_name,u3.nick_name as manage_name from fzu_specialdorm_cancel,sys_user u1,sys_user u2,sys_user u3
+        select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, cancel_status, dorm_id, fzu_specialdorm_cancel.remark, u1.nick_name as fdy_name,u2.nick_name as xgc_name,u3.nick_name as manage_name from fzu_specialdorm_cancel,sys_user u1,sys_user u2,sys_user u3
     </sql>
 
     <select id="selectFzuSpecialdormCancelList" parameterType="FzuSpecialdormCancel" resultMap="FzuSpecialdormCancelResult">
         <include refid="selectFzuSpecialdormCancelVo"/>
         <where>
+            fzu_specialdorm_cancel.fdy_id = u1.user_id and fzu_specialdorm_cancel.xgc_id = u2.user_id and fzu_specialdorm_cancel.manage_id = u3.user_id
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
             <if test="fdyId != null "> and fdy_id = #{fdyId}</if>
