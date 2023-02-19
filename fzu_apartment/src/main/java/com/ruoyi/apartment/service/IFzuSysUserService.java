@@ -93,4 +93,9 @@ public interface IFzuSysUserService
      */
     public String importFzuDormitoryInfo(List<FzuDormitoryInfo> fzuDormitoryInfoList, Boolean isUpdateSupport);
 
+    public void changAddDormStatus(Long dormId);
+
+    public void changDeleteDormStatus(Long dormId);
+
+    public Long getDormIdByUserId(Long userId);
 }
