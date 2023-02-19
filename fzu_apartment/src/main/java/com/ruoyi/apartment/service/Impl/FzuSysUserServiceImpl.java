@@ -152,6 +152,15 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     @Override
     public Long selectDormIdByRoomInfo(FzuDormitoryInfo fzuDormitoryInfo) {return fzuSysUserMapper.selectDormIdByRoomInfo(fzuDormitoryInfo);}
 
+    @Override
+    public void changAddDormStatus(Long dormId) { fzuSysUserMapper.changAddDormStatus(dormId);};
+    @Override
+    public void changDeleteDormStatus(Long dormId) {fzuSysUserMapper.changDeleteDormStatus(dormId);};
+
+    @Override
+    public Long getDormIdByUserId(Long userId) {
+        return fzuSysUserMapper.getDormIdByUserId(userId);
+    }
     /**
      * 导入学生宿舍数据
      *
