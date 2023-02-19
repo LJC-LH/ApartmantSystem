@@ -80,4 +80,10 @@ public interface FzuSysUserMapper
     public Long selectDormIdByRoomInfo(FzuDormitoryInfo fzuDormitoryInfo);
 
     public FzuDormitoryInfo selectOne(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public void changAddDormStatus(Long dormId);
+
+    public void changDeleteDormStatus(Long dormId);
+
+    public Long getDormIdByUserId(Long userId);
 }
