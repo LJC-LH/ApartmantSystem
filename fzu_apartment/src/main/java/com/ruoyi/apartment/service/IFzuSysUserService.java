@@ -18,10 +18,10 @@ public interface IFzuSysUserService
     /**
      * 查询用户信息
      * 
-     * @param userId 用户信息主键
+
      * @return 用户信息
      */
-    public FzuDormitoryInfo selectFzuSysUserByUserId(Long userId);
+    public FzuDormitoryInfo selectFzuSysUserByUserId(FzuDormitoryInfo fzuDormitoryInfo);
 
     /**
      * 查询用户信息列表
@@ -51,11 +51,10 @@ public interface IFzuSysUserService
 
     /**
      * 批量删除用户信息
-     * 
-     * @param userIds 需要删除的用户信息主键集合
+     *
      * @return 结果
      */
-    public int deleteFzuSysUserByUserIds(Long[] userIds);
+    public int deleteFzuSysUserByUserIds(FzuDormitoryInfo fzuDormitoryInfo);
 
     /**
      * 删除用户信息信息

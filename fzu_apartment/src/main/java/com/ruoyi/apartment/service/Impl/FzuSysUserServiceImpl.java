@@ -42,14 +42,13 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
 
     /**
      * 查询用户信息
-     * 
-     * @param userId 用户信息主键
+     *
      * @return 用户信息
      */
     @Override
-    public FzuDormitoryInfo selectFzuSysUserByUserId(Long userId)
+    public FzuDormitoryInfo selectFzuSysUserByUserId(FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return fzuSysUserMapper.selectFzuSysUserByUserId(userId);
+        return fzuSysUserMapper.selectFzuSysUserByUserId(fzuDormitoryInfo);
     }
 
     /**
@@ -97,14 +96,13 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
 
     /**
      * 批量删除用户信息
-     * 
-     * @param userIds 需要删除的用户信息主键
+     *
      * @return 结果
      */
     @Override
-    public int deleteFzuSysUserByUserIds(Long[] userIds)
+    public int deleteFzuSysUserByUserIds(FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return fzuSysUserMapper.deleteFzuSysUserByUserIds(userIds);
+        return fzuSysUserMapper.deleteFzuSysUserByUserIds(fzuDormitoryInfo);
     }
 
     /**
@@ -191,6 +189,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
                 if (StringUtils.isNull(f)) {
                     BeanValidators.validateWithException(validator, fzuDormitoryInfo);
                     this.insertFzuStudentDormitory(fzuDormitoryInfo);
+                    this.changAddDormStatus(fzuDormitoryInfo.getDormId());
                     successNum++;
                     successMsg.append("<br/>" + successNum + "、宿舍 " + fzuDormitoryInfo.getBuildingNo()+"栋"+fzuDormitoryInfo.getRoomNo()+"关联"+fzuDormitoryInfo.getUserName() + "数据 导入成功");
                 } else if (isUpdateSupport) {

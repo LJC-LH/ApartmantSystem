@@ -98,10 +98,11 @@ public class FzuSysUserController extends BaseController
      * 获取用户信息详细信息
      */
     @PreAuthorize("@ss.hasPermi('apartment:user:query')")
-    @GetMapping(value = "/{userId}")
-    public AjaxResult getInfo(@PathVariable("userId") Long userId)
+    @PostMapping("/getUser")
+    public AjaxResult getInfo(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return success(fzuSysUserService.selectFzuSysUserByUserId(userId));
+
+        return success(fzuSysUserService.selectFzuSysUserByUserId(fzuDormitoryInfo));
     }
 
     /**
@@ -143,17 +144,20 @@ public class FzuSysUserController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('apartment:user:remove')")
     @Log(title = "用户信息", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{userIds}")
-    public AjaxResult remove(@PathVariable Long[] userIds)
+	@PostMapping("/delUser")
+    public AjaxResult remove(@RequestBody FzuDormitoryInfo[] fzuDormitoryInfos)
     {
+        int code = 0;
         Set<Long> dormIds = new HashSet<>();
-        for (int i = 0; i < userIds.length; i++) {
-            dormIds.add(fzuSysUserService.getDormIdByUserId(userIds[i]));
+        for (int i = 0; i < fzuDormitoryInfos.length; i++) {
+            dormIds.add(fzuDormitoryInfos[i].getDormId());
+            int num = fzuSysUserService.deleteFzuSysUserByUserIds(fzuDormitoryInfos[i]);
+            code += num;
         }
-        int code = fzuSysUserService.deleteFzuSysUserByUserIds(userIds);
-        for (Iterator<Long> iterator = dormIds.iterator(); iterator.hasNext();) {
-            fzuSysUserService.changDeleteDormStatus(iterator.next());
-        }
+
+//        for (Iterator<Long> iterator = dormIds.iterator(); iterator.hasNext();) {
+//            fzuSysUserService.changDeleteDormStatus(iterator.next());
+//        }
         return toAjax(code);
     }
 
