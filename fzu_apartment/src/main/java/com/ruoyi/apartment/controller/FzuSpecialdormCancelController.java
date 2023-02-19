@@ -3,7 +3,7 @@ package com.ruoyi.apartment.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -126,5 +126,17 @@ public class FzuSpecialdormCancelController extends BaseController
         arrayList.add(sysUserList2);
         arrayList.add(sysUserList3);
         return getDataTable(arrayList);
+    }
+
+    /**
+     * 根据studentId获取dormId
+     */
+    @PostMapping("/getDormId")
+    public TableDataInfo selectDormIdByStudentId(Long userId,String dormStatus){
+        FzuDormitoryInfo fzuDormitoryInfo = new FzuDormitoryInfo();
+        fzuDormitoryInfo.setUserId(userId);
+        fzuDormitoryInfo.setDormStatus(dormStatus);
+        List<FzuDormitoryInfo> list = fzuSpecialdormCancelService.selectDormIdByStudentId(fzuDormitoryInfo);
+        return getDataTable(list);
     }
 }

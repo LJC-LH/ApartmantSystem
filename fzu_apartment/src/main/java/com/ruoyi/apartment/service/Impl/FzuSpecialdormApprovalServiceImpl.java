@@ -2,6 +2,7 @@ package com.ruoyi.apartment.service.Impl;
 
 import java.util.List;
 
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,4 +105,11 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
     public List<SysUser> selectUserListByRoleId(SysUser sysUser) {
         return fzuSpecialdormApprovalMapper.selectUserListByRoleId(sysUser);
     }
+
+    @Override
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo) {
+        return fzuSpecialdormApprovalMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
+    }
+
+
 }

@@ -1,6 +1,8 @@
 package com.ruoyi.apartment.service;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
 import com.ruoyi.common.core.domain.entity.SysUser;
 
@@ -61,4 +63,6 @@ public interface IFzuSpecialdormCancelService
     public int deleteFzuSpecialdormCancelByCancelId(Long cancelId);
 
     List<SysUser> selectUserListByRoleId(SysUser sysUser1);
+
+    List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo);
 }

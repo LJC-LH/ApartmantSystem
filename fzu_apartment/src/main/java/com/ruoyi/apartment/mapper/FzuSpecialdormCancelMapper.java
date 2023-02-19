@@ -2,6 +2,7 @@ package com.ruoyi.apartment.mapper;
 
 import java.util.List;
 
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
 import com.ruoyi.common.core.domain.entity.SysUser;
 
@@ -62,4 +63,6 @@ public interface FzuSpecialdormCancelMapper
     public int deleteFzuSpecialdormCancelByCancelIds(Long[] cancelIds);
 
     List<SysUser> selectUserListByRoleId(SysUser sysUser);
+
+    List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo);
 }

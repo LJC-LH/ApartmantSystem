@@ -2,6 +2,7 @@ package com.ruoyi.apartment.service.Impl;
 
 import java.util.List;
 
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +104,16 @@ public class FzuSpecialdormCancelServiceImpl implements IFzuSpecialdormCancelSer
     @Override
     public List<SysUser> selectUserListByRoleId(SysUser sysUser) {
         return fzuSpecialdormCancelMapper.selectUserListByRoleId(sysUser);
+    }
+
+    /**
+     * 查询studentId获取dormId
+     *
+     * @param fzuDormitoryInfo
+     * @return 结果
+     */
+    @Override
+    public List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo){
+        return fzuSpecialdormCancelMapper.selectDormIdByStudentId(fzuDormitoryInfo);
     }
 }

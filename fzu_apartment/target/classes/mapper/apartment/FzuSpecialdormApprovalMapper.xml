@@ -131,4 +131,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null  and deptId != ''"> and u.dept_id = #{deptId}</if>
         </where>
     </select>
+
+    <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
+        INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no) values(#{userId}, #{dormId}, #{bedNo})
+    </insert>
 </mapper>

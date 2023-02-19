@@ -115,4 +115,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deptId != null  and deptId != ''"> and u.dept_id = #{deptId}</if>
         </where>
     </select>
+
+    <select id="selectDormIdByStudentId" parameterType="FzuDormitoryInfo" resultType="FzuDormitoryInfo">
+--         select student_id as studentId from fzu_student_dormitory
+        select fsd.dorm_id as dormId ,fd.dorm_status as dormStatus, fd.building_no as buildingNo, fd.room_no as roomNo from fzu_student_dormitory fsd, fzu_dormitory fd
+        <where>
+            fsd.dorm_id = fd.dorm_id
+            and fsd.student_id = #{userId} and fd.dorm_status = #{dormStatus}
+        </where>
+    </select>
 </mapper>

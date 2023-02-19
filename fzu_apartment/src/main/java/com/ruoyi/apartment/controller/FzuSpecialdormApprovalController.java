@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormApproval;
+import com.ruoyi.apartment.service.IFzuSysUserService;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +41,7 @@ public class FzuSpecialdormApprovalController extends BaseController
 {
     @Autowired
     private IFzuSpecialdormApprovalService fzuSpecialdormApprovalService;
+
 
     /**
      * 查询特殊宿舍申请列表
@@ -129,5 +132,13 @@ public class FzuSpecialdormApprovalController extends BaseController
         arrayList.add(sysUserList2);
         arrayList.add(sysUserList3);
         return getDataTable(arrayList);
+    }
+
+    /**
+     * 添加student_dorm数据
+     */
+    @PostMapping("/addStudentDorm")
+    public AjaxResult addStudentDorm(@RequestBody FzuDormitoryInfo fzuDormitoryInfo) {
+        return toAjax(fzuSpecialdormApprovalService.insertFzuStudentDormitory(fzuDormitoryInfo));
     }
 }

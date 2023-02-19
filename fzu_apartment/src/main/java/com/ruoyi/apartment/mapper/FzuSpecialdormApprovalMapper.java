@@ -1,6 +1,8 @@
 package com.ruoyi.apartment.mapper;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormApproval;
 import com.ruoyi.common.core.domain.entity.SysUser;
 
@@ -68,4 +70,12 @@ public interface FzuSpecialdormApprovalMapper
      * @return 结果
      */
     public List<SysUser> selectUserListByRoleId(SysUser sysUser);
+
+    /**
+     * 添加学生宿舍
+     *
+     * @param fzuDormitoryInfo
+     * @return 结果
+     */
+    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 }
