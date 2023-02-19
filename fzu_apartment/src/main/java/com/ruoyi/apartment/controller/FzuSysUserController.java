@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 用户信息Controller
@@ -117,6 +116,7 @@ public class FzuSysUserController extends BaseController
         fzuDormitoryInfo.setUserId(fzuSysUserService.selectUserIdByUserName(fzuDormitoryInfo));
         fzuDormitoryInfo.setDormId(fzuSysUserService.selectDormIdByRoomInfo(fzuDormitoryInfo));
         int i = fzuSysUserService.insertFzuStudentDormitory(fzuDormitoryInfo);
+        fzuSysUserService.changAddDormStatus(fzuDormitoryInfo.getDormId());
         return toAjax(i);
     }
 
@@ -146,7 +146,15 @@ public class FzuSysUserController extends BaseController
 	@DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds)
     {
-        return toAjax(fzuSysUserService.deleteFzuSysUserByUserIds(userIds));
+        Set<Long> dormIds = new HashSet<>();
+        for (int i = 0; i < userIds.length; i++) {
+            dormIds.add(fzuSysUserService.getDormIdByUserId(userIds[i]));
+        }
+        int code = fzuSysUserService.deleteFzuSysUserByUserIds(userIds);
+        for (Iterator<Long> iterator = dormIds.iterator(); iterator.hasNext();) {
+            fzuSysUserService.changDeleteDormStatus(iterator.next());
+        }
+        return toAjax(code);
     }
 
 
