@@ -26,7 +26,7 @@ public class SysUser extends BaseEntity
     private Long userId;
 
     /** 部门ID */
-    @Excel(name = "学院/部门", type = Type.IMPORT,  prompt = "填写学院或部门全称")
+    @Excel(name = "学院/部门", type = Type.IMPORT,readConverterExp = "203=物理与信息工程学院、微电子学院,204=计算机与大数据学院、软件学院,205=数学与统计学院,206=法学院,207=电气工程与自动化学院,208=机械工程及自动化学院,209=石油化工学院,210=土木工程学院,211=环境与安全工程学院,212=经济与管理学院,213=生物科学与工程学院,214=外国语学院,215=化学学院,216=建筑与城乡规划学院,217=紫金地质与矿业学院,218=材料科学与工程学院,219=人文社会科学学院,220=铜盘校区管理办公室,221=学生工作部（处）", prompt = "请从下拉框选择学院或部门（全称）", combo = "物理与信息工程学院、微电子学院,计算机与大数据学院、软件学院,数学与统计学院,法学院,电气工程与自动化学院,机械工程及自动化学院,石油化工学院,土木工程学院,环境与安全工程学院,经济与管理学院,生物科学与工程学院,外国语学院,化学学院,建筑与城乡规划学院,紫金地质与矿业学院,材料科学与工程学院,人文社会科学学院,铜盘校区管理办公室,学生工作部（处）")
     private Long deptId;
 
     /** 用户账号 */
@@ -58,7 +58,7 @@ public class SysUser extends BaseEntity
     @Excel(name = "学籍状态", readConverterExp = "0=注册学籍,1=已离校,2=保留学籍", prompt = "仅学生填写：注册学籍、已离校、保留学籍",combo = "注册学籍,已离校,保留学籍")
     private String schoolRoll;
 
-    @Excel(name = "就读学历层次", prompt = "仅学生填写：本科生、研究生、博士生",combo = "本科生,研究生,博士生")
+    @Excel(name = "就读学历层次", prompt = "仅学生填写：本科生、硕士研究生、博士研究生",combo = "本科生,硕士研究生,博士研究生")
     private String studyLevel;
 
     @Excel(name = "校区", readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区", prompt = "仅学生填写：如，铜盘校区、旗山校区等")
@@ -134,7 +134,7 @@ public class SysUser extends BaseEntity
     private Long[] postIds;
 
     /** 角色ID */
-    @Excel(name = "用户角色", type = Type.IMPORT, cellType = ColumnType.NUMERIC, readConverterExp = "2=学生,100=辅导员,101=学工处,102=校区管理办公室,103=物业管理部门,104=楼管人员,105=维修人员", prompt = "填写：学生、辅导员、学工处、校区管理办公室、物业管理部门、楼管人员、维修人员",combo ="学生,辅导员,学工处,校区管理办公室,物业管理部门,楼管人员,维修人员")
+    @Excel(name = "用户角色", type = Type.IMPORT, cellType = ColumnType.NUMERIC, readConverterExp = "2=学生,100=辅导员,101=学工部（处）,102=铜盘校区管理办公室,103=物业管理部门,104=楼管人员,105=维修人员", prompt = "填写：学生、辅导员、学工部（处）、铜盘校区管理办公室、物业管理部门、楼管人员、维修人员",combo ="学生,辅导员,学工部（处）,铜盘校区管理办公室,物业管理部门,楼管人员,维修人员")
     private Long roleId;
 
     private Date startTime;
