@@ -65,4 +65,6 @@ public interface IFzuSpecialdormCancelService
     List<SysUser> selectUserListByRoleId(SysUser sysUser1);
 
     List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public int deleteFzuSpecialStuDormitoryByDormId(Long dormId);
 }

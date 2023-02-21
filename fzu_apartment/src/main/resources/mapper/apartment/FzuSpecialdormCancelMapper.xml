@@ -124,4 +124,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             and fsd.student_id = #{userId} and fd.dorm_status = #{dormStatus}
         </where>
     </select>
+
+    <delete id="deleteFzuSpecialStuDormitoryByDormId" parameterType="Long">
+        delete from fzu_student_dormitory where dorm_id = #{dormId}
+    </delete>
 </mapper>

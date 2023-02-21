@@ -134,9 +134,24 @@ public class FzuSpecialdormCancelController extends BaseController
     @PostMapping("/getDormId")
     public TableDataInfo selectDormIdByStudentId(Long userId,String dormStatus){
         FzuDormitoryInfo fzuDormitoryInfo = new FzuDormitoryInfo();
+        if(userId != null){
+            System.out.println("1");
+        }
+        if(dormStatus != null){
+            System.out.println("2");
+        }
         fzuDormitoryInfo.setUserId(userId);
         fzuDormitoryInfo.setDormStatus(dormStatus);
         List<FzuDormitoryInfo> list = fzuSpecialdormCancelService.selectDormIdByStudentId(fzuDormitoryInfo);
         return getDataTable(list);
+    }
+
+    /**
+     * 解除特殊宿舍绑定
+     */
+    @PostMapping ("/removeStuDorm")
+    public AjaxResult removeStuDorm(Long dormId)
+    {
+        return toAjax(fzuSpecialdormCancelService.deleteFzuSpecialStuDormitoryByDormId(dormId));
     }
 }
