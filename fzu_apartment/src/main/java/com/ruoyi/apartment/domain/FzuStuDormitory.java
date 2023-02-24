@@ -40,7 +40,7 @@ public class FzuStuDormitory extends BaseEntity
     private String feesCategory;
 
     /** 宿舍使用状态 */
-    @Excel(name = "宿舍使用状态", readConverterExp = "1=闲置,2=使用中,3=特殊宿舍", prompt = "填写：闲置、使用中、特殊宿舍",combo = "闲置,使用中,特殊宿舍")
+    @Excel(name = "宿舍使用状态", readConverterExp = "1=闲置,2=使用中,3=特殊宿舍闲置,4=特殊宿舍使用中", prompt = "填写：闲置、使用中、特殊宿舍闲置、特殊宿舍使用中",combo = "闲置,使用中,特殊宿舍闲置,特殊宿舍使用中")
     private String dormStatus;
 
     /** 单位负责人 */
