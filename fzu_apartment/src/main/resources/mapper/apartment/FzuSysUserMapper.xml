@@ -23,6 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contactPhone"    column="contact_Phone"    />
         <result property="schoolRoll"    column="school_roll"    />
         <result property="schoolArea"    column="school_area"    />
+        <result property="fdyNumber"    column="userFdy"    />
+        <result property="fdyName"    column="fdy_name"    />
+        <result property="fdyId"    column="fdy_id"    />
+        <result property="fdyPhone"    column="fdy_phone"    />
     </resultMap>
 
     <resultMap type="FzuUserRoot" id="FzuUserRootResult">
@@ -36,7 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT u.user_id, d.dorm_id ,d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
                s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category, d.fees_status,
                d.dorm_status, d.contact_person, d.contact_phone, u.school_roll,
-               u.school_area
+               u.school_area,u.fdy_number AS userFdy,
+               (SELECT u.nick_name FROM sys_user u WHERE userFdy = u.user_name) AS fdy_name,
+               (SELECT u.user_id FROM sys_user u WHERE userFdy = u.user_name) AS fdy_id,
+               (SELECT u.phonenumber FROM sys_user u WHERE userFdy = u.user_name) AS fdy_phone
         FROM	fzu_dormitory d, sys_user u, fzu_student_dormitory s
     </sql>
 
