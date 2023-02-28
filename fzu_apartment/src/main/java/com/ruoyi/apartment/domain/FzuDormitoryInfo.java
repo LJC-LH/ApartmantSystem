@@ -58,6 +58,46 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "校区", type = Type.EXPORT, readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区")
     private Character schoolArea;
 
+    private String fdyNumber;
+
+    private String fdyName;
+
+    private Long fdyId;
+
+    private String fdyPhone;
+
+    public String getFdyPhone() {
+        return fdyPhone;
+    }
+
+    public void setFdyPhone(String fdyPhone) {
+        this.fdyPhone = fdyPhone;
+    }
+
+    public String getFdyNumber() {
+        return fdyNumber;
+    }
+
+    public void setFdyNumber(String fdyNumber) {
+        this.fdyNumber = fdyNumber;
+    }
+
+    public String getFdyName() {
+        return fdyName;
+    }
+
+    public void setFdyName(String fdyName) {
+        this.fdyName = fdyName;
+    }
+
+    public Long getFdyId() {
+        return fdyId;
+    }
+
+    public void setFdyId(Long fdyId) {
+        this.fdyId = fdyId;
+    }
+
     private Long dormId;
 
     public Long getDormId() {
