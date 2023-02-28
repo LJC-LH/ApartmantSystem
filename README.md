@@ -1,1 +1,1 @@
-pull下来后记得修改redis和mysql的配置
+redis,mysql全部在服务器，不需要在本地运行sql
