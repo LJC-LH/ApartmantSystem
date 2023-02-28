@@ -64,6 +64,49 @@ public class SysUser extends BaseEntity
     @Excel(name = "校区", readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区", prompt = "仅学生填写：如，铜盘校区、旗山校区等")
     private String schoolArea;
 
+    @Excel(name = "单位联系人（辅导员）工号")
+    private String fdyNumber;
+
+    @Excel(name = "单位联系人（辅导员）姓名")
+    private String fdyName;
+
+    private String fdyId;
+
+    @Excel(name = "单位联系人电话", type = Type.EXPORT)
+    private String fdyPhonenumber;
+
+    public String getFdyPhonenumber() {
+        return fdyPhonenumber;
+    }
+
+    public void setFdyPhonenumber(String fdyPhonenumber) {
+        this.fdyPhonenumber = fdyPhonenumber;
+    }
+
+    public String getFdyNumber() {
+        return fdyNumber;
+    }
+
+    public void setFdyNumber(String fdyNumber) {
+        this.fdyNumber = fdyNumber;
+    }
+
+    public String getFdyName() {
+        return fdyName;
+    }
+
+    public void setFdyName(String fdyName) {
+        this.fdyName = fdyName;
+    }
+
+    public String getFdyId() {
+        return fdyId;
+    }
+
+    public void setFdyId(String fdyId) {
+        this.fdyId = fdyId;
+    }
+
     public String getProvince() {
         return province;
     }
@@ -110,11 +153,11 @@ public class SysUser extends BaseEntity
     private String delFlag;
 
     /** 最后登录IP */
-    @Excel(name = "最后登录IP", type = Type.EXPORT)
+//    @Excel(name = "最后登录IP", type = Type.EXPORT)
     private String loginIp;
 
     /** 最后登录时间 */
-    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
+//    @Excel(name = "最后登录时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss", type = Type.EXPORT)
     private Date loginDate;
 
     /** 部门对象 */

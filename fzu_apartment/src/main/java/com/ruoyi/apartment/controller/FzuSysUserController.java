@@ -70,7 +70,7 @@ public class FzuSysUserController extends BaseController
     {
         List<FzuDormitoryInfo> list = fzuSysUserService.selectFzuSysUserList(fzuDormitoryInfo);
         ExcelUtil<FzuDormitoryInfo> util = new ExcelUtil<FzuDormitoryInfo>(FzuDormitoryInfo.class);
-        util.exportExcel(response, list, "用户信息数据");
+        util.exportExcel(response, list, "学生宿舍信息数据");
     }
 
     /**

@@ -253,4 +253,10 @@ public class SysUserController extends BaseController
     {
         return success(deptService.selectDeptTreeList(dept));
     }
+
+    @GetMapping("/listFdy")
+    public TableDataInfo getfdyList(SysUser user){
+        List<SysUser> list = userService.selectFdyList(user);
+        return getDataTable(list);
+    }
 }
