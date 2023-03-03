@@ -126,4 +126,12 @@ public interface SysUserMapper
     public SysUser checkEmailUnique(String email);
 
     public List<SysUser> selectFdyList(SysUser sysUser);
+
+    public int deleteStudentDorm(Long userId);
+
+    public int batchDeleteStudentDorm(Long[] userIds);
+
+    public Long selectDormIdByUserId(Long userId);
+
+    public int changDeleteDormStatus(Long dormId);
 }

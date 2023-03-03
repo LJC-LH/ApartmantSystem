@@ -55,7 +55,7 @@ public class SysUser extends BaseEntity
     @Excel(name = "省份", prompt = "仅学生填写：省份如（福建），不需要带“省”字")
     private String province;
 
-    @Excel(name = "学籍状态", readConverterExp = "0=注册学籍,1=已离校,2=保留学籍", prompt = "仅学生填写：注册学籍、已离校、保留学籍",combo = "注册学籍,已离校,保留学籍")
+    @Excel(name = "学籍状态", readConverterExp = "0=注册在籍,1=已离校,2=保留学籍,3=已休学", prompt = "仅学生填写：注册在籍、已离校、保留学籍、已休学",combo = "注册在籍,已离校,保留学籍,已休学")
     private String schoolRoll;
 
     @Excel(name = "就读学历层次", prompt = "仅学生填写：本科生、硕士研究生、博士研究生",combo = "本科生,硕士研究生,博士研究生")

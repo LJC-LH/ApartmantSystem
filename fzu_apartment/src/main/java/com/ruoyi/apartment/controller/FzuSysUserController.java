@@ -154,10 +154,9 @@ public class FzuSysUserController extends BaseController
             int num = fzuSysUserService.deleteFzuSysUserByUserIds(fzuDormitoryInfos[i]);
             code += num;
         }
-
-//        for (Iterator<Long> iterator = dormIds.iterator(); iterator.hasNext();) {
-//            fzuSysUserService.changDeleteDormStatus(iterator.next());
-//        }
+        for(Long dormId : dormIds){
+            fzuSysUserService.changDeleteDormStatus(dormId);
+        }
         return toAjax(code);
     }
 

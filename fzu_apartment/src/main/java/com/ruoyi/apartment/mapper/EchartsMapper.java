@@ -37,4 +37,13 @@ public interface EchartsMapper {
     public List<EchartData> getEachCollageNum();
     public List<EchartData> getEachCollageSex0();
     public List<EchartData> getEachCollageSex1();
+
+
+    /**
+     * 获取大屏表格宿舍信息
+     * @return
+     */
+    public EchartData getBuildingNum();
+    public EchartData getRoomNum();
+    public EchartData getStuDormNum();
 }

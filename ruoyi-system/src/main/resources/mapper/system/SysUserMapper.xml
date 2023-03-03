@@ -263,5 +263,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</if>
 		</where>
 	</select>
+
+	<delete id="deleteStudentDorm" parameterType="Long">
+		delete from fzu_student_dormitory where student_id = #{userId};
+	</delete>
+
+	<delete id="batchDeleteStudentDorm" parameterType="Long">
+		delete from fzu_student_dormitory where student_id in
+		<foreach collection="array" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</delete>
+	
+	<select id="selectDormIdByUserId" parameterType="Long" resultType="Long">
+		select dorm_id from fzu_student_dormitory where student_id = #{userId}
+	</select>
+
+	<update id="changDeleteDormStatus" parameterType="Long">
+        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL)
+    </update>
 	
 </mapper> 

@@ -36,15 +36,21 @@ public class EchartsController extends BaseController {
         return getDataTable(allPeopleData);
     }
 
-    @GetMapping("getStudentProvince")
+    @GetMapping("/getStudentProvince")
     public TableDataInfo getStudentProvince(){
         List<EchartData> studentProvince = echartsService.getStudentProvince();
         return getDataTable(studentProvince);
     }
 
-    @GetMapping("getEachCollageSex")
+    @GetMapping("/getEachCollageSex")
     public TableDataInfo getEachCollageSex(){
         List eachCollageSex = echartsService.getEachCollageSex();
         return getDataTable(eachCollageSex);
+    }
+
+    @GetMapping("getApartmentData")
+    public TableDataInfo getApartmentData(){
+        List apartmentDataList = echartsService.getApartmentData();
+        return getDataTable(apartmentDataList);
     }
 }

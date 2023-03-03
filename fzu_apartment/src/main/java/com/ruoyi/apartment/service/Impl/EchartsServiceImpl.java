@@ -54,4 +54,16 @@ public class EchartsServiceImpl implements EchartsService {
         eachCollageSex.add(eachCollageSex1);
         return eachCollageSex;
     }
+
+    @Override
+    public List<EchartData> getApartmentData() {
+        List<EchartData> apartmentDataList = new ArrayList<>();
+        EchartData buildingNum = echartsMapper.getBuildingNum();
+        EchartData roomNum = echartsMapper.getRoomNum();
+        EchartData stuDormNum = echartsMapper.getStuDormNum();
+        apartmentDataList.add(buildingNum);
+        apartmentDataList.add(roomNum);
+        apartmentDataList.add(stuDormNum);
+        return apartmentDataList;
+    }
 }

@@ -25,7 +25,7 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "性别", type = Type.EXPORT, readConverterExp = "0=男,1=女,2=未知")
     private Character sex;
 
-    @Excel(name = "床位")
+    @Excel(name = "床位",readConverterExp = "A=A,B=B,C=C,D=D", prompt = "仅填写：A、B、C、D字母即可",combo = "A,B,C,D")
     private String bedNo;
 
     @Excel(name = "学院/部门", type = Type.EXPORT, readConverterExp = "205=物理与信息工程学院、微电子学院,204=计算机与大数据学院、软件学院,105=数学与统计学院,210=法学院,103=电气工程与自动化学院,104=机械工程及自动化学院,106=石油化工学院,107=土木工程学院,200=环境与安全工程学院,201=经济与管理学院,202=生物科学与工程学院,203=外国语学院,206=化学学院,207=建筑与城乡规划学院,208=紫金地质与矿业学院,209=材料科学与工程学院,211=人文社会科学学院,214=铜盘校区管理办公室,215=学生工作部（处）")
@@ -52,7 +52,7 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "单位联系人电话", type = Type.EXPORT)
     private String contactPhone;
 
-    @Excel(name = "学籍状态", type = Type.EXPORT, readConverterExp = "0=注册学籍,1=已离校,2=保留学籍")
+    @Excel(name = "学籍状态", type = Type.EXPORT, readConverterExp = "0=注册在籍,1=已离校,2=保留学籍")
     private Character schoolRoll;
 
     @Excel(name = "校区", type = Type.EXPORT, readConverterExp = "1=旗山校区,2=铜盘校区,3=怡山校区")

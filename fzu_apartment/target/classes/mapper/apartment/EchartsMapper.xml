@@ -29,7 +29,7 @@
     </select>
 
     <select id="getEachCollageNum" resultType="EchartData">
-        SELECT dept_name AS NAME,COUNT(dept_name) AS VALUE FROM sys_user,sys_user_role,sys_dept WHERE sys_user.`user_id` = sys_user_role.`user_id` AND sys_user.`dept_id` = sys_dept.`dept_id` AND role_id = 2 AND sys_user.`del_flag` = 0 GROUP BY dept_name;
+        SELECT dept_name AS NAME,COUNT(dept_name) AS VALUE FROM sys_user,sys_user_role,sys_dept WHERE sys_user.`user_id` = sys_user_role.`user_id` AND sys_user.`dept_id` = sys_dept.`dept_id` AND role_id = 2 AND sys_user.`del_flag` = 0 GROUP BY dept_name ORDER BY dept_name DESC;
     </select>
 
     <select id="getEachCollageSex0" resultType="EchartData">
@@ -38,6 +38,18 @@
 
     <select id="getEachCollageSex1" resultType="EchartData">
         SELECT dept_name AS NAME,COUNT(dept_name) AS VALUE FROM sys_user,sys_user_role,sys_dept WHERE sys_user.`user_id` = sys_user_role.`user_id` AND sys_user.`dept_id` = sys_dept.`dept_id` AND role_id = 2 AND sex = 1 AND sys_user.`del_flag` = 0 GROUP BY dept_name ORDER BY dept_name DESC;
+    </select>
+
+    <select id="getBuildingNum" resultType="EchartData">
+        SELECT "宿舍楼栋数量" AS NAME,COUNT(building_no) AS VALUE FROM (SELECT DISTINCT building_no FROM fzu_dormitory GROUP BY building_no) AS temp;
+    </select>
+
+    <select id="getRoomNum" resultType="EchartData">
+        SELECT "房间总数量" AS NAME,COUNT(dorm_id) AS VALUE FROM fzu_dormitory;
+    </select>
+
+    <select id="getStuDormNum" resultType="EchartData">
+        SELECT "入住人数" AS NAME,COUNT(student_id) AS VALUE FROM fzu_student_dormitory;
     </select>
 
 

@@ -129,6 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactPhone != null">d.contact_Phone = #{contactPhone},</if>
             <if test="schoolRoll != null">u.school_roll = #{schoolRoll},</if>
             <if test="schoolArea != null">u.school_area = #{schoolArea},</if>
+            <if test="fdyNumber != null">u.fdy_number = #{fdyNumber},</if>
         </trim>
         where u.user_id = #{userId} and u.user_id = s.student_id AND s.dorm_id = d.dorm_id
     </update>
@@ -195,13 +196,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             WHERE ((dorm_id = #{dormId} AND bed_no = #{bedNo}) OR (student_id = #{userId})))
     </insert>
 
-    <insert id="changAddDormStatus" parameterType="Long">
+    <update id="changAddDormStatus" parameterType="Long">
         update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
-    </insert>
+    </update>
 
-    <insert id="changDeleteDormStatus" parameterType="Long">
+    <update id="changDeleteDormStatus" parameterType="Long">
         UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL)
-    </insert>
+    </update>
 
     <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
         insert into fzu_dormitory

@@ -1,7 +1,9 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
 
@@ -408,6 +410,8 @@ public class SysUserServiceImpl implements ISysUserService {
         userRoleMapper.deleteUserRoleByUserId(userId);
         // 删除用户与岗位表
         userPostMapper.deleteUserPostByUserId(userId);
+        // 删除关联宿舍宿舍信息
+        userMapper.deleteStudentDorm(userId);
         return userMapper.deleteUserById(userId);
     }
 
@@ -420,14 +424,22 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     @Transactional
     public int deleteUserByIds(Long[] userIds) {
+        Set<Long> dormIdSet = new HashSet<>();
         for (Long userId : userIds) {
             checkUserAllowed(new SysUser(userId));
             checkUserDataScope(userId);
+            Long dormId = userMapper.selectDormIdByUserId(userId);
+            dormIdSet.add(dormId);
         }
         // 删除用户与角色关联
         userRoleMapper.deleteUserRole(userIds);
         // 删除用户与岗位关联
         userPostMapper.deleteUserPost(userIds);
+        // 删除关联宿舍宿舍信息
+        userMapper.batchDeleteStudentDorm(userIds);
+        for(Long dormId : dormIdSet){
+            userMapper.changDeleteDormStatus(dormId);
+        }
         return userMapper.deleteUserByIds(userIds);
     }
 

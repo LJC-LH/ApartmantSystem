@@ -95,7 +95,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     }
 
     /**
-     * 批量删除用户信息
+     *
      *
      * @return 结果
      */
