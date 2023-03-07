@@ -46,6 +46,16 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "宿舍使用情况", type = Type.EXPORT, readConverterExp = "1=闲置,2=使用中,3=特殊宿舍")
     private String dormStatus;
 
+    private String bedStatus;
+
+    public String getBedStatus() {
+        return bedStatus;
+    }
+
+    public void setBedStatus(String bedStatus) {
+        this.bedStatus = bedStatus;
+    }
+
     @Excel(name = "单位联系人", type = Type.EXPORT)
     private String contactPerson;
 
