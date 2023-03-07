@@ -42,7 +42,8 @@ public interface FzuStuDormitoryMapper
      * @param fzuStuDormitory 宿舍
      * @return 结果
      */
-    public int updateFzuStuDormitory(FzuStuDormitory fzuStuDormitory);
+    public int updateDormitory(FzuStuDormitory fzuStuDormitory);
+    public int updateBed(FzuStuDormitory fzuStuDormitory);
 
     /**
      * 删除宿舍
@@ -60,5 +61,5 @@ public interface FzuStuDormitoryMapper
      */
     public int deleteFzuStuDormitoryByDormIds(Long[] dormIds);
 
-    public FzuStuDormitory selectFzuStuDormitoryByBuildNoAndRoomNo(@Param("buildingNo") String buildingNo,@Param("roomNo") String roomNo);
+    public FzuStuDormitory selectFzuStuDormitoryByBuildNoAndRoomNo(@Param("buildingNo") String buildingNo,@Param("roomNo") String roomNo,@Param("bedNo") String bedNo);
 }

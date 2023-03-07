@@ -44,14 +44,35 @@ public class FzuStuDormitory extends BaseEntity
     private String dormStatus;
 
     /** 单位负责人 */
-    @Excel(name = "单位负责人")
+//    @Excel(name = "单位负责人")
     private String contactPerson;
 
     /** 单位负责人联系方式 */
-    @Excel(name = "单位负责人联系方式")
+//    @Excel(name = "单位负责人联系方式")
     private String contactPhone;
 
-    public void setDormId(Long dormId) 
+    @Excel(name = "床位号", prompt = "仅填写：A、B、C、D字母即可",combo = "A,B,C,D")
+    private String bedNo;
+    @Excel(name = "床位使用状态", readConverterExp = "1=闲置,2=使用中", prompt = "填写：闲置、使用中",combo = "闲置,使用中")
+    private String bedStatus;
+
+    public String getBedNo() {
+        return bedNo;
+    }
+
+    public void setBedNo(String bedNo) {
+        this.bedNo = bedNo;
+    }
+
+    public String getBedStatus() {
+        return bedStatus;
+    }
+
+    public void setBedStatus(String bedStatus) {
+        this.bedStatus = bedStatus;
+    }
+
+    public void setDormId(Long dormId)
     {
         this.dormId = dormId;
     }
@@ -146,6 +167,8 @@ public class FzuStuDormitory extends BaseEntity
             .append("contactPerson", getContactPerson())
             .append("contactPhone", getContactPhone())
             .append("remark", getRemark())
+            .append("bedNo", getBedNo())
+            .append("bedStatus", getBedStatus())
             .toString();
     }
 }

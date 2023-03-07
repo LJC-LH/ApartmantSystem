@@ -61,7 +61,7 @@ public class FzuSysUserController extends BaseController
     }
 
     /**
-     * 导出用户信息列表
+     * 导出学生宿舍信息列表
      */
     @PreAuthorize("@ss.hasPermi('apartment:user:export')")
     @Log(title = "用户信息", businessType = BusinessType.EXPORT)

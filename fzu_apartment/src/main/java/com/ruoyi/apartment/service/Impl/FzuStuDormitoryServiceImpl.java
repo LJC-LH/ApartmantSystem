@@ -71,7 +71,15 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
     @Override
     public int insertFzuStuDormitory(FzuStuDormitory fzuStuDormitory)
     {
-        return fzuStuDormitoryMapper.insertFzuStuDormitory(fzuStuDormitory);
+        FzuStuDormitory temp = new FzuStuDormitory();
+        temp.setBuildingNo(fzuStuDormitory.getBuildingNo());
+        temp.setRoomNo(fzuStuDormitory.getRoomNo());
+        temp.setBedNo(fzuStuDormitory.getBedNo());
+        int i = 0;
+        if(fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp)==null){
+            i = fzuStuDormitoryMapper.insertFzuStuDormitory(fzuStuDormitory);
+        }
+        return i;
     }
 
     /**
@@ -83,7 +91,23 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
     @Override
     public int updateFzuStuDormitory(FzuStuDormitory fzuStuDormitory)
     {
-        return fzuStuDormitoryMapper.updateFzuStuDormitory(fzuStuDormitory);
+        FzuStuDormitory temp = new FzuStuDormitory();
+        temp.setBuildingNo(fzuStuDormitory.getBuildingNo());
+        temp.setRoomNo(fzuStuDormitory.getRoomNo());
+        temp.setBedNo(fzuStuDormitory.getBedNo());
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        System.out.println("========="+fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp));
+        if(fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp)==null){
+            FzuStuDormitory bedInfo = new FzuStuDormitory();
+            bedInfo.setBedNo(fzuStuDormitory.getBedNo());
+            j = fzuStuDormitoryMapper.updateBed(bedInfo);
+        }
+        fzuStuDormitory.setBedNo(null);
+        i = fzuStuDormitoryMapper.updateDormitory(fzuStuDormitory);
+        k = fzuStuDormitoryMapper.updateBed(fzuStuDormitory);
+        return (i > j) ? (i > k ? i : k) : (j > k ? j : k);
     }
 
     /**
@@ -128,21 +152,21 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
         StringBuilder failureMsg = new StringBuilder();
         for (FzuStuDormitory fzuStuDormitory : fzuStuDormitoryList) {
             try {
-                // 验证是否存在这个宿舍
-                FzuStuDormitory f = fzuStuDormitoryMapper.selectFzuStuDormitoryByBuildNoAndRoomNo(fzuStuDormitory.getBuildingNo(),fzuStuDormitory.getRoomNo());
+                // 验证是否存在这个宿舍-床位
+                FzuStuDormitory f = fzuStuDormitoryMapper.selectFzuStuDormitoryByBuildNoAndRoomNo(fzuStuDormitory.getBuildingNo(),fzuStuDormitory.getRoomNo(),fzuStuDormitory.getBedNo());
                 if (StringUtils.isNull(f)) {
                     BeanValidators.validateWithException(validator, fzuStuDormitory);
                     this.insertFzuStuDormitory(fzuStuDormitory);
                     successNum++;
-                    successMsg.append("<br/>" + successNum + "、宿舍 " + fzuStuDormitory.getBuildingNo()+"栋"+fzuStuDormitory.getRoomNo() + " 导入成功");
+                    successMsg.append("<br/>" + successNum + "、宿舍 " + fzuStuDormitory.getBuildingNo()+"栋"+fzuStuDormitory.getRoomNo()+"床位"+ fzuStuDormitory.getBedNo() + " 导入成功");
                 } else if (isUpdateSupport) {
                     BeanValidators.validateWithException(validator, fzuStuDormitory);
                     this.updateFzuStuDormitory(fzuStuDormitory);
                     successNum++;
-                    successMsg.append("<br/>" + successNum + "、宿舍 " + fzuStuDormitory.getBuildingNo()+"栋"+fzuStuDormitory.getRoomNo() + " 更新成功");
+                    successMsg.append("<br/>" + successNum + "、宿舍 " + fzuStuDormitory.getBuildingNo()+"栋"+fzuStuDormitory.getRoomNo()+"床位"+ fzuStuDormitory.getBedNo() + " 更新成功");
                 } else {
                     failureNum++;
-                    failureMsg.append("<br/>" + failureNum + "、宿舍 " + fzuStuDormitory.getBuildingNo()+"栋"+fzuStuDormitory.getRoomNo() + " 已存在");
+                    failureMsg.append("<br/>" + failureNum + "、宿舍 " + fzuStuDormitory.getBuildingNo()+"栋"+fzuStuDormitory.getRoomNo()+"床位"+ fzuStuDormitory.getBedNo() + " 已存在");
                 }
             } catch (Exception e) {
                 failureNum++;
@@ -152,7 +176,7 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
             }
         }
         if (failureNum > 0) {
-            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            failureMsg.insert(0, "很抱歉，以下数据导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
             throw new ServiceException(failureMsg.toString());
         } else {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");

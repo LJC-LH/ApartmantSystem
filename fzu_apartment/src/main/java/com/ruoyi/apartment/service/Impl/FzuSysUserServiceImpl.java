@@ -185,7 +185,14 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
                 FzuDormitoryInfo info = new FzuDormitoryInfo();
                 info.setUserId(userId);
                 info.setDormId(dormId);
-                FzuDormitoryInfo f = fzuSysUserMapper.selectOne(info);
+                FzuDormitoryInfo f = null;
+                if (userId != null && dormId != null) {
+                    f = fzuSysUserMapper.selectOne(info);
+                }else {
+                    failureNum++;
+                    failureMsg.append("<br/>" + successNum + "、宿舍 " + fzuDormitoryInfo.getBuildingNo()+"栋"+fzuDormitoryInfo.getRoomNo()+"不存在，或"+fzuDormitoryInfo.getUserName() + "数据不存在");
+                    continue;
+                }
                 if (StringUtils.isNull(f)) {
                     BeanValidators.validateWithException(validator, fzuDormitoryInfo);
                     this.insertFzuStudentDormitory(fzuDormitoryInfo);
@@ -209,7 +216,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
             }
         }
         if (failureNum > 0) {
-            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
+            failureMsg.insert(0, "很抱歉，以下数据导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
             throw new ServiceException(failureMsg.toString());
         } else {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");

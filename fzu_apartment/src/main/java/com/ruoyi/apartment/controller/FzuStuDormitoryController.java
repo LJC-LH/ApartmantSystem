@@ -101,7 +101,12 @@ public class FzuStuDormitoryController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody FzuStuDormitory fzuStuDormitory)
     {
-        return toAjax(fzuStuDormitoryService.insertFzuStuDormitory(fzuStuDormitory));
+        int i = fzuStuDormitoryService.insertFzuStuDormitory(fzuStuDormitory);
+        if(i>0){
+            return toAjax(i);
+        }else {
+            return error("数据插入错误，请重新检查输入信息！");
+        }
     }
 
     /**
@@ -112,7 +117,12 @@ public class FzuStuDormitoryController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody FzuStuDormitory fzuStuDormitory)
     {
-        return toAjax(fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory));
+        int i = fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory);
+        if(i>0){
+            return toAjax(i);
+        }else {
+            return warn("数据修改失败，请重新检查输入信息！");
+        }
     }
 
     /**

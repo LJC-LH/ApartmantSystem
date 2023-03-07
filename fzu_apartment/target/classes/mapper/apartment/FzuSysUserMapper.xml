@@ -201,7 +201,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <update id="changDeleteDormStatus" parameterType="Long">
-        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL)
+        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT distinct dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL)
     </update>
 
     <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
