@@ -225,14 +225,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="changAddDormStatus" parameterType="Long">
-        UPDATE fzu_dormitory
-        SET dorm_status = 2
-        WHERE dorm_id IN (
-            SELECT a.dorm_id FROM
-                (
-                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
-                )AS a
-        );
         UPDATE fzu_dormitory SET bed_status = 2 WHERE dorm_id = #{dormId}
     </update>
 
@@ -285,4 +277,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dormId != null "> and dorm_id = #{dormId}</if>
         </where>
     </select>
+
+    <select id="getDormIdList" parameterType="Long" resultType="Long">
+        SELECT d.dorm_id FROM fzu_dormitory d
+                         WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+    </select>
+
+    <update id="changeDormStatusONE" parameterType="Long">
+        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
+    </update>
 </mapper>
