@@ -162,10 +162,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where user_name = #{userName}
     </select>
 
-    <select id="selectDormIdByRoomInfo" parameterType="String" resultType="Long">
+    <select id="selectDormIdByRoomInfo" parameterType="FzuDormitoryInfo" resultType="Long">
         SELECT  dorm_id
         FROM	fzu_dormitory
-        where building_no = #{buildingNo} and room_no = #{roomNo}
+        where building_no = #{buildingNo} and room_no = #{roomNo} and bed_no = #{bedNo}
     </select>
 
     <update id="updateFzuDormitory" parameterType="FzuDormitoryInfo">
@@ -197,11 +197,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="changAddDormStatus" parameterType="Long">
-        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
+        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId};
+        UPDATE fzu_dormitory SET bed_status = 2 WHERE dorm_id = #{dormId}
     </update>
 
     <update id="changDeleteDormStatus" parameterType="Long">
-        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT distinct dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL)
+        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT distinct dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL);
+        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId}
     </update>
 
     <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
