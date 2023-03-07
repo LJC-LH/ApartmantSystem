@@ -199,13 +199,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="changAddDormStatus" parameterType="Long">
-        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = 2
+        WHERE dorm_id IN (
+            SELECT a.dorm_id FROM
+                (
+                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+                )AS a
+        );
         UPDATE fzu_dormitory SET bed_status = 2 WHERE dorm_id = #{dormId}
     </update>
 
     <update id="changDeleteDormStatus" parameterType="Long">
-        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT distinct dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL);
-        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId}
+        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = IF
+            ((SELECT COUNT(c.bed_status) FROM
+                    (
+                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
+                    ) AS c
+             ) = 4,1,2)
+
+        WHERE dorm_id IN (
+            SELECT a.dorm_id FROM
+                (
+                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+                )AS a
+        )
     </update>
 
     <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
