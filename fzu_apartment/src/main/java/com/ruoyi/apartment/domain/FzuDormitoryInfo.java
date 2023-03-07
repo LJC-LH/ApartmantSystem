@@ -43,6 +43,16 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "是否欠费", type = Type.EXPORT, readConverterExp = "0=未欠费,1=已欠费")
     private String feesStatus;
 
+    private Double fees;
+
+    public Double getFees() {
+        return fees;
+    }
+
+    public void setFees(Double fees) {
+        this.fees = fees;
+    }
+
     @Excel(name = "宿舍使用情况", type = Type.EXPORT, readConverterExp = "1=闲置,2=使用中,3=特殊宿舍")
     private String dormStatus;
 
