@@ -84,4 +84,8 @@ public interface FzuSysUserMapper
     public void changDeleteDormStatus(Long dormId);
 
     public Long getDormIdByUserId(Long userId);
+
+    public List<Long> getDormIdList(Long dormId);
+
+    public int changeDormStatusONE(Long dormId);
 }

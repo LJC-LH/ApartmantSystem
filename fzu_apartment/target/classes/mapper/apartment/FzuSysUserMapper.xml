@@ -18,7 +18,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="stuPhone"    column="phonenumber"    />
         <result property="feesCategory"    column="fees_category"    />
         <result property="feesStatus"    column="fees_status"    />
+        <result property="fees"    column="fees"    />
         <result property="dormStatus"    column="dorm_status"    />
+        <result property="bedStatus"    column="bed_status"    />
         <result property="contactPerson"    column="contact_person"    />
         <result property="contactPhone"    column="contact_Phone"    />
         <result property="schoolRoll"    column="school_roll"    />
@@ -38,8 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <sql id="selectFzuSysUserVo">
         SELECT u.user_id, d.dorm_id ,d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
-               s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category, d.fees_status,
-               d.dorm_status, d.contact_person, d.contact_phone, u.school_roll,
+               s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category, d.fees_status, d.fees,
+               d.dorm_status, d.bed_status, d.contact_person, d.contact_phone, u.school_roll,
                u.school_area,u.fdy_number AS userFdy,
                (SELECT u.nick_name FROM sys_user u WHERE userFdy = u.user_name) AS fdy_name,
                (SELECT u.user_id FROM sys_user u WHERE userFdy = u.user_name) AS fdy_id,
@@ -125,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="feesCategory != null">d.fees_category = #{feesCategory},</if>
             <if test="feesStatus != null">d.fees_status = #{feesStatus},</if>
             <if test="dormStatus != null">d.dorm_status = #{dormStatus},</if>
+            <if test="bedStatus != null">d.bed_status = #{bedStatus},</if>
             <if test="contactPerson != null">d.contact_person = #{contactPerson},</if>
             <if test="contactPhone != null">d.contact_Phone = #{contactPhone},</if>
             <if test="schoolRoll != null">u.school_roll = #{schoolRoll},</if>
@@ -162,10 +165,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where user_name = #{userName}
     </select>
 
-    <select id="selectDormIdByRoomInfo" parameterType="String" resultType="Long">
+    <select id="selectDormIdByRoomInfo" parameterType="FzuDormitoryInfo" resultType="Long">
         SELECT  dorm_id
         FROM	fzu_dormitory
-        where building_no = #{buildingNo} and room_no = #{roomNo}
+        where building_no = #{buildingNo} and room_no = #{roomNo} and bed_no = #{bedNo}
     </select>
 
     <update id="updateFzuDormitory" parameterType="FzuDormitoryInfo">
@@ -174,11 +177,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="buildingNo != null">building_no = #{buildingNo},</if>
             <if test="roomNo != null">room_no = #{roomNo},</if>
             <if test="feesCategory != null">fees_category = #{feesCategory},</if>
+            <if test="feesStatus != null">fees_status = #{feesStatus},</if>
             <if test="dormStatus != null">dorm_status = #{dormStatus},</if>
             <if test="contactPerson != null">contact_person = #{contactPerson},</if>
             <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
         </trim>
-        where dorm_id = #{dormId}
+        where dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = #{dormStatus}
+        WHERE dorm_id IN (
+        SELECT a.dorm_id FROM
+        (
+        SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = #{buildingNo} AND d.room_no = #{roomNo}
+        )AS a
+        );
+        UPDATE fzu_dormitory
+        SET fees_category = #{feesCategory}
+        WHERE dorm_id IN (
+        SELECT a.dorm_id FROM
+        (
+        SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = #{buildingNo} AND d.room_no = #{roomNo}
+        )AS a
+        );
+        UPDATE fzu_dormitory
+        SET fees = #{fees}
+        WHERE dorm_id IN (
+        SELECT a.dorm_id FROM
+        (
+        SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = #{buildingNo} AND d.room_no = #{roomNo}
+        )AS a
+        );
+        UPDATE fzu_dormitory
+        SET fees_status = #{feesStatus}
+        WHERE dorm_id IN (
+        SELECT a.dorm_id FROM
+        (
+        SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = #{buildingNo} AND d.room_no = #{roomNo}
+        )AS a
+        );
     </update>
 
     <update id="updateFzuStudentDormitory" parameterType="FzuStudentDormitory">
@@ -197,11 +233,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="changAddDormStatus" parameterType="Long">
-        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
+        UPDATE fzu_dormitory SET bed_status = 2 WHERE dorm_id = #{dormId}
     </update>
 
     <update id="changDeleteDormStatus" parameterType="Long">
-        UPDATE fzu_dormitory SET dorm_status = 1 WHERE dorm_id = #{dormId} AND ((SELECT distinct dorm_id FROM fzu_student_dormitory WHERE dorm_id =  #{dormId}) IS NULL)
+        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = IF
+            ((SELECT COUNT(c.bed_status) FROM
+                    (
+                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
+                    ) AS c
+             ) = 4,1,2)
+
+        WHERE dorm_id IN (
+            SELECT a.dorm_id FROM
+                (
+                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+                )AS a
+        )
     </update>
 
     <insert id="insertFzuDormitory" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="dormId">
@@ -235,4 +285,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dormId != null "> and dorm_id = #{dormId}</if>
         </where>
     </select>
+
+    <select id="getDormIdList" parameterType="Long" resultType="Long">
+        SELECT d.dorm_id FROM fzu_dormitory d
+                         WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+    </select>
+
+    <update id="changeDormStatusONE" parameterType="Long">
+        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
+    </update>
 </mapper>

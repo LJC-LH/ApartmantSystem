@@ -184,6 +184,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where dorm_id = #{dormId};
         UPDATE fzu_dormitory
+        SET dorm_status = #{dormStatus}
+        WHERE dorm_id IN (
+        SELECT a.dorm_id FROM
+        (
+        SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = #{buildingNo} AND d.room_no = #{roomNo}
+        )AS a
+        );
+        UPDATE fzu_dormitory
         SET fees_category = #{feesCategory}
         WHERE dorm_id IN (
         SELECT a.dorm_id FROM

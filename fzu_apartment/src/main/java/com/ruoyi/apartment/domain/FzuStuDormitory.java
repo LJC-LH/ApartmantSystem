@@ -51,7 +51,7 @@ public class FzuStuDormitory extends BaseEntity
 //    @Excel(name = "单位负责人联系方式")
     private String contactPhone;
 
-    @Excel(name = "床位号", prompt = "仅填写：A、B、C、D字母即可",combo = "A,B,C,D")
+    @Excel(name = "床位号", readConverterExp = "A=A,B=B,C=C,D=D", prompt = "仅填写：A、B、C、D字母即可",combo = "A,B,C,D")
     private String bedNo;
     @Excel(name = "床位使用状态", readConverterExp = "1=闲置,2=使用中", prompt = "填写：闲置、使用中",combo = "闲置,使用中")
     private String bedStatus;

@@ -76,7 +76,7 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
         temp.setRoomNo(fzuStuDormitory.getRoomNo());
         temp.setBedNo(fzuStuDormitory.getBedNo());
         int i = 0;
-        if(fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp)==null){
+        if(fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp).size()<1){
             i = fzuStuDormitoryMapper.insertFzuStuDormitory(fzuStuDormitory);
         }
         return i;
@@ -98,9 +98,9 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
         int i = 0;
         int j = 0;
         int k = 0;
-        System.out.println("========="+fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp));
-        if(fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp)==null){
+        if(fzuStuDormitoryMapper.selectFzuStuDormitoryList(temp).size()<1 && fzuStuDormitory.getBedNo()!=null){
             FzuStuDormitory bedInfo = new FzuStuDormitory();
+            bedInfo.setDormId(fzuStuDormitory.getDormId());
             bedInfo.setBedNo(fzuStuDormitory.getBedNo());
             j = fzuStuDormitoryMapper.updateBed(bedInfo);
         }
