@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.stuOrdersMapper">
+    
+    <resultMap type="stuOrders" id="stuOrdersResult">
+        <result property="id"    column="id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="buildingNo"    column="building_no"    />
+        <result property="roomNo"    column="room_no"    />
+        <result property="damageDescription"    column="damage_description"    />
+        <result property="createAt"    column="create_at"    />
+        <result property="status"    column="status"    />
+        <result property="propertyManagementOpinion"    column="property_management_opinion"    />
+        <result property="expectedCompletionTime"    column="expected_completion_time"    />
+        <result property="actualCompletionTime"    column="actual_completion_time"    />
+        <result property="repairmanId"    column="repairman_id"    />
+        <result property="campusManagementOpinion"    column="campus_management_opinion"    />
+        <result property="isSecondaryDispatch"    column="is_secondary_dispatch"    />
+        <result property="secondaryRepairmanId"    column="secondary_repairman_id"    />
+    </resultMap>
+
+    <sql id="selectstuOrdersVo">
+        select id, student_id, building_no, room_no, damage_description, create_at, status, property_management_opinion, expected_completion_time, actual_completion_time, repairman_id, campus_management_opinion, is_secondary_dispatch, secondary_repairman_id from fzu_repair_orders
+    </sql>
+
+    <select id="selectstuOrdersList" parameterType="stuOrders" resultMap="stuOrdersResult">
+        <include refid="selectstuOrdersVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
+            <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
+            <if test="damageDescription != null  and damageDescription != ''"> and damage_description = #{damageDescription}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="propertyManagementOpinion != null  and propertyManagementOpinion != ''"> and property_management_opinion = #{propertyManagementOpinion}</if>
+            <if test="expectedCompletionTime != null "> and expected_completion_time = #{expectedCompletionTime}</if>
+            <if test="actualCompletionTime != null "> and actual_completion_time = #{actualCompletionTime}</if>
+            <if test="repairmanId != null "> and repairman_id = #{repairmanId}</if>
+            <if test="campusManagementOpinion != null  and campusManagementOpinion != ''"> and campus_management_opinion = #{campusManagementOpinion}</if>
+            <if test="isSecondaryDispatch != null  and isSecondaryDispatch != ''"> and is_secondary_dispatch = #{isSecondaryDispatch}</if>
+            <if test="secondaryRepairmanId != null "> and secondary_repairman_id = #{secondaryRepairmanId}</if>
+        </where>
+    </select>
+    
+    <select id="selectstuOrdersById" parameterType="Long" resultMap="stuOrdersResult">
+        <include refid="selectstuOrdersVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertstuOrders" parameterType="stuOrders">
+        insert into fzu_repair_orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="studentId != null">student_id,</if>
+            <if test="buildingNo != null">building_no,</if>
+            <if test="roomNo != null">room_no,</if>
+            <if test="damageDescription != null">damage_description,</if>
+            <if test="createAt != null">create_at,</if>
+            <if test="status != null">status,</if>
+            <if test="propertyManagementOpinion != null">property_management_opinion,</if>
+            <if test="expectedCompletionTime != null">expected_completion_time,</if>
+            <if test="actualCompletionTime != null">actual_completion_time,</if>
+            <if test="repairmanId != null">repairman_id,</if>
+            <if test="campusManagementOpinion != null">campus_management_opinion,</if>
+            <if test="isSecondaryDispatch != null">is_secondary_dispatch,</if>
+            <if test="secondaryRepairmanId != null">secondary_repairman_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="buildingNo != null">#{buildingNo},</if>
+            <if test="roomNo != null">#{roomNo},</if>
+            <if test="damageDescription != null">#{damageDescription},</if>
+            <if test="createAt != null">#{createAt},</if>
+            <if test="status != null">#{status},</if>
+            <if test="propertyManagementOpinion != null">#{propertyManagementOpinion},</if>
+            <if test="expectedCompletionTime != null">#{expectedCompletionTime},</if>
+            <if test="actualCompletionTime != null">#{actualCompletionTime},</if>
+            <if test="repairmanId != null">#{repairmanId},</if>
+            <if test="campusManagementOpinion != null">#{campusManagementOpinion},</if>
+            <if test="isSecondaryDispatch != null">#{isSecondaryDispatch},</if>
+            <if test="secondaryRepairmanId != null">#{secondaryRepairmanId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatestuOrders" parameterType="stuOrders">
+        update fzu_repair_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="buildingNo != null">building_no = #{buildingNo},</if>
+            <if test="roomNo != null">room_no = #{roomNo},</if>
+            <if test="damageDescription != null">damage_description = #{damageDescription},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="propertyManagementOpinion != null">property_management_opinion = #{propertyManagementOpinion},</if>
+            <if test="expectedCompletionTime != null">expected_completion_time = #{expectedCompletionTime},</if>
+            <if test="actualCompletionTime != null">actual_completion_time = #{actualCompletionTime},</if>
+            <if test="repairmanId != null">repairman_id = #{repairmanId},</if>
+            <if test="campusManagementOpinion != null">campus_management_opinion = #{campusManagementOpinion},</if>
+            <if test="isSecondaryDispatch != null">is_secondary_dispatch = #{isSecondaryDispatch},</if>
+            <if test="secondaryRepairmanId != null">secondary_repairman_id = #{secondaryRepairmanId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletestuOrdersById" parameterType="Long">
+        delete from fzu_repair_orders where id = #{id}
+    </delete>
+
+    <delete id="deletestuOrdersByIds" parameterType="String">
+        delete from fzu_repair_orders where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
