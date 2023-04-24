@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.FzuChangeDormitoryMapper">
+
+    <resultMap type="FzuChangeDormitory" id="FzuChangeDormitoryResult">
+        <result property="changeId"    column="change_id"    />
+        <result property="oneStudentId"    column="one_student_id"    />
+        <result property="oneUserName"    column="one_user_name"    />
+        <result property="oneNickName"    column="one_nick_name"    />
+        <result property="oneDormId"    column="one_dorm_id"    />
+        <result property="oneBuildingNo"    column="one_building_no"    />
+        <result property="oneRoomNo"    column="one_room_no"    />
+        <result property="oneBedNo"    column="one_bed_no"    />
+        <result property="twoStudentId"    column="two_student_id"    />
+        <result property="twoUserName"    column="two_user_name"    />
+        <result property="twoNickName"    column="two_nick_name"    />
+        <result property="twoDormId"    column="two_dorm_id"    />
+        <result property="twoBuildingNo"    column="two_building_no"    />
+        <result property="twoRoomNo"    column="two_room_no"    />
+        <result property="twoBedNo"    column="two_bed_no"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectFzuChangeDormitoryVo">
+        select change_id, one_student_id, one_user_name, one_nick_name, one_dorm_id, one_building_no, one_room_no, one_bed_no, two_student_id, two_user_name, two_nick_name, two_dorm_id, two_building_no, two_room_no, two_bed_no, create_time from fzu_change_dormitory
+    </sql>
+
+    <select id="selectFzuChangeDormitoryList" parameterType="FzuChangeDormitory" resultMap="FzuChangeDormitoryResult">
+        <include refid="selectFzuChangeDormitoryVo"/>
+        <where>
+            <if test="oneStudentId != null "> and one_student_id = #{oneStudentId}</if>
+            <if test="oneUserName != null  and oneUserName != ''"> and one_user_name like concat('%', #{oneUserName}, '%')</if>
+            <if test="oneNickName != null  and oneNickName != ''"> and one_nick_name like concat('%', #{oneNickName}, '%')</if>
+            <if test="oneDormId != null "> and one_dorm_id = #{oneDormId}</if>
+            <if test="oneBuildingNo != null  and oneBuildingNo != ''"> and one_building_no = #{oneBuildingNo}</if>
+            <if test="oneRoomNo != null  and oneRoomNo != ''"> and one_room_no = #{oneRoomNo}</if>
+            <if test="oneBedNo != null  and oneBedNo != ''"> and one_bed_no = #{oneBedNo}</if>
+            <if test="twoStudentId != null "> and two_student_id = #{twoStudentId}</if>
+            <if test="twoUserName != null  and twoUserName != ''"> and two_user_name like concat('%', #{twoUserName}, '%')</if>
+            <if test="twoNickName != null  and twoNickName != ''"> and two_nick_name like concat('%', #{twoNickName}, '%')</if>
+            <if test="twoDormId != null "> and two_dorm_id = #{twoDormId}</if>
+            <if test="twoBuildingNo != null  and twoBuildingNo != ''"> and two_building_no = #{twoBuildingNo}</if>
+            <if test="twoRoomNo != null  and twoRoomNo != ''"> and two_room_no = #{twoRoomNo}</if>
+            <if test="twoBedNo != null  and twoBedNo != ''"> and two_bed_no = #{twoBedNo}</if>
+        </where>
+    </select>
+
+    <select id="selectFzuChangeDormitoryByChangeId" parameterType="Long" resultMap="FzuChangeDormitoryResult">
+        <include refid="selectFzuChangeDormitoryVo"/>
+        where change_id = #{changeId}
+    </select>
+
+    <insert id="insertFzuChangeDormitory" parameterType="FzuChangeDormitory">
+        insert into fzu_change_dormitory
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="changeId != null">change_id,</if>
+            <if test="oneStudentId != null">one_student_id,</if>
+            <if test="oneUserName != null">one_user_name,</if>
+            <if test="oneNickName != null">one_nick_name,</if>
+            <if test="oneDormId != null">one_dorm_id,</if>
+            <if test="oneBuildingNo != null">one_building_no,</if>
+            <if test="oneRoomNo != null">one_room_no,</if>
+            <if test="oneBedNo != null">one_bed_no,</if>
+            <if test="twoStudentId != null">two_student_id,</if>
+            <if test="twoUserName != null">two_user_name,</if>
+            <if test="twoNickName != null">two_nick_name,</if>
+            <if test="twoDormId != null">two_dorm_id,</if>
+            <if test="twoBuildingNo != null">two_building_no,</if>
+            <if test="twoRoomNo != null">two_room_no,</if>
+            <if test="twoBedNo != null">two_bed_no,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="changeId != null">#{changeId},</if>
+            <if test="oneStudentId != null">#{oneStudentId},</if>
+            <if test="oneUserName != null">#{oneUserName},</if>
+            <if test="oneNickName != null">#{oneNickName},</if>
+            <if test="oneDormId != null">#{oneDormId},</if>
+            <if test="oneBuildingNo != null">#{oneBuildingNo},</if>
+            <if test="oneRoomNo != null">#{oneRoomNo},</if>
+            <if test="oneBedNo != null">#{oneBedNo},</if>
+            <if test="twoStudentId != null">#{twoStudentId},</if>
+            <if test="twoUserName != null">#{twoUserName},</if>
+            <if test="twoNickName != null">#{twoNickName},</if>
+            <if test="twoDormId != null">#{twoDormId},</if>
+            <if test="twoBuildingNo != null">#{twoBuildingNo},</if>
+            <if test="twoRoomNo != null">#{twoRoomNo},</if>
+            <if test="twoBedNo != null">#{twoBedNo},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFzuChangeDormitory" parameterType="FzuChangeDormitory">
+        update fzu_change_dormitory
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="oneStudentId != null">one_student_id = #{oneStudentId},</if>
+            <if test="oneUserName != null">one_user_name = #{oneUserName},</if>
+            <if test="oneNickName != null">one_nick_name = #{oneNickName},</if>
+            <if test="oneDormId != null">one_dorm_id = #{oneDormId},</if>
+            <if test="oneBuildingNo != null">one_building_no = #{oneBuildingNo},</if>
+            <if test="oneRoomNo != null">one_room_no = #{oneRoomNo},</if>
+            <if test="oneBedNo != null">one_bed_no = #{oneBedNo},</if>
+            <if test="twoStudentId != null">two_student_id = #{twoStudentId},</if>
+            <if test="twoUserName != null">two_user_name = #{twoUserName},</if>
+            <if test="twoNickName != null">two_nick_name = #{twoNickName},</if>
+            <if test="twoDormId != null">two_dorm_id = #{twoDormId},</if>
+            <if test="twoBuildingNo != null">two_building_no = #{twoBuildingNo},</if>
+            <if test="twoRoomNo != null">two_room_no = #{twoRoomNo},</if>
+            <if test="twoBedNo != null">two_bed_no = #{twoBedNo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where change_id = #{changeId}
+    </update>
+
+    <delete id="deleteFzuChangeDormitoryByChangeId" parameterType="Long">
+        delete from fzu_change_dormitory where change_id = #{changeId}
+    </delete>
+
+    <delete id="deleteFzuChangeDormitoryByChangeIds" parameterType="String">
+        delete from fzu_change_dormitory where change_id in
+        <foreach item="changeId" collection="array" open="(" separator="," close=")">
+            #{changeId}
+        </foreach>
+    </delete>
+</mapper>

@@ -58,7 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="niceName != null  and niceName != ''"> and nick_name like concat('%', #{niceName}, '%')</if>
             <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
             <if test="bedNo != null  and bedNo != ''"> and bed_No = #{bedNo}</if>
-            <if test="deptId != null  and deptId != ''"> and dept_Id = #{deptId}</if>
+            <if test="deptId != null  and deptId != ''"> and u.dept_id = #{deptId}</if>
             <if test="province != null  and province != ''"> and province = #{province}</if>
             <if test="stuPhone != null  and stuPhone != ''"> and stu_Phone = #{stuPhone}</if>
             <if test="feesCategory != null  and feesCategory != ''"> and fees_category = #{feesCategory}</if>
@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null and userName != ''">user_name,</if>
             <if test="niceName != null and niceName != ''">nick_name,</if>
             <if test="sex != null">sex,</if>
-            <if test="deptId != null">dept_Id,</if>
+            <if test="deptId != null">dept_id,</if>
             <if test="province != null">province,</if>
             <if test="stuPhone != null">phonenumber,</if>
             <if test="schoolRoll != null">school_roll,</if>

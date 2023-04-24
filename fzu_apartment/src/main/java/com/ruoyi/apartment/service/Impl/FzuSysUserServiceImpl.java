@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.FzuSysUserMapper;
 import com.ruoyi.apartment.domain.FzuSysUser;
 import com.ruoyi.apartment.service.IFzuSysUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Validator;
 
@@ -27,6 +28,7 @@ import javax.validation.Validator;
  * @date 2023-02-05
  */
 @Service
+@Transactional
 public class FzuSysUserServiceImpl implements IFzuSysUserService 
 {
     private static final Logger log = LoggerFactory.getLogger(FzuStuDormitoryServiceImpl.class);
