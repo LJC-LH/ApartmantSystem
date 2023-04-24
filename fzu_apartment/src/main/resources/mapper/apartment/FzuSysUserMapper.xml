@@ -217,7 +217,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         );
     </update>
 
-    <update id="updateFzuStudentDormitory" parameterType="FzuStudentDormitory">
+    <update id="updateFzuStudentDormitory" parameterType="FzuDormitoryInfo">
         update fzu_student_dormitory
         <trim prefix="SET" suffixOverrides=",">
             <if test="dormId != null">dorm_id = #{dormId},</if>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.ManagerOpinionMapper">
+    
+    <resultMap type="ManagerOpinion" id="ManagerOpinionResult">
+        <result property="repairId"    column="repair_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="buildingNo"    column="building_no"    />
+        <result property="roomNo"    column="room_no"    />
+        <result property="damageDescription"    column="damage_description"    />
+        <result property="fixType"    column="fix_type"    />
+        <result property="createAt"    column="create_at"    />
+        <result property="fixStatus"    column="fix_status"    />
+        <result property="firstRepairmanId"    column="first_repairman_id"    />
+        <result property="firstWorkContent"    column="first_work_content"    />
+        <result property="firstCompletionTime"    column="first_completion_time"    />
+        <result property="campusManagementOpinion"    column="campus_management_opinion"    />
+        <result property="isSecondDispatch"    column="is_second_dispatch"    />
+        <result property="evaluateContent"    column="evaluate_content"    />
+        <result property="evaluateRate"    column="evaluate_rate"    />
+        <result property="secondaryRepairmanId"    column="secondary_repairman_id"    />
+        <result property="secondExpectedCompletionTime"    column="second_expected_completion_time"    />
+        <result property="secondActualCompletionTime"    column="second_actual_completion_time"    />
+        <result property="secondWorkContent"    column="second_work_content"    />
+    </resultMap>
+
+    <sql id="selectManagerOpinionVo">
+        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content from fzu_repair_orders
+    </sql>
+
+    <select id="selectManagerOpinionList" parameterType="ManagerOpinion" resultMap="ManagerOpinionResult">
+        <include refid="selectManagerOpinionVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
+            <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
+            <if test="damageDescription != null  and damageDescription != ''"> and damage_description like concat('%', #{damageDescription}, '%')</if>
+            <if test="fixType != null  and fixType != ''"> and fix_type = #{fixType}</if>
+            <if test="createAt != null "> and create_at = #{createAt}</if>
+            <if test="fixStatus != null  and fixStatus != ''"> and fix_status = #{fixStatus}</if>
+            <if test="firstRepairmanId != null "> and first_repairman_id = #{firstRepairmanId}</if>
+            <if test="firstWorkContent != null  and firstWorkContent != ''"> and first_work_content = #{firstWorkContent}</if>
+            <if test="firstCompletionTime != null "> and first_completion_time = #{firstCompletionTime}</if>
+            <if test="campusManagementOpinion != null  and campusManagementOpinion != ''"> and campus_management_opinion = #{campusManagementOpinion}</if>
+            <if test="isSecondDispatch != null  and isSecondDispatch != ''"> and is_second_dispatch = #{isSecondDispatch}</if>
+            <if test="evaluateContent != null  and evaluateContent != ''"> and evaluate_content = #{evaluateContent}</if>
+            <if test="evaluateRate != null "> and evaluate_rate = #{evaluateRate}</if>
+            <if test="secondaryRepairmanId != null "> and secondary_repairman_id = #{secondaryRepairmanId}</if>
+            <if test="secondExpectedCompletionTime != null "> and second_expected_completion_time = #{secondExpectedCompletionTime}</if>
+            <if test="secondActualCompletionTime != null "> and second_actual_completion_time = #{secondActualCompletionTime}</if>
+            <if test="secondWorkContent != null  and secondWorkContent != ''"> and second_work_content = #{secondWorkContent}</if>
+        </where>
+    </select>
+    
+    <select id="selectManagerOpinionByRepairId" parameterType="Long" resultMap="ManagerOpinionResult">
+        <include refid="selectManagerOpinionVo"/>
+        where repair_id = #{repairId}
+    </select>
+        
+    <insert id="insertManagerOpinion" parameterType="ManagerOpinion">
+        insert into fzu_repair_orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">repair_id,</if>
+            <if test="studentId != null">student_id,</if>
+            <if test="buildingNo != null">building_no,</if>
+            <if test="roomNo != null">room_no,</if>
+            <if test="damageDescription != null">damage_description,</if>
+            <if test="fixType != null">fix_type,</if>
+            <if test="createAt != null">create_at,</if>
+            <if test="fixStatus != null">fix_status,</if>
+            <if test="firstRepairmanId != null">first_repairman_id,</if>
+            <if test="firstWorkContent != null">first_work_content,</if>
+            <if test="firstCompletionTime != null">first_completion_time,</if>
+            <if test="campusManagementOpinion != null">campus_management_opinion,</if>
+            <if test="isSecondDispatch != null">is_second_dispatch,</if>
+            <if test="evaluateContent != null">evaluate_content,</if>
+            <if test="evaluateRate != null">evaluate_rate,</if>
+            <if test="secondaryRepairmanId != null">secondary_repairman_id,</if>
+            <if test="secondExpectedCompletionTime != null">second_expected_completion_time,</if>
+            <if test="secondActualCompletionTime != null">second_actual_completion_time,</if>
+            <if test="secondWorkContent != null">second_work_content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="repairId != null">#{repairId},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="buildingNo != null">#{buildingNo},</if>
+            <if test="roomNo != null">#{roomNo},</if>
+            <if test="damageDescription != null">#{damageDescription},</if>
+            <if test="fixType != null">#{fixType},</if>
+            <if test="createAt != null">#{createAt},</if>
+            <if test="fixStatus != null">#{fixStatus},</if>
+            <if test="firstRepairmanId != null">#{firstRepairmanId},</if>
+            <if test="firstWorkContent != null">#{firstWorkContent},</if>
+            <if test="firstCompletionTime != null">#{firstCompletionTime},</if>
+            <if test="campusManagementOpinion != null">#{campusManagementOpinion},</if>
+            <if test="isSecondDispatch != null">#{isSecondDispatch},</if>
+            <if test="evaluateContent != null">#{evaluateContent},</if>
+            <if test="evaluateRate != null">#{evaluateRate},</if>
+            <if test="secondaryRepairmanId != null">#{secondaryRepairmanId},</if>
+            <if test="secondExpectedCompletionTime != null">#{secondExpectedCompletionTime},</if>
+            <if test="secondActualCompletionTime != null">#{secondActualCompletionTime},</if>
+            <if test="secondWorkContent != null">#{secondWorkContent},</if>
+         </trim>
+    </insert>
+
+    <update id="updateManagerOpinion" parameterType="ManagerOpinion">
+        update fzu_repair_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="buildingNo != null">building_no = #{buildingNo},</if>
+            <if test="roomNo != null">room_no = #{roomNo},</if>
+            <if test="damageDescription != null">damage_description = #{damageDescription},</if>
+            <if test="fixType != null">fix_type = #{fixType},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+            <if test="fixStatus != null">fix_status = #{fixStatus},</if>
+            <if test="firstRepairmanId != null">first_repairman_id = #{firstRepairmanId},</if>
+            <if test="firstWorkContent != null">first_work_content = #{firstWorkContent},</if>
+            <if test="firstCompletionTime != null">first_completion_time = #{firstCompletionTime},</if>
+            <if test="campusManagementOpinion != null">campus_management_opinion = #{campusManagementOpinion},</if>
+            <if test="isSecondDispatch != null">is_second_dispatch = #{isSecondDispatch},</if>
+            <if test="evaluateContent != null">evaluate_content = #{evaluateContent},</if>
+            <if test="evaluateRate != null">evaluate_rate = #{evaluateRate},</if>
+            <if test="secondaryRepairmanId != null">secondary_repairman_id = #{secondaryRepairmanId},</if>
+            <if test="secondExpectedCompletionTime != null">second_expected_completion_time = #{secondExpectedCompletionTime},</if>
+            <if test="secondActualCompletionTime != null">second_actual_completion_time = #{secondActualCompletionTime},</if>
+            <if test="secondWorkContent != null">second_work_content = #{secondWorkContent},</if>
+        </trim>
+        where repair_id = #{repairId}
+    </update>
+
+    <delete id="deleteManagerOpinionByRepairId" parameterType="Long">
+        delete from fzu_repair_orders where repair_id = #{repairId}
+    </delete>
+
+    <delete id="deleteManagerOpinionByRepairIds" parameterType="String">
+        delete from fzu_repair_orders where repair_id in 
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+</mapper>

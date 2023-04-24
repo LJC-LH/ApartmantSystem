@@ -11,8 +11,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.system.service.IFzuDormitoryService;
-import com.ruoyi.system.service.IFzuStudentDormitoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +31,6 @@ public class FzuSysUserController extends BaseController
 {
     @Autowired
     private IFzuSysUserService fzuSysUserService;
-    private IFzuDormitoryService fzuDormitoryService;
-    private IFzuStudentDormitoryService fzuStudentDormitoryService;
 
     /**
      * 查询用户信息列表
