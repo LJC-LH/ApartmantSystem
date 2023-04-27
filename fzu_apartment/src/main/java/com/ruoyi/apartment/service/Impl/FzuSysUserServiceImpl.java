@@ -170,6 +170,12 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     public Long getDormIdByUserId(Long userId) {
         return fzuSysUserMapper.getDormIdByUserId(userId);
     }
+
+    public FzuDormitoryInfo selectOne(FzuDormitoryInfo fzuDormitoryInfo){
+        return fzuSysUserMapper.selectOne(fzuDormitoryInfo);
+    }
+
+
     /**
      * 导入学生宿舍数据
      *

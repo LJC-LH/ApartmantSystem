@@ -1,5 +1,8 @@
 package com.ruoyi.quartz.task;
 
+import com.ruoyi.common.core.redis.RedisCache;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.utils.StringUtils;
 
@@ -11,6 +14,9 @@ import com.ruoyi.common.utils.StringUtils;
 @Component("ryTask")
 public class RyTask
 {
+    @Autowired
+    RedisCache redisCache;
+
     public void ryMultipleParams(String s, Boolean b, Long l, Double d, Integer i)
     {
         System.out.println(StringUtils.format("执行多参方法： 字符串类型{}，布尔类型{}，长整型{}，浮点型{}，整形{}", s, b, l, d, i));
@@ -24,5 +30,11 @@ public class RyTask
     public void ryNoParams()
     {
         System.out.println("执行无参方法");
+    }
+
+    @Scheduled(cron = "0/58 * * * * ?")
+    public void requestRedis(){
+        Object cacheObject = redisCache.getCacheObject("sys_config:sys.user.initPassword");
+        System.out.println("定时任务：requestRedis启动");
     }
 }

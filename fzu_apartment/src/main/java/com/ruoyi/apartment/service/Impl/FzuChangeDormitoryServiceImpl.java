@@ -108,8 +108,11 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
                 fzuDormitoryInfo2.setUserId(userId2);
                 fzuDormitoryInfo2.setDormId(dormId1);
                 fzuDormitoryInfo2.setBedNo(oneBedNo);
+                //宿舍信息交换
                 int i1 = fzuSysUserMapper.updateFzuStudentDormitory(fzuDormitoryInfo1);
                 int i2 = fzuSysUserMapper.updateFzuStudentDormitory(fzuDormitoryInfo2);
+                fzuChangeDormitory.setTwoStudentId(userId2);
+                fzuChangeDormitory.setTwoDormId(dormId2);
             }else{        //无学号调整到空床位
                 System.out.println("无学号调整到空床位:"+fzuChangeDormitory);
                 FzuDormitoryInfo fzuDormitoryInfo2 = new FzuDormitoryInfo();
@@ -122,14 +125,25 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
                     return 0;
                 }
                 String twoBedNo = fzuChangeDormitory.getTwoBedNo();
+                FzuDormitoryInfo temp4 = new FzuDormitoryInfo();
+                temp4.setDormId(dormId2);
+                temp4.setBedNo(twoBedNo);
+                if(fzuChangeDormitoryMapper.selectDormByDormIdAndBedId(temp4) != null){  //床位不是为空，不能分配，退出
+                    return 0;
+                }
                 fzuDormitoryInfo1.setUserId(userId1);
                 fzuDormitoryInfo1.setDormId(dormId2);
                 fzuDormitoryInfo1.setBedNo(twoBedNo);
+                //插入空床位，更新新旧宿舍和床位状态
                 int i1 = fzuSysUserMapper.updateFzuStudentDormitory(fzuDormitoryInfo1);
                 fzuSysUserService.changDeleteDormStatus(dormId1);
                 fzuSysUserService.changAddDormStatus(dormId2);
+                fzuChangeDormitory.setTwoDormId(dormId2);
             }
+            //把userId,dormId，createTime补充到实体保存到数据库中
             fzuChangeDormitory.setCreateTime(DateUtils.getNowDate());
+            fzuChangeDormitory.setOneStudentId(userId1);
+            fzuChangeDormitory.setOneDormId(dormId1);
             i = fzuChangeDormitoryMapper.insertFzuChangeDormitory(fzuChangeDormitory);
         } catch (Exception e) {
             return 0;

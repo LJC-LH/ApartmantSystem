@@ -124,4 +124,14 @@
             #{changeId}
         </foreach>
     </delete>
+
+    <select id="selectDormByDormIdAndBedId" parameterType="fzuDormitoryInfo" resultType="fzuDormitoryInfo">
+        select student_id as user_id,dorm_id,bed_no
+        from fzu_student_dormitory
+        <where>
+            <if test="userId != null "> and student_id = #{userId}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+            <if test="bedNo != null "> and bed_id = #{bedNo}</if>
+        </where>
+    </select>
 </mapper>

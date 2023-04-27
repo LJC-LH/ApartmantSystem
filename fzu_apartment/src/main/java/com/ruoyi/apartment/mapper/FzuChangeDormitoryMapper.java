@@ -2,6 +2,7 @@ package com.ruoyi.apartment.mapper;
 
 import java.util.List;
 import com.ruoyi.apartment.domain.FzuChangeDormitory;
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 
 /**
  * 宿舍调整Mapper接口
@@ -58,4 +59,6 @@ public interface FzuChangeDormitoryMapper
      * @return 结果
      */
     public int deleteFzuChangeDormitoryByChangeIds(Long[] changeIds);
+
+    FzuDormitoryInfo selectDormByDormIdAndBedId(FzuDormitoryInfo fzuDormitoryInfo);
 }

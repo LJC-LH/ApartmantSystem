@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="buildingNo"    column="building_no"    />
         <result property="roomNo"    column="room_no"    />
         <result property="userName"    column="user_name"    />
-        <result property="niceName"    column="nick_name"    />
+        <result property="nickName"    column="nick_name"    />
         <result property="sex"    column="sex"    />
         <result property="bedNo"    column="bed_no"    />
         <result property="deptId"    column="dept_id"    />
@@ -29,6 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="fdyName"    column="fdy_name"    />
         <result property="fdyId"    column="fdy_id"    />
         <result property="fdyPhone"    column="fdy_phone"    />
+        <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <resultMap type="FzuUserRoot" id="FzuUserRootResult">
@@ -42,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT u.user_id, d.dorm_id ,d.building_no, d.room_no, u.user_name, u.nick_name, u.sex,
                s.bed_no, u.dept_id, u.province, u.phonenumber, d.fees_category, d.fees_status, d.fees,
                d.dorm_status, d.bed_status, d.contact_person, d.contact_phone, u.school_roll,
-               u.school_area,u.fdy_number AS userFdy,
+               u.school_area,u.fdy_number AS userFdy,s.create_time,
                (SELECT u.nick_name FROM sys_user u WHERE userFdy = u.user_name) AS fdy_name,
                (SELECT u.user_id FROM sys_user u WHERE userFdy = u.user_name) AS fdy_id,
                (SELECT u.phonenumber FROM sys_user u WHERE userFdy = u.user_name) AS fdy_phone
@@ -55,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="buildingNo != null "> and building_no = #{buildingNo}</if>
             <if test="roomNo != null "> and room_no = #{roomNo}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
-            <if test="niceName != null  and niceName != ''"> and nick_name like concat('%', #{niceName}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
             <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
             <if test="bedNo != null  and bedNo != ''"> and bed_No = #{bedNo}</if>
             <if test="deptId != null  and deptId != ''"> and u.dept_id = #{deptId}</if>
@@ -89,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name,</if>
-            <if test="niceName != null and niceName != ''">nick_name,</if>
+            <if test="nickName != null and nickName != ''">nick_name,</if>
             <if test="sex != null">sex,</if>
             <if test="deptId != null">dept_id,</if>
             <if test="province != null">province,</if>
@@ -99,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">#{userName},</if>
-            <if test="niceName != null and niceName != ''">#{niceName},</if>
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
             <if test="sex != null">#{sex},</if>
             <if test="deptId != null">#{deptId},</if>
             <if test="province != null">#{province},</if>
@@ -118,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="buildingNo != null">d.building_no = #{buildingNo},</if>
             <if test="roomNo != null">d.room_no = #{roomNo},</if>
             <if test="userName != null">u.user_name = #{userName},</if>
-            <if test="niceName != null">u.nick_name = #{niceName},</if>
+            <if test="nickName != null">u.nick_name = #{nickName},</if>
             <if test="sex != null">u.sex = #{sex},</if>
             <if test="bedNo != null">s.bed_no = #{bedNo},</if>
             <if test="deptId != null">u.dept_id = #{deptId},</if>
@@ -222,12 +223,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="dormId != null">dorm_id = #{dormId},</if>
             <if test="bedNo != null">bed_no = #{bedNo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
         </trim>
         where student_id = #{userId}
     </update>
 
     <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
-        INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no) SELECT #{userId}, #{dormId}, #{bedNo}
+        INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no, create_time) SELECT #{userId}, #{dormId}, #{bedNo}, #{createTime}
             WHERE NOT EXISTS (SELECT * FROM fzu_student_dormitory
             WHERE ((dorm_id = #{dormId} AND bed_no = #{bedNo}) OR (student_id = #{userId})))
     </insert>

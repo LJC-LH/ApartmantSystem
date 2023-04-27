@@ -97,4 +97,6 @@ public interface IFzuSysUserService
     public void changDeleteDormStatus(Long dormId);
 
     public Long getDormIdByUserId(Long userId);
+
+    public FzuDormitoryInfo selectOne(FzuDormitoryInfo fzuDormitoryInfo);
 }

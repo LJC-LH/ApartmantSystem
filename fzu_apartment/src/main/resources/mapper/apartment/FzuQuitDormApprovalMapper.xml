@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.FzuQuitDormApprovalMapper">
+
+    <resultMap type="FzuQuitDormApproval" id="FzuQuitDormApprovalResult">
+        <result property="quitId"    column="quit_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="fdyName"    column="fdy_name"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="schoolArea"    column="school_area"    />
+        <result property="dormId"    column="dorm_id"    />
+        <result property="buildingNo"    column="building_no"    />
+        <result property="roomNo"    column="room_no"    />
+        <result property="bedNo"    column="bed_no"    />
+        <result property="quitReason"    column="quit_reason"    />
+        <result property="inTime"    column="in_time"    />
+        <result property="outTime"    column="out_time"    />
+        <result property="fdyId"    column="fdy_id"    />
+        <result property="fdyOpinion"    column="fdy_opinion"    />
+        <result property="xgcId"    column="xgc_id"    />
+        <result property="xgcOpinion"    column="xgc_opinion"    />
+        <result property="manageId"    column="manage_id"    />
+        <result property="manageOpinion"    column="manage_opinion"    />
+        <result property="quitStatus"    column="quit_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="manageName"    column="manage_name"    />
+        <result property="xgcName"    column="xgc_name"    />
+    </resultMap>
+
+    <sql id="selectFzuQuitDormApprovalVo">
+        select quit_id, student_id, q.user_name, q.nick_name, fdy_name, q.dept_id, q.school_area, dorm_id, building_no, room_no, bed_no, quit_reason, in_time, out_time, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, quit_status, q.create_time, q.remark ,u1.nick_name as xgc_name,u2.nick_name as manage_name from fzu_quit_dorm_approval q,sys_user u1,sys_user u2
+    </sql>
+
+    <select id="selectFzuQuitDormApprovalList" parameterType="FzuQuitDormApproval" resultMap="FzuQuitDormApprovalResult">
+        <include refid="selectFzuQuitDormApprovalVo"/>
+        <where>
+            q.xgc_id = u1.user_id and q.manage_id = u2.user_id
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="userName != null  and userName != ''"> and q.user_name = #{userName}</if>
+            <if test="nickName != null  and nickName != ''"> and q.nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="fdyName != null  and fdyName != ''"> and fdy_name like concat('%', #{fdyName}, '%')</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
+            <if test="schoolArea != null  and schoolArea != ''"> and q.school_area = #{schoolArea}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+            <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
+            <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
+            <if test="bedNo != null  and bedNo != ''"> and bed_no = #{bedNo}</if>
+            <if test="quitReason != null  and quitReason != ''"> and quit_reason = #{quitReason}</if>
+            <if test="inTime != null "> and in_time = #{inTime}</if>
+            <if test="outTime != null "> and out_time = #{outTime}</if>
+            <if test="fdyId != null "> and fdy_id = #{fdyId}</if>
+            <if test="fdyOpinion != null  and fdyOpinion != ''"> and fdy_opinion = #{fdyOpinion}</if>
+            <if test="xgcId != null "> and xgc_id = #{xgcId}</if>
+            <if test="xgcOpinion != null  and xgcOpinion != ''"> and xgc_opinion = #{xgcOpinion}</if>
+            <if test="manageId != null "> and manage_id = #{manageId}</if>
+            <if test="manageOpinion != null  and manageOpinion != ''"> and manage_opinion = #{manageOpinion}</if>
+            <if test="quitStatus != null  and quitStatus != ''"> and quit_status = #{quitStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectFzuQuitDormApprovalByQuitId" parameterType="Long" resultMap="FzuQuitDormApprovalResult">
+        <include refid="selectFzuQuitDormApprovalVo"/>
+        where q.xgc_id = u1.user_id and q.manage_id = u2.user_id and quit_id = #{quitId}
+    </select>
+
+    <insert id="insertFzuQuitDormApproval" parameterType="FzuQuitDormApproval" useGeneratedKeys="true" keyProperty="quitId">
+        insert into fzu_quit_dorm_approval
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="fdyName != null">fdy_name,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="schoolArea != null">school_area,</if>
+            <if test="dormId != null">dorm_id,</if>
+            <if test="buildingNo != null">building_no,</if>
+            <if test="roomNo != null">room_no,</if>
+            <if test="bedNo != null">bed_no,</if>
+            <if test="quitReason != null">quit_reason,</if>
+            <if test="inTime != null">in_time,</if>
+            <if test="outTime != null">out_time,</if>
+            <if test="fdyId != null">fdy_id,</if>
+            <if test="fdyOpinion != null">fdy_opinion,</if>
+            <if test="xgcId != null">xgc_id,</if>
+            <if test="xgcOpinion != null">xgc_opinion,</if>
+            <if test="manageId != null">manage_id,</if>
+            <if test="manageOpinion != null">manage_opinion,</if>
+            <if test="quitStatus != null">quit_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="fdyName != null">#{fdyName},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="schoolArea != null">#{schoolArea},</if>
+            <if test="dormId != null">#{dormId},</if>
+            <if test="buildingNo != null">#{buildingNo},</if>
+            <if test="roomNo != null">#{roomNo},</if>
+            <if test="bedNo != null">#{bedNo},</if>
+            <if test="quitReason != null">#{quitReason},</if>
+            <if test="inTime != null">#{inTime},</if>
+            <if test="outTime != null">#{outTime},</if>
+            <if test="fdyId != null">#{fdyId},</if>
+            <if test="fdyOpinion != null">#{fdyOpinion},</if>
+            <if test="xgcId != null">#{xgcId},</if>
+            <if test="xgcOpinion != null">#{xgcOpinion},</if>
+            <if test="manageId != null">#{manageId},</if>
+            <if test="manageOpinion != null">#{manageOpinion},</if>
+            <if test="quitStatus != null">#{quitStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFzuQuitDormApproval" parameterType="FzuQuitDormApproval">
+        update fzu_quit_dorm_approval
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="fdyName != null">fdy_name = #{fdyName},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="schoolArea != null">school_area = #{schoolArea},</if>
+            <if test="dormId != null">dorm_id = #{dormId},</if>
+            <if test="buildingNo != null">building_no = #{buildingNo},</if>
+            <if test="roomNo != null">room_no = #{roomNo},</if>
+            <if test="bedNo != null">bed_no = #{bedNo},</if>
+            <if test="quitReason != null">quit_reason = #{quitReason},</if>
+            <if test="inTime != null">in_time = #{inTime},</if>
+            <if test="outTime != null">out_time = #{outTime},</if>
+            <if test="fdyId != null">fdy_id = #{fdyId},</if>
+            <if test="fdyOpinion != null">fdy_opinion = #{fdyOpinion},</if>
+            <if test="xgcId != null">xgc_id = #{xgcId},</if>
+            <if test="xgcOpinion != null">xgc_opinion = #{xgcOpinion},</if>
+            <if test="manageId != null">manage_id = #{manageId},</if>
+            <if test="manageOpinion != null">manage_opinion = #{manageOpinion},</if>
+            <if test="quitStatus != null">quit_status = #{quitStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where quit_id = #{quitId}
+    </update>
+
+    <delete id="deleteFzuQuitDormApprovalByQuitId" parameterType="Long">
+        delete from fzu_quit_dorm_approval where quit_id = #{quitId}
+    </delete>
+
+    <delete id="deleteFzuQuitDormApprovalByQuitIds" parameterType="String">
+        delete from fzu_quit_dorm_approval where quit_id in
+        <foreach item="quitId" collection="array" open="(" separator="," close=")">
+            #{quitId}
+        </foreach>
+    </delete>
+</mapper>
