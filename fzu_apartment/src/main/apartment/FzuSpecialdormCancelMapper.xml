@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.apartment.mapper.FzuSpecialdormCancelMapper">
+
+    <resultMap type="FzuSpecialdormCancel" id="FzuSpecialdormCancelResult">
+        <result property="cancelId"    column="cancel_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="fdyId"    column="fdy_id"    />
+        <result property="fdyOpinion"    column="fdy_opinion"    />
+        <result property="xgcId"    column="xgc_id"    />
+        <result property="xgcOpinion"    column="xgc_opinion"    />
+        <result property="manageId"    column="manage_id"    />
+        <result property="manageOpinion"    column="manage_opinion"    />
+        <result property="cancelStatus"    column="cancel_status"    />
+        <result property="dormId"    column="dorm_id"    />
+        <result property="remark"    column="remark"    />
+        <result property="manageName"    column="manage_name"    />
+        <result property="fdyName"    column="fdy_name"    />
+        <result property="xgcName"    column="xgc_name"    />
+    </resultMap>
+
+    <sql id="selectFzuSpecialdormCancelVo">
+        select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, cancel_status, dorm_id, fzu_specialdorm_cancel.remark, u1.nick_name as fdy_name,u2.nick_name as xgc_name,u3.nick_name as manage_name from fzu_specialdorm_cancel,sys_user u1,sys_user u2,sys_user u3
+    </sql>
+
+    <select id="selectFzuSpecialdormCancelList" parameterType="FzuSpecialdormCancel" resultMap="FzuSpecialdormCancelResult">
+        <include refid="selectFzuSpecialdormCancelVo"/>
+        <where>
+            fzu_specialdorm_cancel.fdy_id = u1.user_id and fzu_specialdorm_cancel.xgc_id = u2.user_id and fzu_specialdorm_cancel.manage_id = u3.user_id
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+            <if test="fdyId != null "> and fdy_id = #{fdyId}</if>
+            <if test="fdyOpinion != null  and fdyOpinion != ''"> and fdy_opinion = #{fdyOpinion}</if>
+            <if test="xgcId != null "> and xgc_id = #{xgcId}</if>
+            <if test="xgcOpinion != null  and xgcOpinion != ''"> and xgc_opinion = #{xgcOpinion}</if>
+            <if test="manageId != null "> and manage_id = #{manageId}</if>
+            <if test="manageOpinion != null  and manageOpinion != ''"> and manage_opinion = #{manageOpinion}</if>
+            <if test="cancelStatus != null  and cancelStatus != ''"> and cancel_status = #{cancelStatus}</if>
+            <if test="dormId != null "> and dorm_id = #{dormId}</if>
+        </where>
+    </select>
+
+    <select id="selectFzuSpecialdormCancelByCancelId" parameterType="Long" resultMap="FzuSpecialdormCancelResult">
+        <include refid="selectFzuSpecialdormCancelVo"/>
+        where fzu_specialdorm_cancel.fdy_id = u1.user_id and fzu_specialdorm_cancel.xgc_id = u2.user_id and fzu_specialdorm_cancel.manage_id = u3.user_id and cancel_id = #{cancelId}
+    </select>
+
+    <insert id="insertFzuSpecialdormCancel" parameterType="FzuSpecialdormCancel" useGeneratedKeys="true" keyProperty="cancelId">
+        insert into fzu_specialdorm_cancel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="studentName != null">student_name,</if>
+            <if test="fdyId != null">fdy_id,</if>
+            <if test="fdyOpinion != null">fdy_opinion,</if>
+            <if test="xgcId != null">xgc_id,</if>
+            <if test="xgcOpinion != null">xgc_opinion,</if>
+            <if test="manageId != null">manage_id,</if>
+            <if test="manageOpinion != null">manage_opinion,</if>
+            <if test="cancelStatus != null">cancel_status,</if>
+            <if test="dormId != null">dorm_id,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="studentName != null">#{studentName},</if>
+            <if test="fdyId != null">#{fdyId},</if>
+            <if test="fdyOpinion != null">#{fdyOpinion},</if>
+            <if test="xgcId != null">#{xgcId},</if>
+            <if test="xgcOpinion != null">#{xgcOpinion},</if>
+            <if test="manageId != null">#{manageId},</if>
+            <if test="manageOpinion != null">#{manageOpinion},</if>
+            <if test="cancelStatus != null">#{cancelStatus},</if>
+            <if test="dormId != null">#{dormId},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFzuSpecialdormCancel" parameterType="FzuSpecialdormCancel">
+        update fzu_specialdorm_cancel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="fdyId != null">fdy_id = #{fdyId},</if>
+            <if test="fdyOpinion != null">fdy_opinion = #{fdyOpinion},</if>
+            <if test="xgcId != null">xgc_id = #{xgcId},</if>
+            <if test="xgcOpinion != null">xgc_opinion = #{xgcOpinion},</if>
+            <if test="manageId != null">manage_id = #{manageId},</if>
+            <if test="manageOpinion != null">manage_opinion = #{manageOpinion},</if>
+            <if test="cancelStatus != null">cancel_status = #{cancelStatus},</if>
+            <if test="dormId != null">dorm_id = #{dormId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where cancel_id = #{cancelId}
+    </update>
+
+    <delete id="deleteFzuSpecialdormCancelByCancelId" parameterType="Long">
+        delete from fzu_specialdorm_cancel where cancel_id = #{cancelId}
+    </delete>
+
+    <delete id="deleteFzuSpecialdormCancelByCancelIds" parameterType="String">
+        delete from fzu_specialdorm_cancel where cancel_id in
+        <foreach item="cancelId" collection="array" open="(" separator="," close=")">
+            #{cancelId}
+        </foreach>
+    </delete>
+
+    <select id="selectUserListByRoleId" parameterType="SysUser" resultType="SysUser">
+        select ur.user_id as userId,u.nick_name as nickName from sys_user_role ur,sys_user u
+        <where>
+            ur.user_id = u.user_id
+            <if test="roleId != null  and roleId != ''"> and ur.role_id = #{roleId}</if>
+            <if test="deptId != null  and deptId != ''"> and u.dept_id = #{deptId}</if>
+        </where>
+    </select>
+
+    <select id="selectDormIdByStudentId" parameterType="FzuDormitoryInfo" resultType="FzuDormitoryInfo">
+--         select student_id as studentId from fzu_student_dormitory
+        select fsd.dorm_id as dormId ,fd.dorm_status as dormStatus, fd.building_no as buildingNo, fd.room_no as roomNo from fzu_student_dormitory fsd, fzu_dormitory fd
+        <where>
+            fsd.dorm_id = fd.dorm_id
+            and fsd.student_id = #{userId} and fd.dorm_status = #{dormStatus}
+        </where>
+    </select>
+
+    <delete id="deleteFzuSpecialStuDormitoryByDormId" parameterType="Long">
+        delete from fzu_student_dormitory where dorm_id = #{dormId}
+    </delete>
+</mapper>
