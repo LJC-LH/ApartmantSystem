@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.RepairResultMapper">
     
-    <resultMap type="RepairResult" id="RepairResultResult">
+    <resultMap type="FzuCompleteOrders" id="FzuCompleteOrdersResult">
         <result property="repairId"    column="repair_id"    />
         <result property="studentId"    column="student_id"    />
         <result property="buildingNo"    column="building_no"    />
@@ -24,15 +24,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="secondExpectedCompletionTime"    column="second_expected_completion_time"    />
         <result property="secondActualCompletionTime"    column="second_actual_completion_time"    />
         <result property="secondWorkContent"    column="second_work_content"    />
+        <association property="studentName"
+                     javaType="String"
+                     select="getStudentName"
+                     column="repair_id"/>
+        <association property="repairmanName"
+                     javaType="String"
+                     select="getRepairmanName"
+                     column="repair_id"/>
+        <association property="secondaryRepairmanName"
+                     javaType="String"
+                     select="getSecondaryRepairmanName"
+                     column="repair_id"/>
+        <collection property="stuImagesURL" ofType="String"
+                    javaType="List"
+                    jdbcType="VARCHAR"
+                    column="repair_id"
+                    select="getStuImagesURL"/>
+        <collection property="onceImagesURL" ofType="String"
+                    javaType="List"
+                    jdbcType="VARCHAR"
+                    column="repair_id"
+                    select="getOnceImagesURL"/>
+        <collection property="secondImagesURL" ofType="String"
+                    javaType="List"
+                    jdbcType="VARCHAR"
+                    column="repair_id"
+                    select="getSecondImagesURL"/>
     </resultMap>
+
+    <select id="getStuImagesURL" resultType="String">
+        select picture_url from fzu_picture_save where order_id = #{repairId} and picture_type = 1
+    </select>
+
+    <select id="getOnceImagesURL" resultType="String">
+        select picture_url from fzu_picture_save where order_id = #{repairId} and picture_type = 2
+    </select>
+
+    <select id="getSecondImagesURL" resultType="String">
+        select picture_url from fzu_picture_save where order_id = #{repairId} and picture_type = 3
+    </select>
+
+    <select id="getStudentName" resultType="String">
+        select nick_name  from sys_user where user_id = (select student_id from fzu_repair_orders where repair_id = #{repairId})
+    </select>
+
+    <select id="getRepairmanName" resultType="String">
+        select nick_name  from sys_user where user_id = (select first_repairman_id from fzu_repair_orders where repair_id = #{repairId})
+    </select>
+
+    <select id="getSecondaryRepairmanName" resultType="String">
+        select nick_name  from sys_user where user_id = (select secondary_repairman_id from fzu_repair_orders where repair_id = #{repairId})
+    </select>
+
 
     <sql id="selectRepairResultVo">
         select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content from fzu_repair_orders
     </sql>
 
-    <select id="selectRepairResultList" parameterType="RepairResult" resultMap="RepairResultResult">
+    <select id="selectRepairResultList" parameterType="RepairResult" resultMap="FzuCompleteOrdersResult">
         <include refid="selectRepairResultVo"/>
-        <where>  
+        <where>
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
@@ -54,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectRepairResultByRepairId" parameterType="Long" resultMap="RepairResultResult">
+    <select id="selectRepairResultByRepairId" parameterType="Long" resultMap="FzuCompleteOrdersResult">
         <include refid="selectRepairResultVo"/>
         where repair_id = #{repairId}
     </select>
@@ -140,4 +192,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{repairId}
         </foreach>
     </delete>
+
+    <update id="changeFirstOrder" parameterType="FzuCompleteOrders">
+        update fzu_repair_orders set first_work_content = #{damageDescription} , fix_status = 4, first_completion_time = #{firstCompletionTime}
+                                 where repair_id = #{repairId}
+    </update>
+
+    <update id="changeSecondOrder" parameterType="FzuCompleteOrders">
+        update fzu_repair_orders set second_work_content = #{damageDescription} , fix_status = 4, second_actual_completion_time = #{secondActualCompletionTime}
+                                 where repair_id = #{repairId}
+    </update>
+
+    <update id="changeUnsolvableOrder" parameterType="FzuCompleteOrders">
+        update fzu_repair_orders set first_work_content = #{damageDescription}, fix_status = 2, first_completion_time = #{firstCompletionTime}
+                                 where repair_id = #{repairId}
+    </update>
+
+
 </mapper>
