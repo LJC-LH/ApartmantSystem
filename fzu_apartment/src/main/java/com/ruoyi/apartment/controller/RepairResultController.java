@@ -1,7 +1,19 @@
 package com.ruoyi.apartment.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.apartment.domain.FzuCompleteOrders;
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.service.FzuFilesService;
+import com.ruoyi.apartment.service.IFzuSysUserService;
+import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +46,12 @@ public class RepairResultController extends BaseController
     @Autowired
     private IRepairResultService repairResultService;
 
+    @Autowired
+    private FzuFilesService fzuFilesService;
+
+    @Autowired
+    private IFzuSysUserService fzuSysUserService;
+
     /**
      * 查询维修结果提交列表
      */
@@ -42,22 +60,22 @@ public class RepairResultController extends BaseController
     public TableDataInfo list(RepairResult repairResult)
     {
         startPage();
-        List<RepairResult> list = repairResultService.selectRepairResultList(repairResult);
+        List<FzuCompleteOrders> list = repairResultService.selectRepairResultList(repairResult);
         return getDataTable(list);
     }
 
     /**
      * 导出维修结果提交列表
      */
-    @PreAuthorize("@ss.hasPermi('apartment:repairResult:export')")
-    @Log(title = "维修结果提交", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, RepairResult repairResult)
-    {
-        List<RepairResult> list = repairResultService.selectRepairResultList(repairResult);
-        ExcelUtil<RepairResult> util = new ExcelUtil<RepairResult>(RepairResult.class);
-        util.exportExcel(response, list, "维修结果提交数据");
-    }
+//    @PreAuthorize("@ss.hasPermi('apartment:repairResult:export')")
+//    @Log(title = "维修结果提交", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, RepairResult repairResult)
+//    {
+//        List<RepairResult> list = repairResultService.selectRepairResultList(repairResult);
+//        ExcelUtil<RepairResult> util = new ExcelUtil<RepairResult>(RepairResult.class);
+//        util.exportExcel(response, list, "维修结果提交数据");
+//    }
 
     /**
      * 获取维修结果提交详细信息
@@ -70,25 +88,77 @@ public class RepairResultController extends BaseController
     }
 
     /**
-     * 新增维修结果提交
+     * 新增到图片保存数据库
      */
     @PreAuthorize("@ss.hasPermi('apartment:repairResult:add')")
     @Log(title = "维修结果提交", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody RepairResult repairResult)
     {
-        return toAjax(repairResultService.insertRepairResult(repairResult));
+        return toAjax(1);
     }
 
     /**
-     * 修改维修结果提交
+     * 修改订单信息
      */
     @PreAuthorize("@ss.hasPermi('apartment:repairResult:edit')")
     @Log(title = "维修结果提交", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody RepairResult repairResult)
+    @PutMapping("/solvable")
+    public AjaxResult edit(@RequestBody FzuCompleteOrders fzuCompleteOrders)
     {
-        return toAjax(repairResultService.updateRepairResult(repairResult));
+        /*
+        * 需要判断的是订单的状态，维修情况说明的位置
+        * 如果无法维修，则将订单状态改为3
+        * 如果可以维修，分别对应第一次完成和第二次完成
+        * TODO：时间戳还没设定
+        * */
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedTimeStr = now.format(formatter);
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (Objects.equals(fzuCompleteOrders.getIsSecondDispatch(), "0")) {
+            fzuCompleteOrders.setFixStatus("4");
+            fzuCompleteOrders.setFirstCompletionTime(date);
+            fzuCompleteOrders.setFirstRepairmanId(SecurityUtils.getUserId());
+            repairResultService.changeFirstOrder(fzuCompleteOrders);
+            fzuFilesService.setFirstRepairmanImage(fzuCompleteOrders);
+        } else if (Objects.equals(fzuCompleteOrders.getIsSecondDispatch(), "1")) {
+            fzuCompleteOrders.setFixStatus("4");
+            fzuCompleteOrders.setSecondActualCompletionTime(date);
+            fzuCompleteOrders.setSecondaryRepairmanId(SecurityUtils.getUserId());
+            repairResultService.changeSecondOrder(fzuCompleteOrders);
+            fzuFilesService.setSecondRepairmanImage(fzuCompleteOrders);
+        }
+        return toAjax(1);
+    }
+
+    /*
+    * 处理不了的订单
+    * */
+    @PreAuthorize("@ss.hasPermi('apartment:repairResult:edit')")
+    @Log(title = "维修结果提交", businessType = BusinessType.UPDATE)
+    @PutMapping("/unsolvable")
+    public AjaxResult unsolvable(@RequestBody FzuCompleteOrders fzuCompleteOrders)
+    {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedTimeStr = now.format(formatter);
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        fzuCompleteOrders.setSecondActualCompletionTime(date);
+        System.out.println("-------------------------------检查这里-------------------------------:" + "我被调用了");
+        repairResultService.changeUnsolvableOrder(fzuCompleteOrders);
+        fzuFilesService.setFirstRepairmanImage(fzuCompleteOrders);
+        return toAjax(1);
     }
 
     /**
@@ -101,4 +171,5 @@ public class RepairResultController extends BaseController
     {
         return toAjax(repairResultService.deleteRepairResultByRepairIds(repairIds));
     }
+
 }

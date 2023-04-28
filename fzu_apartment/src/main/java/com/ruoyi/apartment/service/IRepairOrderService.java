@@ -1,6 +1,9 @@
 package com.ruoyi.apartment.service;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuCompleteOrders;
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.RepairOrder;
 
 /**
@@ -29,11 +32,10 @@ public interface IRepairOrderService
 
     /**
      * 新增学生报修
-     * 
-     * @param repairOrder 学生报修
+     *
      * @return 结果
      */
-    public int insertRepairOrder(RepairOrder repairOrder);
+    public int insertRepairOrder(FzuCompleteOrders fzuCompleteOrders);
 
     /**
      * 修改学生报修
@@ -58,4 +60,6 @@ public interface IRepairOrderService
      * @return 结果
      */
     public int deleteRepairOrderByRepairId(Long repairId);
+
+    public RepairOrder selectInfo(Long studentId);
 }

@@ -1,7 +1,15 @@
 package com.ruoyi.apartment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.apartment.domain.FzuCompleteOrders;
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.service.FzuFilesService;
+import com.ruoyi.apartment.service.IFzuSysUserService;
+import com.ruoyi.common.utils.SecurityUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +42,10 @@ public class RepairOrderController extends BaseController
     @Autowired
     private IRepairOrderService repairOrderService;
 
+    @Autowired
+    private FzuFilesService fzuFilesService;
+
+
     /**
      * 查询学生报修列表
      */
@@ -42,22 +54,23 @@ public class RepairOrderController extends BaseController
     public TableDataInfo list(RepairOrder repairOrder)
     {
         startPage();
+//        TODO:筛选条件
         List<RepairOrder> list = repairOrderService.selectRepairOrderList(repairOrder);
         return getDataTable(list);
     }
 
-    /**
-     * 导出学生报修列表
-     */
-    @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:export')")
-    @Log(title = "学生报修", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, RepairOrder repairOrder)
-    {
-        List<RepairOrder> list = repairOrderService.selectRepairOrderList(repairOrder);
-        ExcelUtil<RepairOrder> util = new ExcelUtil<RepairOrder>(RepairOrder.class);
-        util.exportExcel(response, list, "学生报修数据");
-    }
+//    /**
+//     * 导出学生报修列表
+//     */
+//    @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:export')")
+//    @Log(title = "学生报修", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, RepairOrder repairOrder)
+//    {
+//        List<RepairOrder> list = repairOrderService.selectRepairOrderList(repairOrder);
+//        ExcelUtil<RepairOrder> util = new ExcelUtil<RepairOrder>(RepairOrder.class);
+//        util.exportExcel(response, list, "学生报修数据");
+//    }
 
     /**
      * 获取学生报修详细信息
@@ -70,26 +83,38 @@ public class RepairOrderController extends BaseController
     }
 
     /**
-     * 新增学生报修
+     * 学生新增订单
+     * CRUD语句
      */
     @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:add')")
     @Log(title = "学生报修", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody RepairOrder repairOrder)
+    public AjaxResult add(@RequestBody FzuCompleteOrders fzuCompleteOrders)
     {
-        return toAjax(repairOrderService.insertRepairOrder(repairOrder));
+        fzuCompleteOrders.setStudentId(SecurityUtils.getUserId());
+        repairOrderService.insertRepairOrder(fzuCompleteOrders);
+        fzuFilesService.setStuImage(fzuCompleteOrders);
+        return toAjax(1);
     }
 
-    /**
-     * 修改学生报修
-     */
-    @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:edit')")
-    @Log(title = "学生报修", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody RepairOrder repairOrder)
+    @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:query')")
+    @PostMapping("/getUser")
+    public AjaxResult getInfo()
     {
-        return toAjax(repairOrderService.updateRepairOrder(repairOrder));
+        System.out.println("-------------------------------检查这里，我被调用了-------------------------------" + SecurityUtils.getUserId());
+        return success(repairOrderService.selectInfo(11331L));
     }
+
+//    /**
+//     * 修改学生报修
+//     */
+//    @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:edit')")
+//    @Log(title = "学生报修", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody RepairOrder repairOrder)
+//    {
+//        return toAjax(repairOrderService.updateRepairOrder(repairOrder));
+//    }
 
     /**
      * 删除学生报修

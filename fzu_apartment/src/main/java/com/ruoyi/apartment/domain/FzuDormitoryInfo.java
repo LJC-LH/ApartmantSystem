@@ -20,7 +20,7 @@ public class FzuDormitoryInfo extends BaseEntity {
     private String userName;
 
     @Excel(name = "学生姓名")
-    private String nickName;
+    private String niceName;
 
     @Excel(name = "性别", type = Type.EXPORT, readConverterExp = "0=男,1=女,2=未知")
     private Character sex;
@@ -160,12 +160,12 @@ public class FzuDormitoryInfo extends BaseEntity {
         this.userName = userName;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNiceName() {
+        return niceName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNiceName(String niceName) {
+        this.niceName = niceName;
     }
 
     public Character getSex() {
@@ -271,7 +271,7 @@ public class FzuDormitoryInfo extends BaseEntity {
                 .append("BuildingNo", getBuildingNo())
                 .append("RoomNo", getRoomNo())
                 .append("UserName", getUserName())
-                .append("NickName", getNickName())
+                .append("NiceName", getNiceName())
                 .append("Sex", getSex())
                 .append("BedNo", getBedNo())
                 .append("DeptId", getDeptId())

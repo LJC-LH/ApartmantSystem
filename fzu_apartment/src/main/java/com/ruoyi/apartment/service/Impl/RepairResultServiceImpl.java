@@ -1,6 +1,8 @@
 package com.ruoyi.apartment.service.Impl;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuCompleteOrders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.RepairResultMapper;
@@ -26,7 +28,7 @@ public class RepairResultServiceImpl implements IRepairResultService
      * @return 维修结果提交
      */
     @Override
-    public RepairResult selectRepairResultByRepairId(Long repairId)
+    public FzuCompleteOrders selectRepairResultByRepairId(Long repairId)
     {
         return repairResultMapper.selectRepairResultByRepairId(repairId);
     }
@@ -38,7 +40,7 @@ public class RepairResultServiceImpl implements IRepairResultService
      * @return 维修结果提交
      */
     @Override
-    public List<RepairResult> selectRepairResultList(RepairResult repairResult)
+    public List<FzuCompleteOrders> selectRepairResultList(RepairResult repairResult)
     {
         return repairResultMapper.selectRepairResultList(repairResult);
     }
@@ -89,5 +91,20 @@ public class RepairResultServiceImpl implements IRepairResultService
     public int deleteRepairResultByRepairId(Long repairId)
     {
         return repairResultMapper.deleteRepairResultByRepairId(repairId);
+    }
+
+    @Override
+    public int changeFirstOrder(FzuCompleteOrders fzuCompleteOrders){
+        return repairResultMapper.changeFirstOrder(fzuCompleteOrders);
+    };
+
+    @Override
+    public int changeSecondOrder(FzuCompleteOrders fzuCompleteOrders) {
+        return repairResultMapper.changeSecondOrder(fzuCompleteOrders);
+    };
+
+    @Override
+    public int changeUnsolvableOrder(FzuCompleteOrders fzuCompleteOrders) {
+        return repairResultMapper.changeUnsolvableOrder(fzuCompleteOrders);
     }
 }

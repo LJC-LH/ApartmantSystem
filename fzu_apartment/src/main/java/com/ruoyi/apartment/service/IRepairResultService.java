@@ -1,6 +1,8 @@
 package com.ruoyi.apartment.service;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuCompleteOrders;
 import com.ruoyi.apartment.domain.RepairResult;
 
 /**
@@ -17,7 +19,7 @@ public interface IRepairResultService
      * @param repairId 维修结果提交主键
      * @return 维修结果提交
      */
-    public RepairResult selectRepairResultByRepairId(Long repairId);
+    public FzuCompleteOrders selectRepairResultByRepairId(Long repairId);
 
     /**
      * 查询维修结果提交列表
@@ -25,7 +27,7 @@ public interface IRepairResultService
      * @param repairResult 维修结果提交
      * @return 维修结果提交集合
      */
-    public List<RepairResult> selectRepairResultList(RepairResult repairResult);
+    public List<FzuCompleteOrders> selectRepairResultList(RepairResult repairResult);
 
     /**
      * 新增维修结果提交
@@ -58,4 +60,14 @@ public interface IRepairResultService
      * @return 结果
      */
     public int deleteRepairResultByRepairId(Long repairId);
+
+    /*
+    * 定义了不同的两种新增和修改语句，总共是三个
+    * */
+
+    public int changeFirstOrder(FzuCompleteOrders fzuCompleteOrders);
+
+    public int changeSecondOrder(FzuCompleteOrders fzuCompleteOrders);
+
+    public int changeUnsolvableOrder(FzuCompleteOrders fzuCompleteOrders);
 }

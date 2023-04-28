@@ -1,6 +1,9 @@
 package com.ruoyi.apartment.service.Impl;
 
 import java.util.List;
+
+import com.ruoyi.apartment.domain.FzuCompleteOrders;
+import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.RepairOrderMapper;
@@ -50,9 +53,9 @@ public class RepairOrderServiceImpl implements IRepairOrderService
      * @return 结果
      */
     @Override
-    public int insertRepairOrder(RepairOrder repairOrder)
+    public int insertRepairOrder(FzuCompleteOrders fzuCompleteOrders)
     {
-        return repairOrderMapper.insertRepairOrder(repairOrder);
+        return repairOrderMapper.insertRepairOrder(fzuCompleteOrders);
     }
 
     /**
@@ -89,5 +92,10 @@ public class RepairOrderServiceImpl implements IRepairOrderService
     public int deleteRepairOrderByRepairId(Long repairId)
     {
         return repairOrderMapper.deleteRepairOrderByRepairId(repairId);
+    }
+
+    @Override
+    public RepairOrder selectInfo(Long studentId){
+        return repairOrderMapper.selectInfo(studentId);
     }
 }
