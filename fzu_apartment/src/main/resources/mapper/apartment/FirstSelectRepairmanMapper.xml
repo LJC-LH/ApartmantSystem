@@ -26,7 +26,6 @@
         <result property="secondWorkContent"    column="second_work_content"    />
         <result property="nickName" column="nick_name" />
         <result property="userName" column="user_name" />
-        <result property="firstRepairmanName" column="first_repairman_name" />
     </resultMap>
 
     <resultMap type="SysUser" id="SysUserResult">
@@ -61,15 +60,15 @@
     </resultMap>
 
     <sql id="selectFirstSelectRepairmanVo">
-        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name, u2.nick_name as first_repairman_name
-        from fzu_repair_orders, sys_user u1,sys_user u2
+        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name
+        from fzu_repair_orders, sys_user u1
     </sql>
 
     <select id="selectFirstSelectRepairmanList" parameterType="FirstSelectRepairman" resultMap="FirstSelectRepairmanResult">
         <include refid="selectFirstSelectRepairmanVo"/>
         <!--添加联表查询-->
         <where>
-            u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id
+            u1.user_id = fzu_repair_orders.student_id
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
@@ -101,7 +100,7 @@
 
     <select id="selectFirstSelectRepairmanByRepairId" parameterType="Long" resultMap="FirstSelectRepairmanResult">
         <include refid="selectFirstSelectRepairmanVo"/>
-        where u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id and repair_id = #{repairId}
+        where u1.user_id = fzu_repair_orders.student_id and repair_id = #{repairId}
     </select>
 
     <insert id="insertFirstSelectRepairman" parameterType="FirstSelectRepairman">

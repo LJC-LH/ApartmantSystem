@@ -27,7 +27,6 @@
         <result property="nickName" column="nick_name" />
         <result property="userName" column="user_name" />
         <result property="firstRepairmanName" column="first_repairman_name" />
-        <result property="secondaryRepairmanName" column="secondary_repairman_name"/>
         <collection property="stuImagesURL" ofType="String"
                     javaType="List"
                     jdbcType="VARCHAR"
@@ -59,15 +58,15 @@
 
 
     <sql id="selectSecondSelectRepairmanVo">
-        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name, u2.nick_name as first_repairman_name, u3.nick_name as secondary_repairman_name
-        from fzu_repair_orders, sys_user u1, sys_user u2, sys_user u3
+        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name, u2.nick_name as first_repairman_name
+        from fzu_repair_orders, sys_user u1, sys_user u2
 
     </sql>
 
     <select id="selectSecondSelectRepairmanList" parameterType="SecondSelectRepairman" resultMap="SecondSelectRepairmanResult">
         <include refid="selectSecondSelectRepairmanVo"/>
         <where>
-            u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id and u3.user_id = fzu_repair_orders.secondary_repairman_id
+            u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
@@ -91,7 +90,7 @@
 
     <select id="selectSecondSelectRepairmanByRepairId" parameterType="Long" resultMap="SecondSelectRepairmanResult">
         <include refid="selectSecondSelectRepairmanVo"/>
-        where u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id and u3.user_id = fzu_repair_orders.secondary_repairman_id and repair_id = #{repairId}
+        where u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id and repair_id = #{repairId}
     </select>
 
     <insert id="insertSecondSelectRepairman" parameterType="SecondSelectRepairman">
