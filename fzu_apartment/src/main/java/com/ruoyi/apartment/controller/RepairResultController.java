@@ -60,6 +60,7 @@ public class RepairResultController extends BaseController
     public TableDataInfo list(RepairResult repairResult)
     {
         startPage();
+        repairResult.setFirstRepairmanId(SecurityUtils.getUserId());
         List<FzuCompleteOrders> list = repairResultService.selectRepairResultList(repairResult);
         return getDataTable(list);
     }
@@ -121,15 +122,13 @@ public class RepairResultController extends BaseController
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        fzuCompleteOrders.setFixStatus("4");
+        fzuCompleteOrders.setFirstCompletionTime(date);
         if (Objects.equals(fzuCompleteOrders.getIsSecondDispatch(), "0")) {
-            fzuCompleteOrders.setFixStatus("4");
-            fzuCompleteOrders.setFirstCompletionTime(date);
             fzuCompleteOrders.setFirstRepairmanId(SecurityUtils.getUserId());
             repairResultService.changeFirstOrder(fzuCompleteOrders);
             fzuFilesService.setFirstRepairmanImage(fzuCompleteOrders);
         } else if (Objects.equals(fzuCompleteOrders.getIsSecondDispatch(), "1")) {
-            fzuCompleteOrders.setFixStatus("4");
-            fzuCompleteOrders.setSecondActualCompletionTime(date);
             fzuCompleteOrders.setSecondaryRepairmanId(SecurityUtils.getUserId());
             repairResultService.changeSecondOrder(fzuCompleteOrders);
             fzuFilesService.setSecondRepairmanImage(fzuCompleteOrders);
@@ -155,7 +154,7 @@ public class RepairResultController extends BaseController
             e.printStackTrace();
         }
         fzuCompleteOrders.setSecondActualCompletionTime(date);
-        System.out.println("-------------------------------检查这里-------------------------------:" + "我被调用了");
+        fzuCompleteOrders.setFixStatus("0");
         repairResultService.changeUnsolvableOrder(fzuCompleteOrders);
         fzuFilesService.setFirstRepairmanImage(fzuCompleteOrders);
         return toAjax(1);

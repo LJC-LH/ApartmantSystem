@@ -1,6 +1,11 @@
 package com.ruoyi.apartment.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,10 +14,10 @@ import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.service.FzuFilesService;
 import com.ruoyi.apartment.service.IFzuSysUserService;
 import com.ruoyi.common.utils.SecurityUtils;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,6 +61,7 @@ public class RepairOrderController extends BaseController
     {
         startPage();
 //        TODO:筛选条件
+        repairOrder.setStudentId(SecurityUtils.getUserId());
         List<RepairOrder> list = repairOrderService.selectRepairOrderList(repairOrder);
         return getDataTable(list);
     }
@@ -85,26 +91,42 @@ public class RepairOrderController extends BaseController
 
     /**
      * 学生新增订单
-     * CRUD语句
      */
     @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:add')")
     @Log(title = "学生报修", businessType = BusinessType.INSERT)
     @PostMapping
-    @Transactional
     public AjaxResult add(@RequestBody FzuCompleteOrders fzuCompleteOrders)
     {
         fzuCompleteOrders.setStudentId(SecurityUtils.getUserId());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedTimeStr = now.format(formatter);
+        Date date = new Date();
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(formattedTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        fzuCompleteOrders.setCreateAt(date);
+        fzuCompleteOrders.setFixStatus("0");
+        fzuCompleteOrders.setIsSecondDispatch("0");
         repairOrderService.insertRepairOrder(fzuCompleteOrders);
         fzuFilesService.setStuImage(fzuCompleteOrders);
-        return toAjax(1);
+        return toAjax(fzuFilesService.setStuImage(fzuCompleteOrders));
     }
 
     @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:query')")
     @PostMapping("/getUser")
     public AjaxResult getInfo()
     {
-        System.out.println("-------------------------------检查这里，我被调用了-------------------------------" + SecurityUtils.getUserId());
-        return success(repairOrderService.selectInfo(SecurityUtils.getUserId()));
+        return success(repairOrderService.selectInfo(11331L));
+    }
+
+    @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:query')")
+    @PostMapping("/updateEvaluate")
+    public AjaxResult updateEvaluate(@RequestBody FzuCompleteOrders fzuCompleteOrders)
+    {
+        return success(repairOrderService.updateEvaluate(fzuCompleteOrders));
     }
 
 //    /**
