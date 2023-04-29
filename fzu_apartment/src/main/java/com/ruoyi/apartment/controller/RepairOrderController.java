@@ -12,6 +12,7 @@ import com.ruoyi.common.utils.SecurityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -89,6 +90,7 @@ public class RepairOrderController extends BaseController
     @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:add')")
     @Log(title = "学生报修", businessType = BusinessType.INSERT)
     @PostMapping
+    @Transactional
     public AjaxResult add(@RequestBody FzuCompleteOrders fzuCompleteOrders)
     {
         fzuCompleteOrders.setStudentId(SecurityUtils.getUserId());
@@ -102,7 +104,7 @@ public class RepairOrderController extends BaseController
     public AjaxResult getInfo()
     {
         System.out.println("-------------------------------检查这里，我被调用了-------------------------------" + SecurityUtils.getUserId());
-        return success(repairOrderService.selectInfo(11331L));
+        return success(repairOrderService.selectInfo(SecurityUtils.getUserId()));
     }
 
 //    /**

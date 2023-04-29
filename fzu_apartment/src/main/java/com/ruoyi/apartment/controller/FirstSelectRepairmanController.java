@@ -2,6 +2,8 @@ package com.ruoyi.apartment.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 一次派单Controller
- * 
+ *
  * @author ljc
  * @date 2023-04-24
  */
@@ -96,9 +98,18 @@ public class FirstSelectRepairmanController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('apartment:firstSelectRepairman:remove')")
     @Log(title = "一次派单", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{repairIds}")
+    @DeleteMapping("/{repairIds}")
     public AjaxResult remove(@PathVariable Long[] repairIds)
     {
         return toAjax(firstSelectRepairmanService.deleteFirstSelectRepairmanByRepairIds(repairIds));
+    }
+
+    /**
+     * 根据角色ID查询用户信息
+     */
+//    @PreAuthorize("@ss.hasPermi('apartment:firstSelectRepairman:selectUserByRoleId')")
+    @GetMapping("/selectUserByRoleId/{roleId}")
+    public List<SysUser> selectUserByRoleId(@PathVariable("roleId") Long roleId) {
+        return firstSelectRepairmanService.selectUserByRoleId(roleId);
     }
 }

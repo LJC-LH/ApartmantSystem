@@ -3,16 +3,19 @@ package com.ruoyi.apartment.controller;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.FzuStuDormitory;
 import com.ruoyi.apartment.domain.FzuUserRoot;
+import com.ruoyi.apartment.service.IFzuStuDormitoryService;
 import com.ruoyi.apartment.service.IFzuSysUserService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +24,7 @@ import java.util.*;
 
 /**
  * 用户信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2023-02-05
  */
@@ -31,6 +34,9 @@ public class FzuSysUserController extends BaseController
 {
     @Autowired
     private IFzuSysUserService fzuSysUserService;
+
+    @Autowired
+    private IFzuStuDormitoryService fzuStuDormitoryService;
 
     /**
      * 查询用户信息列表
@@ -107,12 +113,22 @@ public class FzuSysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('apartment:user:add')")
     @Log(title = "用户信息", businessType = BusinessType.INSERT)
     @PostMapping
+    @Transactional
     public AjaxResult add(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-
-        fzuDormitoryInfo.setUserId(fzuSysUserService.selectUserIdByUserName(fzuDormitoryInfo));
-        fzuDormitoryInfo.setDormId(fzuSysUserService.selectDormIdByRoomInfo(fzuDormitoryInfo));
+        Long userId = fzuSysUserService.selectUserIdByUserName(fzuDormitoryInfo);
+        fzuDormitoryInfo.setUserId(userId);
+        Long dormId = fzuSysUserService.selectDormIdByRoomInfo(fzuDormitoryInfo);
+        fzuDormitoryInfo.setDormId(dormId);
+        FzuStuDormitory temp = fzuStuDormitoryService.selectFzuStuDormitoryByDormId(dormId);
+        if(Integer.parseInt(temp.getDormStatus()) > 2){
+            return error("该宿舍为特殊宿舍无法直接分配");
+        }
+        fzuDormitoryInfo.setCreateTime(DateUtils.getNowDate());  //设置插入时间
         int i = fzuSysUserService.insertFzuStudentDormitory(fzuDormitoryInfo);
+        if (i < 1){
+            return error("该学生已分配或宿舍床位已满，请检查输入信息");
+        }
         fzuSysUserService.changAddDormStatus(fzuDormitoryInfo.getDormId());
         return toAjax(i);
     }
@@ -140,7 +156,7 @@ public class FzuSysUserController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('apartment:user:remove')")
     @Log(title = "用户信息", businessType = BusinessType.DELETE)
-	@PostMapping("/delUser")
+    @PostMapping("/delUser")
     public AjaxResult remove(@RequestBody FzuDormitoryInfo[] fzuDormitoryInfos)
     {
         int code = 0;

@@ -2,6 +2,9 @@ package com.ruoyi.apartment.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.apartment.service.IFirstSelectRepairmanService;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 领导审批Controller
- * 
+ *
  * @author ljc
  * @date 2023-04-24
  */
@@ -33,6 +36,9 @@ public class ManagerOpinionController extends BaseController
 {
     @Autowired
     private IManagerOpinionService managerOpinionService;
+
+    @Autowired
+    private IFirstSelectRepairmanService firstSelectRepairmanService;
 
     /**
      * 查询领导审批列表
@@ -96,9 +102,18 @@ public class ManagerOpinionController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('apartment:managerOpinion:remove')")
     @Log(title = "领导审批", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{repairIds}")
+    @DeleteMapping("/{repairIds}")
     public AjaxResult remove(@PathVariable Long[] repairIds)
     {
         return toAjax(managerOpinionService.deleteManagerOpinionByRepairIds(repairIds));
+    }
+
+    /**
+     * 根据角色ID查询用户信息
+     */
+//    @PreAuthorize("@ss.hasPermi('apartment:firstSelectRepairman:selectUserByRoleId')")
+    @GetMapping("/selectUserByRoleId/{roleId}")
+    public List<SysUser> selectUserByRoleId(@PathVariable("roleId") Long roleId) {
+        return firstSelectRepairmanService.selectUserByRoleId(roleId);
     }
 }

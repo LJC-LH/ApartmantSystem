@@ -9,15 +9,15 @@ import com.ruoyi.apartment.domain.FzuUserRoot;
 
 /**
  * 用户信息Service接口
- * 
+ *
  * @author ruoyi
  * @date 2023-02-05
  */
-public interface IFzuSysUserService 
+public interface IFzuSysUserService
 {
     /**
      * 查询用户信息
-     * 
+     *
 
      * @return 用户信息
      */
@@ -25,7 +25,7 @@ public interface IFzuSysUserService
 
     /**
      * 查询用户信息列表
-     * 
+     *
      * @param fzuSysUser 用户信息
      * @return 用户信息集合
      */
@@ -35,7 +35,7 @@ public interface IFzuSysUserService
     public List<FzuDormitoryInfo> selectFdyUserList(FzuDormitoryInfo fzuSysUser);
     /**
      * 新增用户信息
-     * 
+     *
      * @param fzuSysUser 用户信息
      * @return 结果
      */
@@ -43,7 +43,7 @@ public interface IFzuSysUserService
 
     /**
      * 修改用户信息
-     * 
+     *
 
      * @return 结果
      */
@@ -58,7 +58,7 @@ public interface IFzuSysUserService
 
     /**
      * 删除用户信息信息
-     * 
+     *
      * @param userId 用户信息主键
      * @return 结果
      */
@@ -97,4 +97,6 @@ public interface IFzuSysUserService
     public void changDeleteDormStatus(Long dormId);
 
     public Long getDormIdByUserId(Long userId);
+
+    public FzuDormitoryInfo selectOne(FzuDormitoryInfo fzuDormitoryInfo);
 }

@@ -131,7 +131,7 @@
         <where>
             <if test="userId != null "> and student_id = #{userId}</if>
             <if test="dormId != null "> and dorm_id = #{dormId}</if>
-            <if test="bedNo != null "> and bed_id = #{bedNo}</if>
+            <if test="bedNo != null "> and bed_no = #{bedNo}</if>
         </where>
     </select>
 </mapper>

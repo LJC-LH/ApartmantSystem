@@ -6,10 +6,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import java.util.List;
 
 /**
  * 二次派单对象 fzu_repair_orders
- * 
+ *
  * @author ljc
  * @date 2023-04-24
  */
@@ -96,200 +97,277 @@ public class SecondSelectRepairman extends BaseEntity
     @Excel(name = "第二次维修内容", readConverterExp = "维=修人员填写")
     private String secondWorkContent;
 
-    public void setRepairId(Long repairId) 
+    private String firstRepairmanName;
+    /** 学生姓名 **/
+    private String nickName;
+
+    /** 学号 **/
+    private String userName;
+
+    private String secondaryRepairmanName;
+
+    private List<String> stuImagesURL;
+
+    private List<String> onceImagesURL;
+
+    public List<String> getStuImagesURL() {
+        return stuImagesURL;
+    }
+
+    public void setStuImagesURL(List<String> stuImagesURL) {
+        this.stuImagesURL = stuImagesURL;
+    }
+
+    public List<String> getOnceImagesURL() {
+        return onceImagesURL;
+    }
+
+    public void setOnceImagesURL(List<String> onceImagesURL) {
+        this.onceImagesURL = onceImagesURL;
+    }
+
+    public List<String> getSecondImagesURL() {
+        return secondImagesURL;
+    }
+
+    public void setSecondImagesURL(List<String> secondImagesURL) {
+        this.secondImagesURL = secondImagesURL;
+    }
+
+    private List<String> secondImagesURL;
+
+    public String getFirstRepairmanName() {
+        return firstRepairmanName;
+    }
+
+    public void setFirstRepairmanName(String firstRepairmanName) {
+        this.firstRepairmanName = firstRepairmanName;
+    }
+
+    public String getSecondaryRepairmanName() {
+        return secondaryRepairmanName;
+    }
+
+    public void setSecondaryRepairmanName(String secondaryRepairmanName) {
+        this.secondaryRepairmanName = secondaryRepairmanName;
+    }
+
+    public void setRepairId(Long repairId)
     {
         this.repairId = repairId;
     }
 
-    public Long getRepairId() 
+    public Long getRepairId()
     {
         return repairId;
     }
-    public void setStudentId(Long studentId) 
+    public void setStudentId(Long studentId)
     {
         this.studentId = studentId;
     }
 
-    public Long getStudentId() 
+    public Long getStudentId()
     {
         return studentId;
     }
-    public void setBuildingNo(String buildingNo) 
+    public void setBuildingNo(String buildingNo)
     {
         this.buildingNo = buildingNo;
     }
 
-    public String getBuildingNo() 
+    public String getBuildingNo()
     {
         return buildingNo;
     }
-    public void setRoomNo(String roomNo) 
+    public void setRoomNo(String roomNo)
     {
         this.roomNo = roomNo;
     }
 
-    public String getRoomNo() 
+    public String getRoomNo()
     {
         return roomNo;
     }
-    public void setDamageDescription(String damageDescription) 
+    public void setDamageDescription(String damageDescription)
     {
         this.damageDescription = damageDescription;
     }
 
-    public String getDamageDescription() 
+    public String getDamageDescription()
     {
         return damageDescription;
     }
-    public void setFixType(String fixType) 
+    public void setFixType(String fixType)
     {
         this.fixType = fixType;
     }
 
-    public String getFixType() 
+    public String getFixType()
     {
         return fixType;
     }
-    public void setCreateAt(Date createAt) 
+    public void setCreateAt(Date createAt)
     {
         this.createAt = createAt;
     }
 
-    public Date getCreateAt() 
+    public Date getCreateAt()
     {
         return createAt;
     }
-    public void setFixStatus(String fixStatus) 
+    public void setFixStatus(String fixStatus)
     {
         this.fixStatus = fixStatus;
     }
 
-    public String getFixStatus() 
+    public String getFixStatus()
     {
         return fixStatus;
     }
-    public void setFirstRepairmanId(Long firstRepairmanId) 
+    public void setFirstRepairmanId(Long firstRepairmanId)
     {
         this.firstRepairmanId = firstRepairmanId;
     }
 
-    public Long getFirstRepairmanId() 
+    public Long getFirstRepairmanId()
     {
         return firstRepairmanId;
     }
-    public void setFirstWorkContent(String firstWorkContent) 
+    public void setFirstWorkContent(String firstWorkContent)
     {
         this.firstWorkContent = firstWorkContent;
     }
 
-    public String getFirstWorkContent() 
+    public String getFirstWorkContent()
     {
         return firstWorkContent;
     }
-    public void setFirstCompletionTime(Date firstCompletionTime) 
+    public void setFirstCompletionTime(Date firstCompletionTime)
     {
         this.firstCompletionTime = firstCompletionTime;
     }
 
-    public Date getFirstCompletionTime() 
+    public Date getFirstCompletionTime()
     {
         return firstCompletionTime;
     }
-    public void setCampusManagementOpinion(String campusManagementOpinion) 
+    public void setCampusManagementOpinion(String campusManagementOpinion)
     {
         this.campusManagementOpinion = campusManagementOpinion;
     }
 
-    public String getCampusManagementOpinion() 
+    public String getCampusManagementOpinion()
     {
         return campusManagementOpinion;
     }
-    public void setIsSecondDispatch(String isSecondDispatch) 
+    public void setIsSecondDispatch(String isSecondDispatch)
     {
         this.isSecondDispatch = isSecondDispatch;
     }
 
-    public String getIsSecondDispatch() 
+    public String getIsSecondDispatch()
     {
         return isSecondDispatch;
     }
-    public void setEvaluateContent(String evaluateContent) 
+    public void setEvaluateContent(String evaluateContent)
     {
         this.evaluateContent = evaluateContent;
     }
 
-    public String getEvaluateContent() 
+    public String getEvaluateContent()
     {
         return evaluateContent;
     }
-    public void setEvaluateRate(Long evaluateRate) 
+    public void setEvaluateRate(Long evaluateRate)
     {
         this.evaluateRate = evaluateRate;
     }
 
-    public Long getEvaluateRate() 
+    public Long getEvaluateRate()
     {
         return evaluateRate;
     }
-    public void setSecondaryRepairmanId(Long secondaryRepairmanId) 
+    public void setSecondaryRepairmanId(Long secondaryRepairmanId)
     {
         this.secondaryRepairmanId = secondaryRepairmanId;
     }
 
-    public Long getSecondaryRepairmanId() 
+    public Long getSecondaryRepairmanId()
     {
         return secondaryRepairmanId;
     }
-    public void setSecondExpectedCompletionTime(Date secondExpectedCompletionTime) 
+    public void setSecondExpectedCompletionTime(Date secondExpectedCompletionTime)
     {
         this.secondExpectedCompletionTime = secondExpectedCompletionTime;
     }
 
-    public Date getSecondExpectedCompletionTime() 
+    public Date getSecondExpectedCompletionTime()
     {
         return secondExpectedCompletionTime;
     }
-    public void setSecondActualCompletionTime(Date secondActualCompletionTime) 
+    public void setSecondActualCompletionTime(Date secondActualCompletionTime)
     {
         this.secondActualCompletionTime = secondActualCompletionTime;
     }
 
-    public Date getSecondActualCompletionTime() 
+    public Date getSecondActualCompletionTime()
     {
         return secondActualCompletionTime;
     }
-    public void setSecondWorkContent(String secondWorkContent) 
+    public void setSecondWorkContent(String secondWorkContent)
     {
         this.secondWorkContent = secondWorkContent;
     }
 
-    public String getSecondWorkContent() 
+    public String getSecondWorkContent()
     {
         return secondWorkContent;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("repairId", getRepairId())
-            .append("studentId", getStudentId())
-            .append("buildingNo", getBuildingNo())
-            .append("roomNo", getRoomNo())
-            .append("damageDescription", getDamageDescription())
-            .append("fixType", getFixType())
-            .append("createAt", getCreateAt())
-            .append("fixStatus", getFixStatus())
-            .append("firstRepairmanId", getFirstRepairmanId())
-            .append("firstWorkContent", getFirstWorkContent())
-            .append("firstCompletionTime", getFirstCompletionTime())
-            .append("campusManagementOpinion", getCampusManagementOpinion())
-            .append("isSecondDispatch", getIsSecondDispatch())
-            .append("evaluateContent", getEvaluateContent())
-            .append("evaluateRate", getEvaluateRate())
-            .append("secondaryRepairmanId", getSecondaryRepairmanId())
-            .append("secondExpectedCompletionTime", getSecondExpectedCompletionTime())
-            .append("secondActualCompletionTime", getSecondActualCompletionTime())
-            .append("secondWorkContent", getSecondWorkContent())
-            .toString();
+                .append("repairId", getRepairId())
+                .append("studentId", getStudentId())
+                .append("buildingNo", getBuildingNo())
+                .append("roomNo", getRoomNo())
+                .append("damageDescription", getDamageDescription())
+                .append("fixType", getFixType())
+                .append("createAt", getCreateAt())
+                .append("fixStatus", getFixStatus())
+                .append("firstRepairmanId", getFirstRepairmanId())
+                .append("firstWorkContent", getFirstWorkContent())
+                .append("firstCompletionTime", getFirstCompletionTime())
+                .append("campusManagementOpinion", getCampusManagementOpinion())
+                .append("isSecondDispatch", getIsSecondDispatch())
+                .append("evaluateContent", getEvaluateContent())
+                .append("evaluateRate", getEvaluateRate())
+                .append("secondaryRepairmanId", getSecondaryRepairmanId())
+                .append("secondExpectedCompletionTime", getSecondExpectedCompletionTime())
+                .append("secondActualCompletionTime", getSecondActualCompletionTime())
+                .append("secondWorkContent", getSecondWorkContent())
+                .append("userName",getNickName())
+                .append("nickName",getUserName())
+                .append("firstRepairmanName",getFirstRepairmanName())
+                .append("secondaryRepairmanName",getSecondaryRepairmanName())
+                .toString();
     }
 }

@@ -17,17 +17,19 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.FzuSysUserMapper;
 import com.ruoyi.apartment.domain.FzuSysUser;
 import com.ruoyi.apartment.service.IFzuSysUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Validator;
 
 /**
  * 用户信息Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2023-02-05
  */
 @Service
-public class FzuSysUserServiceImpl implements IFzuSysUserService 
+@Transactional
+public class FzuSysUserServiceImpl implements IFzuSysUserService
 {
     private static final Logger log = LoggerFactory.getLogger(FzuStuDormitoryServiceImpl.class);
 
@@ -53,7 +55,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
 
     /**
      * 查询用户信息列表
-     * 
+     *
      * @param fzuSysUser 用户信息
      * @return 用户信息
      */
@@ -71,7 +73,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
 
     /**
      * 新增用户信息
-     * 
+     *
      * @param fzuSysUser 用户信息
      * @return 结果
      */
@@ -107,7 +109,7 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
 
     /**
      * 删除用户信息信息
-     * 
+     *
      * @param userId 用户信息主键
      * @return 结果
      */
@@ -168,6 +170,12 @@ public class FzuSysUserServiceImpl implements IFzuSysUserService
     public Long getDormIdByUserId(Long userId) {
         return fzuSysUserMapper.getDormIdByUserId(userId);
     }
+
+    public FzuDormitoryInfo selectOne(FzuDormitoryInfo fzuDormitoryInfo){
+        return fzuSysUserMapper.selectOne(fzuDormitoryInfo);
+    }
+
+
     /**
      * 导入学生宿舍数据
      *

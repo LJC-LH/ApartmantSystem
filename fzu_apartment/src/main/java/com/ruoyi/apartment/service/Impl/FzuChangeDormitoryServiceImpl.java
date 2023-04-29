@@ -81,7 +81,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
             fzuDormitoryInfo1.setUserId(userId1);
             fzuDormitoryInfo1.setDormId(dormId1);
             FzuDormitoryInfo temp1 = fzuSysUserMapper.selectFzuSysUserByUserId(fzuDormitoryInfo1);//找出所属学院
-            if(fzuChangeDormitory.getDeptId()!=temp1.getDeptId()){  //不是本学院，退出
+            if(fzuChangeDormitory.getDeptId().longValue()!=temp1.getDeptId().longValue()){  //不是本学院，退出
                 return 0;
             }
             String oneBedNo = fzuChangeDormitory.getOneBedNo();
@@ -96,7 +96,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
                 fzuDormitoryInfo2.setUserId(userId2);
                 fzuDormitoryInfo2.setDormId(dormId2);
                 FzuDormitoryInfo temp2 = fzuSysUserMapper.selectFzuSysUserByUserId(fzuDormitoryInfo1);//找出所属学院
-                if(fzuChangeDormitory.getDeptId()!=temp2.getDeptId()){  //不是本学院，退出
+                if(fzuChangeDormitory.getDeptId().longValue()!=temp2.getDeptId().longValue()){  //不是本学院，退出
                     return 0;
                 }
                 String twoBedNo = fzuChangeDormitory.getTwoBedNo();
@@ -121,7 +121,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
                 fzuDormitoryInfo2.setBedNo(fzuChangeDormitory.getTwoBedNo());
                 Long dormId2 = fzuSysUserMapper.selectDormIdByRoomInfo(fzuDormitoryInfo2);
                 FzuStuDormitory temp3 = fzuStuDormitoryMapper.selectFzuStuDormitoryByDormId(dormId2);
-                if(fzuChangeDormitory.getDeptId()!=temp3.getDeptId()){  //不是本学院，退出
+                if(fzuChangeDormitory.getDeptId().longValue()!=temp3.getDeptId().longValue()){  //不是本学院，退出
                     return 0;
                 }
                 String twoBedNo = fzuChangeDormitory.getTwoBedNo();

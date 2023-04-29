@@ -7,7 +7,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 宿舍对象 fzu_studormitory
- * 
+ *
  * @author ruoyi
  * @date 2023-02-14
  */
@@ -56,6 +56,29 @@ public class FzuStuDormitory extends BaseEntity
     @Excel(name = "床位使用状态", readConverterExp = "1=闲置,2=使用中", prompt = "填写：闲置、使用中",combo = "闲置,使用中")
     private String bedStatus;
 
+    @Excel(name = "学院/部门",readConverterExp = "205=物理与信息工程学院、微电子学院,204=计算机与大数据学院、软件学院,105=数学与统计学院,210=法学院,103=电气工程与自动化学院,104=机械工程及自动化学院,106=石油化工学院,107=土木工程学院,200=环境与安全工程学院,201=经济与管理学院,202=生物科学与工程学院,203=外国语学院,206=化学学院,207=建筑与城乡规划学院,208=紫金地质与矿业学院,209=材料科学与工程学院,211=人文社会科学学院,214=铜盘校区管理办公室,215=学生工作部（处）", prompt = "请从下拉框选择学院或部门（全称）", combo = "物理与信息工程学院、微电子学院,计算机与大数据学院、软件学院,数学与统计学院,法学院,电气工程与自动化学院,机械工程及自动化学院,石油化工学院,土木工程学院,环境与安全工程学院,经济与管理学院,生物科学与工程学院,外国语学院,化学学院,建筑与城乡规划学院,紫金地质与矿业学院,材料科学与工程学院,人文社会科学学院,铜盘校区管理办公室,学生工作部（处）")
+    private Long deptId;
+
+    private String remark;
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public String getBedNo() {
         return bedNo;
     }
@@ -77,79 +100,79 @@ public class FzuStuDormitory extends BaseEntity
         this.dormId = dormId;
     }
 
-    public Long getDormId() 
+    public Long getDormId()
     {
         return dormId;
     }
-    public void setBuildingNo(String buildingNo) 
+    public void setBuildingNo(String buildingNo)
     {
         this.buildingNo = buildingNo;
     }
 
-    public String getBuildingNo() 
+    public String getBuildingNo()
     {
         return buildingNo;
     }
-    public void setRoomNo(String roomNo) 
+    public void setRoomNo(String roomNo)
     {
         this.roomNo = roomNo;
     }
 
-    public String getRoomNo() 
+    public String getRoomNo()
     {
         return roomNo;
     }
-    public void setFees(Long fees) 
+    public void setFees(Long fees)
     {
         this.fees = fees;
     }
 
-    public Long getFees() 
+    public Long getFees()
     {
         return fees;
     }
-    public void setFeesStatus(String feesStatus) 
+    public void setFeesStatus(String feesStatus)
     {
         this.feesStatus = feesStatus;
     }
 
-    public String getFeesStatus() 
+    public String getFeesStatus()
     {
         return feesStatus;
     }
-    public void setFeesCategory(String feesCategory) 
+    public void setFeesCategory(String feesCategory)
     {
         this.feesCategory = feesCategory;
     }
 
-    public String getFeesCategory() 
+    public String getFeesCategory()
     {
         return feesCategory;
     }
-    public void setDormStatus(String dormStatus) 
+    public void setDormStatus(String dormStatus)
     {
         this.dormStatus = dormStatus;
     }
 
-    public String getDormStatus() 
+    public String getDormStatus()
     {
         return dormStatus;
     }
-    public void setContactPerson(String contactPerson) 
+    public void setContactPerson(String contactPerson)
     {
         this.contactPerson = contactPerson;
     }
 
-    public String getContactPerson() 
+    public String getContactPerson()
     {
         return contactPerson;
     }
-    public void setContactPhone(String contactPhone) 
+    public void setContactPhone(String contactPhone)
     {
         this.contactPhone = contactPhone;
     }
 
-    public String getContactPhone() 
+    public String getContactPhone()
     {
         return contactPhone;
     }
@@ -157,18 +180,19 @@ public class FzuStuDormitory extends BaseEntity
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("dormId", getDormId())
-            .append("buildingNo", getBuildingNo())
-            .append("roomNo", getRoomNo())
-            .append("fees", getFees())
-            .append("feesStatus", getFeesStatus())
-            .append("feesCategory", getFeesCategory())
-            .append("dormStatus", getDormStatus())
-            .append("contactPerson", getContactPerson())
-            .append("contactPhone", getContactPhone())
-            .append("remark", getRemark())
-            .append("bedNo", getBedNo())
-            .append("bedStatus", getBedStatus())
-            .toString();
+                .append("dormId", getDormId())
+                .append("buildingNo", getBuildingNo())
+                .append("roomNo", getRoomNo())
+                .append("fees", getFees())
+                .append("feesStatus", getFeesStatus())
+                .append("feesCategory", getFeesCategory())
+                .append("dormStatus", getDormStatus())
+                .append("contactPerson", getContactPerson())
+                .append("contactPhone", getContactPhone())
+                .append("remark", getRemark())
+                .append("bedNo", getBedNo())
+                .append("bedStatus", getBedStatus())
+                .append("deptId", getDeptId())
+                .toString();
     }
 }

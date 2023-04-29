@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.FirstSelectRepairmanMapper">
-    
+
     <resultMap type="FirstSelectRepairman" id="FirstSelectRepairmanResult">
         <result property="repairId"    column="repair_id"    />
         <result property="studentId"    column="student_id"    />
@@ -24,15 +24,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="secondExpectedCompletionTime"    column="second_expected_completion_time"    />
         <result property="secondActualCompletionTime"    column="second_actual_completion_time"    />
         <result property="secondWorkContent"    column="second_work_content"    />
+        <result property="nickName" column="nick_name" />
+        <result property="userName" column="user_name" />
+        <result property="firstRepairmanName" column="first_repairman_name" />
+    </resultMap>
+
+    <resultMap type="SysUser" id="SysUserResult">
+        <id     property="userId"       column="user_id"      />
+        <result property="deptId"       column="dept_id"      />
+        <result property="userName"     column="user_name"    />
+        <result property="nickName"     column="nick_name"    />
+        <result property="email"        column="email"        />
+        <result property="phonenumber"  column="phonenumber"  />
+        <result property="sex"          column="sex"          />
+        <result property="province" 	column="province"/>
+        <result property="schoolRoll" 	column="school_roll"/>
+        <result property="studyLevel" 	column="study_level"/>
+        <result property="schoolArea" 	column="school_area"/>
+        <result property="fdyName" 		column="fdy_name"/>
+        <result property="fdyNumber" 	column="fdy_number"/>
+        <result property="fdyId" 		column="fdy_id"/>
+        <result property="fdyPhonenumber" 		column="fdy_phonenumber"/>
+        <result property="avatar"       column="avatar"       />
+        <result property="password"     column="password"     />
+        <result property="status"       column="status"       />
+        <result property="delFlag"      column="del_flag"     />
+        <result property="loginIp"      column="login_ip"     />
+        <result property="loginDate"    column="login_date"   />
+        <result property="createBy"     column="create_by"    />
+        <result property="createTime"   column="create_time"  />
+        <result property="updateBy"     column="update_by"    />
+        <result property="updateTime"   column="update_time"  />
+        <result property="startTime"     column="start_time"    />
+        <result property="endTime"   column="end_time"  />
+        <result property="remark"       column="remark"    />
     </resultMap>
 
     <sql id="selectFirstSelectRepairmanVo">
-        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content from fzu_repair_orders
+        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name, u2.nick_name as first_repairman_name
+        from fzu_repair_orders, sys_user u1,sys_user u2
     </sql>
 
     <select id="selectFirstSelectRepairmanList" parameterType="FirstSelectRepairman" resultMap="FirstSelectRepairmanResult">
         <include refid="selectFirstSelectRepairmanVo"/>
-        <where>  
+        <!--添加联表查询-->
+        <where>
+            u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
@@ -53,12 +90,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="secondWorkContent != null  and secondWorkContent != ''"> and second_work_content = #{secondWorkContent}</if>
         </where>
     </select>
-    
+
+    <select id="selectUserByRoleId" parameterType="Long" resultMap="SysUserResult">
+        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.province, u.school_roll, u.study_level, u.school_area, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.start_time, u.end_time, u.remark, fdy.`nick_name` as fdy_name, fdy.`user_name` as fdy_number, fdy.`user_id` as fdy_id, fdy.`phonenumber` as fdy_phonenumber
+        from sys_user u
+                 LEFT JOIN sys_user_role ur on u.user_id = ur.user_id
+                 LEFT JOIN sys_user fdy on u.fdy_number = fdy.user_name
+        where ur.role_id = #{roleId}
+    </select>
+
     <select id="selectFirstSelectRepairmanByRepairId" parameterType="Long" resultMap="FirstSelectRepairmanResult">
         <include refid="selectFirstSelectRepairmanVo"/>
-        where repair_id = #{repairId}
+        where u1.user_id = fzu_repair_orders.student_id and u2.user_id = fzu_repair_orders.first_repairman_id and repair_id = #{repairId}
     </select>
-        
+
     <insert id="insertFirstSelectRepairman" parameterType="FirstSelectRepairman">
         insert into fzu_repair_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -81,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="secondExpectedCompletionTime != null">second_expected_completion_time,</if>
             <if test="secondActualCompletionTime != null">second_actual_completion_time,</if>
             <if test="secondWorkContent != null">second_work_content,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="repairId != null">#{repairId},</if>
             <if test="studentId != null">#{studentId},</if>
@@ -102,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="secondExpectedCompletionTime != null">#{secondExpectedCompletionTime},</if>
             <if test="secondActualCompletionTime != null">#{secondActualCompletionTime},</if>
             <if test="secondWorkContent != null">#{secondWorkContent},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateFirstSelectRepairman" parameterType="FirstSelectRepairman">
@@ -135,7 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteFirstSelectRepairmanByRepairIds" parameterType="String">
-        delete from fzu_repair_orders where repair_id in 
+        delete from fzu_repair_orders where repair_id in
         <foreach item="repairId" collection="array" open="(" separator="," close=")">
             #{repairId}
         </foreach>
