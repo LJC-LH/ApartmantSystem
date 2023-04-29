@@ -98,4 +98,9 @@ public class RepairOrderServiceImpl implements IRepairOrderService
     public RepairOrder selectInfo(Long studentId){
         return repairOrderMapper.selectInfo(studentId);
     }
+
+    @Override
+    public int updateEvaluate(FzuCompleteOrders fzuCompleteOrders) {
+        return repairOrderMapper.updateEvaluate(fzuCompleteOrders);
+    }
 }
