@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectRepairResultList" parameterType="RepairResult" resultMap="FzuCompleteOrdersResult">
         <include refid="selectRepairResultVo"/>
-        <where>
+        <where> (fix_status = "1" or fix_status = "4") and ( first_repairman_id = #{firstRepairmanId} or secondary_repairman_id = #{firstRepairmanId})
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
@@ -92,14 +92,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fixType != null  and fixType != ''"> and fix_type = #{fixType}</if>
             <if test="createAt != null "> and create_at = #{createAt}</if>
             <if test="fixStatus != null  and fixStatus != ''"> and fix_status = #{fixStatus}</if>
-            <if test="firstRepairmanId != null "> and first_repairman_id = #{firstRepairmanId}</if>
             <if test="firstWorkContent != null  and firstWorkContent != ''"> and first_work_content = #{firstWorkContent}</if>
             <if test="firstCompletionTime != null "> and first_completion_time = #{firstCompletionTime}</if>
             <if test="campusManagementOpinion != null  and campusManagementOpinion != ''"> and campus_management_opinion = #{campusManagementOpinion}</if>
             <if test="isSecondDispatch != null  and isSecondDispatch != ''"> and is_second_dispatch = #{isSecondDispatch}</if>
             <if test="evaluateContent != null  and evaluateContent != ''"> and evaluate_content = #{evaluateContent}</if>
             <if test="evaluateRate != null "> and evaluate_rate = #{evaluateRate}</if>
-            <if test="secondaryRepairmanId != null "> and secondary_repairman_id = #{secondaryRepairmanId}</if>
             <if test="secondExpectedCompletionTime != null "> and second_expected_completion_time = #{secondExpectedCompletionTime}</if>
             <if test="secondActualCompletionTime != null "> and second_actual_completion_time = #{secondActualCompletionTime}</if>
             <if test="secondWorkContent != null  and secondWorkContent != ''"> and second_work_content = #{secondWorkContent}</if>

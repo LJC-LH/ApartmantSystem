@@ -32,25 +32,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectRepairOrderList" parameterType="RepairOrder" resultMap="RepairOrderResult">
         <include refid="selectRepairOrderVo"/>
-        <where>  
+        <where>
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
-            <if test="damageDescription != null  and damageDescription != ''"> and damage_description like concat('%', #{damageDescription}, '%')</if>
-            <if test="fixType != null  and fixType != ''"> and fix_type = #{fixType}</if>
             <if test="createAt != null "> and create_at = #{createAt}</if>
-            <if test="fixStatus != null  and fixStatus != ''"> and fix_status = #{fixStatus}</if>
-            <if test="firstRepairmanId != null "> and first_repairman_id = #{firstRepairmanId}</if>
-            <if test="firstWorkContent != null  and firstWorkContent != ''"> and first_work_content = #{firstWorkContent}</if>
-            <if test="firstCompletionTime != null "> and first_completion_time = #{firstCompletionTime}</if>
-            <if test="campusManagementOpinion != null  and campusManagementOpinion != ''"> and campus_management_opinion = #{campusManagementOpinion}</if>
-            <if test="isSecondDispatch != null  and isSecondDispatch != ''"> and is_second_dispatch = #{isSecondDispatch}</if>
-            <if test="evaluateContent != null  and evaluateContent != ''"> and evaluate_content = #{evaluateContent}</if>
-            <if test="evaluateRate != null "> and evaluate_rate = #{evaluateRate}</if>
-            <if test="secondaryRepairmanId != null "> and secondary_repairman_id = #{secondaryRepairmanId}</if>
-            <if test="secondExpectedCompletionTime != null "> and second_expected_completion_time = #{secondExpectedCompletionTime}</if>
-            <if test="secondActualCompletionTime != null "> and second_actual_completion_time = #{secondActualCompletionTime}</if>
-            <if test="secondWorkContent != null  and secondWorkContent != ''"> and second_work_content = #{secondWorkContent}</if>
         </where>
     </select>
     
@@ -66,12 +52,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="studentId != null">student_id,</if>
             <if test="buildingNo != null">building_no,</if>
             <if test="roomNo != null">room_no,</if>
+            <if test="createAt != null">create_at,</if>
+            <if test="fixStatus != null">fix_status,</if>
+            <if test="isSecondDispatch != null">is_second_dispatch,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="damageDescription != null">#{damageDescription},</if>
             <if test="studentId != null">#{studentId},</if>
             <if test="buildingNo != null">#{buildingNo},</if>
             <if test="roomNo != null">#{roomNo},</if>
+            <if test="createAt != null">#{createAt},</if>
+            <if test="fixStatus != null">#{fixStatus},</if>
+            <if test="isSecondDispatch != null">#{isSecondDispatch},</if>
          </trim>
         <selectKey resultType="Long" order="AFTER" keyProperty="repairId">
             select LAST_INSERT_ID()
@@ -117,4 +109,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectInfo" resultMap="RepairOrderResult" parameterType="long">
         select building_no, room_no from fzu_dormitory where dorm_id = (select dorm_id from fzu_student_dormitory where student_id = ${studentId})
     </select>
+
+    <update id="updateEvaluate" parameterType="fzuCompleteOrders">
+        update fzu_repair_orders SET evaluate_rate = #{evaluateRate} , evaluate_content = #{evaluateContent} WHERE repair_id = #{repairId};
+    </update>
+
 </mapper>
