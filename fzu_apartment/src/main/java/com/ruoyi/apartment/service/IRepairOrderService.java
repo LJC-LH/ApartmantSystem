@@ -62,4 +62,6 @@ public interface IRepairOrderService
     public int deleteRepairOrderByRepairId(Long repairId);
 
     public RepairOrder selectInfo(Long studentId);
+
+    public int updateEvaluate (FzuCompleteOrders fzuCompleteOrders);
 }
