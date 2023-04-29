@@ -63,4 +63,6 @@ public interface RepairOrderMapper
     public int deleteRepairOrderByRepairIds(Long[] repairIds);
 
     public RepairOrder selectInfo(Long studentId);
+
+    public int updateEvaluate(FzuCompleteOrders fzuCompleteOrders);
 }
