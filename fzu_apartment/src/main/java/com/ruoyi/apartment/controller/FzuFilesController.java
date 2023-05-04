@@ -31,14 +31,13 @@ public class FzuFilesController {
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename(); // 获取原始文件名
             String fileName = UUID.randomUUID().toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 生成唯一文件名
-            System.out.println("----------------------------------------检查这里---------------------------------" + RuoYiConfig.getImagesPath());
             String upload = FileUploadUtils.upload(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
             File oldFile = new File(upload);
             String newPath = oldFile.getParent() + File.separator + fileName;
             oldFile.renameTo(new File(newPath));
             newPath = newPath.replace("\\", "/");
             list.add(newPath);
-            System.out.println("--------------------------检查这个----------------------" + newPath);
+
         }
         return AjaxResult.success(list);
     }
@@ -49,7 +48,6 @@ public class FzuFilesController {
     {
         ArrayList<String> list = new ArrayList<>();
         for (MultipartFile file : files) {
-            System.out.println("----------------------------------------检查这里-------------------------我被调用了--------" );
             String originalFileName = file.getOriginalFilename(); // 获取原始文件名
             String fileName = UUID.randomUUID().toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 生成唯一文件名
             String upload = FileUploadUtils.upload(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
@@ -68,17 +66,14 @@ public class FzuFilesController {
     {
         ArrayList<String> list = new ArrayList<>();
         for (MultipartFile file : files) {
-            System.out.println("----------------------------------------检查这里-------------------------第二次被调用了--------" );
             String originalFileName = file.getOriginalFilename(); // 获取原始文件名
             String fileName = UUID.randomUUID().toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 生成唯一文件名
             String upload = FileUploadUtils.upload(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
-            System.out.println("----------------------------------------检查upload这里---------------------------------" + upload);
             File oldFile = new File(upload);
             String newPath = oldFile.getParent() + File.separator + fileName;
             oldFile.renameTo(new File(newPath));
             newPath = newPath.replace("\\", "/");
             list.add(newPath);
-            System.out.println("----------------------------------------检查newPath这里---------------------------------" + newPath);
         }
         return AjaxResult.success(list);
     }

@@ -123,13 +123,14 @@ public class RepairResultController extends BaseController
             e.printStackTrace();
         }
         fzuCompleteOrders.setFixStatus("4");
-        fzuCompleteOrders.setFirstCompletionTime(date);
         if (Objects.equals(fzuCompleteOrders.getIsSecondDispatch(), "0")) {
             fzuCompleteOrders.setFirstRepairmanId(SecurityUtils.getUserId());
+            fzuCompleteOrders.setFirstCompletionTime(date);
             repairResultService.changeFirstOrder(fzuCompleteOrders);
             fzuFilesService.setFirstRepairmanImage(fzuCompleteOrders);
         } else if (Objects.equals(fzuCompleteOrders.getIsSecondDispatch(), "1")) {
             fzuCompleteOrders.setSecondaryRepairmanId(SecurityUtils.getUserId());
+            fzuCompleteOrders.setSecondActualCompletionTime(date);
             repairResultService.changeSecondOrder(fzuCompleteOrders);
             fzuFilesService.setSecondRepairmanImage(fzuCompleteOrders);
         }

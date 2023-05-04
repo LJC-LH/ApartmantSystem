@@ -13,6 +13,7 @@ import com.ruoyi.apartment.domain.FzuCompleteOrders;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.service.FzuFilesService;
 import com.ruoyi.apartment.service.IFzuSysUserService;
+import com.ruoyi.apartment.service.IRepairResultService;
 import com.ruoyi.common.utils.SecurityUtils;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +52,9 @@ public class RepairOrderController extends BaseController
     @Autowired
     private FzuFilesService fzuFilesService;
 
+    @Autowired
+    private IRepairResultService repairResultService;
+
 
     /**
      * 查询学生报修列表
@@ -86,7 +90,7 @@ public class RepairOrderController extends BaseController
     @GetMapping(value = "/{repairId}")
     public AjaxResult getInfo(@PathVariable("repairId") Long repairId)
     {
-        return success(repairOrderService.selectRepairOrderByRepairId(repairId));
+        return success(repairResultService.selectRepairResultByRepairId(repairId));
     }
 
     /**
@@ -110,9 +114,10 @@ public class RepairOrderController extends BaseController
         fzuCompleteOrders.setCreateAt(date);
         fzuCompleteOrders.setFixStatus("0");
         fzuCompleteOrders.setIsSecondDispatch("0");
+        System.out.println("-------------------------------检查这里-------------------------------:" + fzuCompleteOrders.getStuImagesURL().size());
         repairOrderService.insertRepairOrder(fzuCompleteOrders);
         fzuFilesService.setStuImage(fzuCompleteOrders);
-        return toAjax(fzuFilesService.setStuImage(fzuCompleteOrders));
+        return toAjax(1);
     }
 
     @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:query')")
