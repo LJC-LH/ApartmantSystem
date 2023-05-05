@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -30,13 +31,9 @@ public class FzuFilesController {
         ArrayList<String> list = new ArrayList<>();
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename(); // 获取原始文件名
-            String fileName = UUID.randomUUID().toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 生成唯一文件名
-            String upload = FileUploadUtils.upload(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
-            File oldFile = new File(upload);
-            String newPath = oldFile.getParent() + File.separator + fileName;
-            oldFile.renameTo(new File(newPath));
-            newPath = newPath.replace("\\", "/");
-            list.add(newPath);
+            String upload = FileUploadUtils.uploadImage(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+            upload = upload.replace("\\", "/");
+            list.add(upload);
 
         }
         return AjaxResult.success(list);
@@ -49,13 +46,9 @@ public class FzuFilesController {
         ArrayList<String> list = new ArrayList<>();
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename(); // 获取原始文件名
-            String fileName = UUID.randomUUID().toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 生成唯一文件名
-            String upload = FileUploadUtils.upload(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
-            File oldFile = new File(upload);
-            String newPath = oldFile.getParent() + File.separator + fileName;
-            oldFile.renameTo(new File(newPath));
-            newPath = newPath.replace("\\", "/");
-            list.add(newPath);
+            String upload = FileUploadUtils.uploadImage(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+            upload = upload.replace("\\", "/");
+            list.add(upload);
         }
         return AjaxResult.success(list);
     }
@@ -67,13 +60,9 @@ public class FzuFilesController {
         ArrayList<String> list = new ArrayList<>();
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename(); // 获取原始文件名
-            String fileName = UUID.randomUUID().toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1); // 生成唯一文件名
-            String upload = FileUploadUtils.upload(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
-            File oldFile = new File(upload);
-            String newPath = oldFile.getParent() + File.separator + fileName;
-            oldFile.renameTo(new File(newPath));
-            newPath = newPath.replace("\\", "/");
-            list.add(newPath);
+            String upload = FileUploadUtils.uploadImage(RuoYiConfig.getImagesPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+            upload = upload.replace("\\", "/");
+            list.add(upload);
         }
         return AjaxResult.success(list);
     }
