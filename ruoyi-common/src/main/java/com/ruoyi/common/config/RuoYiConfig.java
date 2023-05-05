@@ -27,11 +27,21 @@ public class RuoYiConfig
     /** 上传路径 */
     private static String profile;
 
+    private static String apartment;
+
     /** 获取地址开关 */
     private static boolean addressEnabled;
 
     /** 验证码类型 */
     private static String captchaType;
+
+    public static String getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(String apartment) {
+        RuoYiConfig.apartment = apartment;
+    }
 
     public String getName()
     {
@@ -117,9 +127,7 @@ public class RuoYiConfig
         return getProfile() + "/avatar";
     }
 
-    public static String getImagesPath(){
-        return getProfile() + "/images";
-    }
+    public static String getImagesPath(){ return getApartment() + "/images"; }
 
     /**
      * 获取下载路径
