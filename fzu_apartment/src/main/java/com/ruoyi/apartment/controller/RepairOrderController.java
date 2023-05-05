@@ -37,7 +37,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 学生报修Controller
- * 
+ *
  * @author ljc
  * @date 2023-04-23
  */
@@ -122,7 +122,7 @@ public class RepairOrderController extends BaseController
     @PostMapping("/getUser")
     public AjaxResult getInfo()
     {
-        return success(repairOrderService.selectInfo(11331L));
+        return success(repairOrderService.selectInfo(SecurityUtils.getUserId()));
     }
 
     @PreAuthorize("@ss.hasPermi('apartment:studentRepairApplication:query')")
