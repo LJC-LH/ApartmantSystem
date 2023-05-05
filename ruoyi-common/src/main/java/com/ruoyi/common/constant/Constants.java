@@ -116,7 +116,7 @@ public class Constants
 
 
     //    TODO：这里定义了资源的路径
-    public static final String IMAGESURL = "http://210.34.58.16:8080/profile/images";
+    public static final String APARTMENT_PREFIX = "/apartment";
 
     /**
      * RMI 远程方法调用
