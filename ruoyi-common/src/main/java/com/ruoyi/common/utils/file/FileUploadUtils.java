@@ -117,6 +117,22 @@ public class FileUploadUtils
         return getPathFileName(baseDir, fileName);
     }
 
+    public static final String uploadImage(String baseDir, MultipartFile file, String[] allowedExtension)
+            throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
+            InvalidExtensionException
+    {
+        int fileNamelength = Objects.requireNonNull(file.getOriginalFilename()).length();
+        if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH)
+        {
+            throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
+        }
+        assertAllowed(file, allowedExtension);
+        String fileName = extractFilename(file);
+        String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
+        file.transferTo(Paths.get(absPath));
+        return getPathImageName(baseDir, fileName);
+    }
+
     /**
      * 编码文件名
      */
@@ -144,7 +160,14 @@ public class FileUploadUtils
     {
         int dirLastIndex = RuoYiConfig.getProfile().length() + 1;
         String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
-        return Constants.IMAGESURL + "/" + currentDir + "/" + fileName;
+        return Constants.RESOURCE_PREFIX + "/" + currentDir + "/" + fileName;
+    }
+
+    public static final String getPathImageName(String uploadDir, String fileName) throws IOException
+    {
+        int dirLastIndex = RuoYiConfig.getApartment().length() + 1;
+        String currentDir = StringUtils.substring(uploadDir, dirLastIndex);
+        return Constants.APARTMENT_PREFIX + "/" + currentDir + "/" + fileName;
     }
 
     /**
