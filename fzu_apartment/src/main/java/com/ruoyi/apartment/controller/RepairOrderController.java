@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.apartment.domain.FzuCompleteOrders;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
@@ -114,7 +113,6 @@ public class RepairOrderController extends BaseController
         fzuCompleteOrders.setCreateAt(date);
         fzuCompleteOrders.setFixStatus("0");
         fzuCompleteOrders.setIsSecondDispatch("0");
-        System.out.println("-------------------------------检查这里-------------------------------:" + fzuCompleteOrders.getStuImagesURL().size());
         repairOrderService.insertRepairOrder(fzuCompleteOrders);
         fzuFilesService.setStuImage(fzuCompleteOrders);
         return toAjax(1);
