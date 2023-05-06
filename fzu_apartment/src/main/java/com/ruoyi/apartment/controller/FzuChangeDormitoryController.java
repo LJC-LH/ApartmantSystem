@@ -23,7 +23,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 宿舍调整Controller
- * 
+ *
  * @author ljc
  * @date 2023-04-24
  */
@@ -78,8 +78,17 @@ public class FzuChangeDormitoryController extends BaseController
     public AjaxResult add(@RequestBody FzuChangeDormitory fzuChangeDormitory)
     {
         int i = fzuChangeDormitoryService.insertFzuChangeDormitory(fzuChangeDormitory);
-        if (i < 1){
-            return error("请重新检查信息，存在“信息填写错误”或“跨学院操作”");
+        if( i == -3){
+            return error("请重新检查信息，填写数据异常");
+        }
+        else if( i == -2){
+            return error("请重新检查信息，换入宿舍床位不为空");
+        }
+        else if(i == -1){
+            return error("请重新检查信息，学生与宿舍信息不符");
+        }
+        else if (i == 0){
+            return error("请重新检查信息，存在跨学院操作");
         }else{
             return toAjax(i);
         }

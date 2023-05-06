@@ -66,4 +66,25 @@ public class EchartsServiceImpl implements EchartsService {
         apartmentDataList.add(stuDormNum);
         return apartmentDataList;
     }
+
+    @Override
+    public List<EchartData> getApartmentFixNum() {
+        List<EchartData> apartmentFixNumList = new ArrayList<>();
+        EchartData allFixNum = echartsMapper.getAllFixNum();
+        EchartData fixNum = echartsMapper.getFixNum();
+        EchartData notFixNum = echartsMapper.getNotFixNum();
+        apartmentFixNumList.add(allFixNum);
+        apartmentFixNumList.add(fixNum);
+        apartmentFixNumList.add(notFixNum);
+        return apartmentFixNumList;
+    }
+
+    @Override
+    public List<EchartData> getServiceDegree() {
+        ArrayList<EchartData> serviceDegreeList = new ArrayList<>();
+        EchartData serviceDegree = echartsMapper.getServiceDegree();
+        serviceDegreeList.add(serviceDegree);
+        return serviceDegreeList;
+    }
+
 }

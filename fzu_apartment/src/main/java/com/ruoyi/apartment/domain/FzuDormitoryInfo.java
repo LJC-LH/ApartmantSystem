@@ -28,7 +28,7 @@ public class FzuDormitoryInfo extends BaseEntity {
     @Excel(name = "床位号", readConverterExp = "A=A,B=B,C=C,D=D", prompt = "仅填写：A、B、C、D字母即可",combo = "A,B,C,D")
     private String bedNo;
 
-    @Excel(name = "学院/部门", type = Type.EXPORT, readConverterExp = "205=物理与信息工程学院、微电子学院,204=计算机与大数据学院、软件学院,105=数学与统计学院,210=法学院,103=电气工程与自动化学院,104=机械工程及自动化学院,106=石油化工学院,107=土木工程学院,200=环境与安全工程学院,201=经济与管理学院,202=生物科学与工程学院,203=外国语学院,206=化学学院,207=建筑与城乡规划学院,208=紫金地质与矿业学院,209=材料科学与工程学院,211=人文社会科学学院,214=铜盘校区管理办公室,215=学生工作部（处）")
+    @Excel(name = "学院", type = Type.EXPORT, readConverterExp = "205=物理与信息工程学院、微电子学院,204=计算机与大数据学院、软件学院,105=数学与统计学院,210=法学院,103=电气工程与自动化学院,104=机械工程及自动化学院,106=石油化工学院,107=土木工程学院,200=环境与安全工程学院,201=经济与管理学院,202=生物科学与工程学院,203=外国语学院,206=化学学院,207=建筑与城乡规划学院,208=紫金地质与矿业学院,209=材料科学与工程学院,211=人文社会科学学院")
     private Long deptId;
 
     @Excel(name = "省份", type = Type.EXPORT)
@@ -53,7 +53,7 @@ public class FzuDormitoryInfo extends BaseEntity {
         this.fees = fees;
     }
 
-    @Excel(name = "宿舍使用情况", type = Type.EXPORT, readConverterExp = "1=闲置,2=使用中,3=特殊宿舍")
+    @Excel(name = "宿舍使用状态", readConverterExp = "1=闲置,2=使用中,3=特殊宿舍闲置,4=特殊宿舍使用中,5=红色驿站闲置,6=红色驿站使用中", prompt = "填写：闲置、使用中、特殊宿舍闲置、特殊宿舍使用中、红色驿站闲置、红色驿站使用中",combo = "闲置,使用中,特殊宿舍闲置,特殊宿舍使用中,红色驿站闲置,红色驿站使用中")
     private String dormStatus;
 
     private String bedStatus;

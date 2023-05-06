@@ -44,13 +44,24 @@ public class EchartsController extends BaseController {
 
     @GetMapping("/getEachCollageSex")
     public TableDataInfo getEachCollageSex(){
-        List eachCollageSex = echartsService.getEachCollageSex();
+        List<EchartData> eachCollageSex = echartsService.getEachCollageSex();
         return getDataTable(eachCollageSex);
     }
 
-    @GetMapping("getApartmentData")
+    @GetMapping("/getApartmentData")
     public TableDataInfo getApartmentData(){
-        List apartmentDataList = echartsService.getApartmentData();
+        List<EchartData> apartmentDataList = echartsService.getApartmentData();
         return getDataTable(apartmentDataList);
+    }
+    @GetMapping("/getApartmentFixNum")
+    public TableDataInfo getApartmentFixNum(){
+        List<EchartData> ApartmentFixNumList = echartsService.getApartmentFixNum();
+        return getDataTable(ApartmentFixNumList);
+    }
+
+    @GetMapping("/getServiceDegree")
+    public TableDataInfo getServiceDegree(){
+        List<EchartData> serviceDegreeList =  echartsService.getServiceDegree();
+        return getDataTable(serviceDegreeList);
     }
 }

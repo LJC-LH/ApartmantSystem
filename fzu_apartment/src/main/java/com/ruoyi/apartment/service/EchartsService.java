@@ -19,4 +19,8 @@ public interface EchartsService {
     public List<EchartData> getEachCollageSex();
 
     public List<EchartData> getApartmentData();
+
+    public List<EchartData> getApartmentFixNum();
+
+    public List<EchartData> getServiceDegree();
 }

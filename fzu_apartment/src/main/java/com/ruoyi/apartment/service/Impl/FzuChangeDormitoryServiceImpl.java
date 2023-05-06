@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 宿舍调整Service业务层处理
- * 
+ *
  * @author ljc
  * @date 2023-04-24
  */
 @Service
 @Transactional
-public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService 
+public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
 {
     @Autowired
     private FzuChangeDormitoryMapper fzuChangeDormitoryMapper;
@@ -39,7 +39,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
 
     /**
      * 查询宿舍调整
-     * 
+     *
      * @param changeId 宿舍调整主键
      * @return 宿舍调整
      */
@@ -51,7 +51,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
 
     /**
      * 查询宿舍调整列表
-     * 
+     *
      * @param fzuChangeDormitory 宿舍调整
      * @return 宿舍调整
      */
@@ -63,7 +63,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
 
     /**
      * 新增宿舍调整
-     * 
+     *
      * @param fzuChangeDormitory 宿舍调整
      * @return 结果
      */
@@ -78,6 +78,13 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
             fzuDormitoryInfo1.setUserName(oneUserName);
             Long userId1 = fzuSysUserMapper.selectUserIdByUserName(fzuDormitoryInfo1);
             Long dormId1 = fzuSysUserMapper.getDormIdByUserId(userId1);
+            FzuDormitoryInfo temp = new FzuDormitoryInfo();
+            temp.setBuildingNo(fzuChangeDormitory.getOneBuildingNo());
+            temp.setRoomNo(fzuChangeDormitory.getOneRoomNo());
+            temp.setBedNo(fzuChangeDormitory.getOneBedNo());
+            if(dormId1.longValue() != fzuSysUserMapper.selectDormIdByRoomInfo(temp).longValue()){  //学生和宿舍不匹配
+                return -1;
+            }
             fzuDormitoryInfo1.setUserId(userId1);
             fzuDormitoryInfo1.setDormId(dormId1);
             FzuDormitoryInfo temp1 = fzuSysUserMapper.selectFzuSysUserByUserId(fzuDormitoryInfo1);//找出所属学院
@@ -93,6 +100,12 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
                 fzuDormitoryInfo2.setUserName(twoUserName);
                 Long userId2 = fzuSysUserMapper.selectUserIdByUserName(fzuDormitoryInfo2);
                 Long dormId2 = fzuSysUserMapper.getDormIdByUserId(userId2);
+                temp.setBuildingNo(fzuChangeDormitory.getTwoBuildingNo());
+                temp.setRoomNo(fzuChangeDormitory.getTwoRoomNo());
+                temp.setBedNo(fzuChangeDormitory.getTwoBedNo());
+                if(dormId2.longValue() != fzuSysUserMapper.selectDormIdByRoomInfo(temp).longValue()){  //学生和宿舍不匹配
+                    return -1;
+                }
                 fzuDormitoryInfo2.setUserId(userId2);
                 fzuDormitoryInfo2.setDormId(dormId2);
                 FzuDormitoryInfo temp2 = fzuSysUserMapper.selectFzuSysUserByUserId(fzuDormitoryInfo1);//找出所属学院
@@ -129,7 +142,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
                 temp4.setDormId(dormId2);
                 temp4.setBedNo(twoBedNo);
                 if(fzuChangeDormitoryMapper.selectDormByDormIdAndBedId(temp4) != null){  //床位不是为空，不能分配，退出
-                    return 0;
+                    return -2;
                 }
                 fzuDormitoryInfo1.setUserId(userId1);
                 fzuDormitoryInfo1.setDormId(dormId2);
@@ -146,14 +159,14 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
             fzuChangeDormitory.setOneDormId(dormId1);
             i = fzuChangeDormitoryMapper.insertFzuChangeDormitory(fzuChangeDormitory);
         } catch (Exception e) {
-            return 0;
+            return -3;
         }
         return i;
     }
 
     /**
      * 修改宿舍调整
-     * 
+     *
      * @param fzuChangeDormitory 宿舍调整
      * @return 结果
      */
@@ -165,7 +178,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
 
     /**
      * 批量删除宿舍调整
-     * 
+     *
      * @param changeIds 需要删除的宿舍调整主键
      * @return 结果
      */
@@ -177,7 +190,7 @@ public class FzuChangeDormitoryServiceImpl implements IFzuChangeDormitoryService
 
     /**
      * 删除宿舍调整信息
-     * 
+     *
      * @param changeId 宿舍调整主键
      * @return 结果
      */

@@ -46,4 +46,18 @@ public interface EchartsMapper {
     public EchartData getBuildingNum();
     public EchartData getRoomNum();
     public EchartData getStuDormNum();
+
+    /**
+     * 获取维修数据
+     * @return
+     */
+    public EchartData getAllFixNum();
+    public EchartData getFixNum();
+    public EchartData getNotFixNum();
+
+    /**
+     * 获取服务满意度
+     * @return
+     */
+    public EchartData getServiceDegree();
 }
