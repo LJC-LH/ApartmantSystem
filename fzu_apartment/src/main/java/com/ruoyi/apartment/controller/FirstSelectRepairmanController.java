@@ -3,6 +3,7 @@ package com.ruoyi.apartment.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.apartment.service.IRepairResultService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class FirstSelectRepairmanController extends BaseController
     @Autowired
     private IFirstSelectRepairmanService firstSelectRepairmanService;
 
+    @Autowired
+    private IRepairResultService repairResultService;
     /**
      * 查询一次派单列表
      */
@@ -68,7 +71,7 @@ public class FirstSelectRepairmanController extends BaseController
     @GetMapping(value = "/{repairId}")
     public AjaxResult getInfo(@PathVariable("repairId") Long repairId)
     {
-        return success(firstSelectRepairmanService.selectFirstSelectRepairmanByRepairId(repairId));
+        return success(repairResultService.selectRepairResultByRepairId(repairId));
     }
 
     /**
