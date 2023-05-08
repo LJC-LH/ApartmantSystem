@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.domain.FzuStuDormitory;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
+import com.ruoyi.apartment.service.IFzuStuDormitoryService;
+import com.ruoyi.apartment.service.IFzuSysUserService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,12 @@ public class FzuSpecialdormCancelController extends BaseController
 {
     @Autowired
     private IFzuSpecialdormCancelService fzuSpecialdormCancelService;
+
+    @Autowired
+    private IFzuStuDormitoryService fzuStuDormitoryService;
+
+    @Autowired
+    private IFzuSysUserService fzuSysUserService;
 
     /**
      * 查询特殊退宿申请列表
@@ -153,5 +162,50 @@ public class FzuSpecialdormCancelController extends BaseController
     public AjaxResult removeStuDorm(Long dormId)
     {
         return toAjax(fzuSpecialdormCancelService.deleteFzuSpecialStuDormitoryByDormId(dormId));
+    }
+
+    /**
+     * 获取宿舍详细信息
+     */
+    @GetMapping(value = "/getStudentDorm/{dormId}")
+    public AjaxResult getStudentDorm(@PathVariable("dormId") Long dormId)
+    {
+        return success(fzuStuDormitoryService.selectFzuStuDormitoryByDormId(dormId));
+    }
+
+    /**
+     * 修改宿舍
+     */
+
+    @PutMapping("/updateStudentdorm")
+    public AjaxResult updateStudentdorm(@RequestBody FzuStuDormitory fzuStuDormitory)
+    {
+        int i = fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory);
+        if(i>0){
+            return toAjax(i);
+        }else {
+            return warn("数据修改失败，请重新检查输入信息！");
+        }
+    }
+
+    /**
+     * 查询宿舍列表
+     */
+    @GetMapping("/listStudentdorm")
+    public TableDataInfo listStudentdorm(FzuStuDormitory fzuStuDormitory)
+    {
+        startPage();
+        List<FzuStuDormitory> list = fzuStuDormitoryService.selectFzuStuDormitoryList(fzuStuDormitory);
+        return getDataTable(list);
+    }
+
+    /**
+     * 获取用户信息详细信息
+     */
+    @PostMapping("/getUser")
+    public AjaxResult getUser(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
+    {
+
+        return success(fzuSysUserService.selectFzuSysUserByUserId(fzuDormitoryInfo));
     }
 }
