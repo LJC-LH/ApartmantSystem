@@ -35,7 +35,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
  * 维修结果提交Controller
- * 
+ *
  * @author ljc
  * @date 2023-04-24
  */
@@ -154,7 +154,7 @@ public class RepairResultController extends BaseController
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        fzuCompleteOrders.setSecondActualCompletionTime(date);
+        fzuCompleteOrders.setFirstCompletionTime(date);
         fzuCompleteOrders.setFixStatus("0");
         repairResultService.changeUnsolvableOrder(fzuCompleteOrders);
         fzuFilesService.setFirstRepairmanImage(fzuCompleteOrders);
