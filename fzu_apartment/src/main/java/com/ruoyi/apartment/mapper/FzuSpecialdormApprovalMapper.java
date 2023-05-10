@@ -78,4 +78,12 @@ public interface FzuSpecialdormApprovalMapper
      * @return 结果
      */
     public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+    /**
+     * 查询用户信息
+     *
+     * @param userId 用户信息主键
+     * @return 用户信息
+     */
+    public SysUser selectSysUserByUserId(Long userId);
 }

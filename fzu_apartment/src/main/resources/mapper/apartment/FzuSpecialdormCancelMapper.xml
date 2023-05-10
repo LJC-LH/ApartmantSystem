@@ -20,10 +20,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="manageName"    column="manage_name"    />
         <result property="fdyName"    column="fdy_name"    />
         <result property="xgcName"    column="xgc_name"    />
+        <result property="dormName"    column="dormName"    />
     </resultMap>
 
     <sql id="selectFzuSpecialdormCancelVo">
-        select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, cancel_status, dorm_id, fzu_specialdorm_cancel.remark, u1.nick_name as fdy_name,u2.nick_name as xgc_name,u3.nick_name as manage_name from fzu_specialdorm_cancel,sys_user u1,sys_user u2,sys_user u3
+        select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id,
+               manage_opinion, cancel_status, fzu_specialdorm_cancel.dorm_id, fzu_specialdorm_cancel.remark, u1.nick_name as fdy_name,
+               u2.nick_name as xgc_name,u3.nick_name as manage_name,
+               fzu_dormitory.building_no, fzu_dormitory.room_no, fzu_dormitory.bed_no,
+               CONCAT(fzu_dormitory.building_no, '栋', fzu_dormitory.room_no, '床', fzu_dormitory.bed_no) AS dormName
+        from fzu_specialdorm_cancel
+                 LEFT JOIN fzu_dormitory ON fzu_specialdorm_cancel.dorm_id = fzu_dormitory.dorm_id,
+            sys_user u1,sys_user u2,sys_user u3
     </sql>
 
     <select id="selectFzuSpecialdormCancelList" parameterType="FzuSpecialdormCancel" resultMap="FzuSpecialdormCancelResult">
@@ -116,14 +124,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <select id="selectDormIdByStudentId" parameterType="FzuDormitoryInfo" resultType="FzuDormitoryInfo">
---         select student_id as studentId from fzu_student_dormitory
-        select fsd.dorm_id as dormId ,fd.dorm_status as dormStatus, fd.building_no as buildingNo, fd.room_no as roomNo from fzu_student_dormitory fsd, fzu_dormitory fd
+<!--    <select id="selectDormIdByStudentId" parameterType="FzuDormitoryInfo" resultType="FzuDormitoryInfo">-->
+<!--&#45;&#45;         select student_id as studentId from fzu_student_dormitory-->
+<!--        select fsd.dorm_id as dormId ,fd.dorm_status as dormStatus, fd.building_no as buildingNo, fd.room_no as roomNo from fzu_student_dormitory fsd, fzu_dormitory fd-->
+<!--        <where>-->
+<!--            fsd.dorm_id = fd.dorm_id-->
+<!--            and fsd.student_id = #{userId} and fd.dorm_status = #{dormStatus}-->
+<!--        </where>-->
+<!--    </select>-->
+    <select id="selectDormIdByStudentId" resultType="FzuDormitoryInfo">
+        select fd.bed_status as bedStatus, fsd.bed_no as bedNo, fsd.dorm_id as dormId ,fd.dorm_status as dormStatus, fd.building_no as buildingNo, fd.room_no as roomNo from fzu_student_dormitory fsd, fzu_dormitory fd
         <where>
             fsd.dorm_id = fd.dorm_id
-            and fsd.student_id = #{userId} and fd.dorm_status = #{dormStatus}
+            and fsd.student_id = #{userId}
+            and fd.dorm_status in
+            <foreach item="status" collection="dormStatus" open="(" close=")" separator=",">
+                #{status}
+            </foreach>
         </where>
     </select>
+
 
     <delete id="deleteFzuSpecialStuDormitoryByDormId" parameterType="Long">
         delete from fzu_student_dormitory where dorm_id = #{dormId}

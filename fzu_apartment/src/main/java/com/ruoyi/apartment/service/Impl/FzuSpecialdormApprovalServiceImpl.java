@@ -3,6 +3,7 @@ package com.ruoyi.apartment.service.Impl;
 import java.util.List;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
+import com.ruoyi.apartment.mapper.FzuStuDormitoryMapper;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
 {
     @Autowired
     private FzuSpecialdormApprovalMapper fzuSpecialdormApprovalMapper;
+
+    @Autowired
+    private FzuStuDormitoryMapper fzuStuDormitoryMapper;
 
     /**
      * 查询特殊宿舍申请
@@ -108,8 +112,22 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
 
     @Override
     public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo) {
-        return fzuSpecialdormApprovalMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
+        if(fzuStuDormitoryMapper.selectFzuStuDormitoryByDormId(fzuDormitoryInfo.getDormId()) == null) {
+            return fzuSpecialdormApprovalMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
+        }else{
+            return 0;
+        }
     }
 
-
+    /**
+     * 查询用户信息
+     *
+     * @param userId 用户信息主键
+     * @return 用户信息
+     */
+    @Override
+    public SysUser selectSysUserByUserId(Long userId)
+    {
+        return fzuSpecialdormApprovalMapper.selectSysUserByUserId(userId);
+    }
 }

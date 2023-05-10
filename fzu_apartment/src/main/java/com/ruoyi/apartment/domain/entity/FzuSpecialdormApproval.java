@@ -86,6 +86,15 @@ public class FzuSpecialdormApproval extends BaseEntity
     @Excel(name = "宿舍ID")
     private Long dormId;
 
+    private String dormName;
+
+    public String getDormName() { // Add this getter
+        return dormName;
+    }
+
+    public void setDormName(String dormName) { // And this setter
+        this.dormName = dormName;
+    }
 
     public String getFdyName() {
         return fdyName;

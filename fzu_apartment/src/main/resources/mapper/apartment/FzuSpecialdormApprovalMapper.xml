@@ -23,11 +23,61 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="manageName"    column="manage_name"    />
         <result property="fdyName"    column="fdy_name"    />
         <result property="xgcName"    column="xgc_name"    />
+        <result property="dormName"    column="dormName"    />
     </resultMap>
 
-    <sql id="selectFzuSpecialdormApprovalVo">
-        select approval_id, student_id, student_name, approval_category, approval_reason, fzu_specialdorm_approval.start_time, fzu_specialdorm_approval.end_time, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, approval_status, dorm_id, u1.nick_name as fdy_name,u2.nick_name as xgc_name,u3.nick_name as manage_name from fzu_specialdorm_approval,sys_user u1,sys_user u2,sys_user u3
+    <resultMap type="SysUser" id="SysUserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="email"    column="email"    />
+        <result property="phonenumber"    column="phonenumber"    />
+        <result property="sex"    column="sex"    />
+        <result property="province"    column="province"    />
+        <result property="schoolRoll"    column="school_roll"    />
+        <result property="schoolArea"    column="school_area"    />
+        <result property="studyLevel"    column="study_level"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="fdyNumber"    column="fdy_number"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="password"    column="password"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysUserVo">
+        select user_id, dept_id, user_name, nick_name, email, phonenumber, sex, province, school_roll, school_area, study_level, start_time, end_time, fdy_number, avatar, password, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark from sys_user
     </sql>
+
+<!--    <sql id="selectFzuSpecialdormApprovalVo">-->
+<!--        select approval_id, student_id, student_name, approval_category, approval_reason, fzu_specialdorm_approval.start_time, fzu_specialdorm_approval.end_time, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion, approval_status, dorm_id, u1.nick_name as fdy_name,u2.nick_name as xgc_name,u3.nick_name as manage_name from fzu_specialdorm_approval,sys_user u1,sys_user u2,sys_user u3-->
+<!--    </sql>-->
+    <sql id="selectFzuSpecialdormApprovalVo">
+        select approval_id, student_id, student_name, approval_category, approval_reason,
+               fzu_specialdorm_approval.start_time, fzu_specialdorm_approval.end_time,
+               fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id, manage_opinion,
+               approval_status, fzu_specialdorm_approval.dorm_id, u1.nick_name as fdy_name,u2.nick_name as xgc_name,
+               u3.nick_name as manage_name,
+               fzu_dormitory.building_no, fzu_dormitory.room_no, fzu_dormitory.bed_no,
+               CONCAT(fzu_dormitory.building_no, '栋', fzu_dormitory.room_no, '床', fzu_dormitory.bed_no) AS dormName
+        from fzu_specialdorm_approval
+                 LEFT JOIN fzu_dormitory ON fzu_specialdorm_approval.dorm_id = fzu_dormitory.dorm_id,
+             sys_user u1,sys_user u2,sys_user u3
+    </sql>
+
+    <select id="selectSysUserByUserId" parameterType="Long" resultMap="SysUserResult">
+        <include refid="selectSysUserVo"/>
+        where user_id = #{userId}
+    </select>
 
     <select id="selectFzuSpecialdormApprovalList" parameterType="FzuSpecialdormApproval" resultMap="FzuSpecialdormApprovalResult">
         <include refid="selectFzuSpecialdormApprovalVo"/>

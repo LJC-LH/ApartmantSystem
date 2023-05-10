@@ -5,6 +5,7 @@ import java.util.List;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 特殊退宿申请Mapper接口
@@ -64,7 +65,9 @@ public interface FzuSpecialdormCancelMapper
 
     List<SysUser> selectUserListByRoleId(SysUser sysUser);
 
-    List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo);
+//    List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo);
+
+    List<FzuDormitoryInfo> selectDormIdByStudentId(@Param("userId") Long userId, @Param("dormStatus") List<String> dormStatus);
 
     public int deleteFzuSpecialStuDormitoryByDormId(Long dormId);
 }

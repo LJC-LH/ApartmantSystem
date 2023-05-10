@@ -67,6 +67,16 @@ public class FzuSpecialdormCancel extends BaseEntity
     @Excel(name = "公寓ID")
     private Long dormId;
 
+    private String dormName;
+
+    public String getDormName() { // Add this getter
+        return dormName;
+    }
+
+    public void setDormName(String dormName) { // And this setter
+        this.dormName = dormName;
+    }
+
     public void setCancelId(Long cancelId)
     {
         this.cancelId = cancelId;

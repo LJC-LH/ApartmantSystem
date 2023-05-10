@@ -109,13 +109,13 @@ public class FzuSpecialdormCancelServiceImpl implements IFzuSpecialdormCancelSer
     /**
      * 查询studentId获取dormId
      *
-     * @param fzuDormitoryInfo
      * @return 结果
      */
     @Override
-    public List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo){
-        return fzuSpecialdormCancelMapper.selectDormIdByStudentId(fzuDormitoryInfo);
+    public List<FzuDormitoryInfo> selectDormIdByStudentId(Long userId, List<String> dormStatus){
+        return fzuSpecialdormCancelMapper.selectDormIdByStudentId(userId, dormStatus);
     }
+
 
     /**
      * 通过dormId删除学生与特殊宿舍绑定记录

@@ -3,13 +3,10 @@ package com.ruoyi.apartment.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.FzuStuDormitory;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormApproval;
 import com.ruoyi.apartment.service.IFzuStuDormitoryService;
-import com.ruoyi.apartment.service.IFzuSysUserService;
-import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +22,6 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.apartment.domain.entity.FzuSpecialdormApproval;
 import com.ruoyi.apartment.service.IFzuSpecialdormApprovalService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
@@ -46,9 +42,6 @@ public class FzuSpecialdormApprovalController extends BaseController
 
     @Autowired
     private IFzuStuDormitoryService fzuStuDormitoryService;
-
-    @Autowired
-    private IFzuSysUserService fzuSysUserService;
 
 
     /**
@@ -147,8 +140,14 @@ public class FzuSpecialdormApprovalController extends BaseController
      */
     @PostMapping("/addStudentDorm")
     public AjaxResult addStudentDorm(@RequestBody FzuDormitoryInfo fzuDormitoryInfo) {
-        return toAjax(fzuSpecialdormApprovalService.insertFzuStudentDormitory(fzuDormitoryInfo));
+        int i = fzuSpecialdormApprovalService.insertFzuStudentDormitory(fzuDormitoryInfo);
+        if (i > 0){
+            return toAjax(i);
+        }else{
+            return error("该床位不为空，请检查填写信息是否正确！");
+        }
     }
+
     /**
      * 获取宿舍详细信息
      */
@@ -161,7 +160,6 @@ public class FzuSpecialdormApprovalController extends BaseController
     /**
      * 修改宿舍
      */
-
     @PutMapping("/updateStudentdorm")
     public AjaxResult updateStudentdorm(@RequestBody FzuStuDormitory fzuStuDormitory)
     {
@@ -179,7 +177,6 @@ public class FzuSpecialdormApprovalController extends BaseController
     @GetMapping("/listStudentdorm")
     public TableDataInfo listStudentdorm(FzuStuDormitory fzuStuDormitory)
     {
-        startPage();
         List<FzuStuDormitory> list = fzuStuDormitoryService.selectFzuStuDormitoryList(fzuStuDormitory);
         return getDataTable(list);
     }
@@ -187,10 +184,9 @@ public class FzuSpecialdormApprovalController extends BaseController
     /**
      * 获取用户信息详细信息
      */
-    @PostMapping("/getUser")
-    public AjaxResult getUser(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
+    @GetMapping(value = "/getUser/{userId}")
+    public AjaxResult getUser(@PathVariable("userId") Long userId)
     {
-
-        return success(fzuSysUserService.selectFzuSysUserByUserId(fzuDormitoryInfo));
+        return success(fzuSpecialdormApprovalService.selectSysUserByUserId(userId));
     }
 }
