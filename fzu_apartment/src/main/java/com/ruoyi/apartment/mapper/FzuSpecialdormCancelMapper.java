@@ -70,4 +70,10 @@ public interface FzuSpecialdormCancelMapper
     List<FzuDormitoryInfo> selectDormIdByStudentId(@Param("userId") Long userId, @Param("dormStatus") List<String> dormStatus);
 
     public int deleteFzuSpecialStuDormitoryByDormId(Long dormId);
+
+    public int findPendingApplicationByDormId(Long dormId);
+
+    public void changDeleteDormStatus1(Long dormId);
+    public void changDeleteDormStatus3(Long dormId);
+    public void changDeleteDormStatus5(Long dormId);
 }

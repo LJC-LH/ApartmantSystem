@@ -144,8 +144,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
+    <select id="findPendingApplicationByDormId" resultType="int">
+        SELECT COUNT(*) FROM fzu_specialdorm_cancel
+        WHERE dorm_id = #{dormId} AND cancel_status = '3'
+    </select>
+
 
     <delete id="deleteFzuSpecialStuDormitoryByDormId" parameterType="Long">
         delete from fzu_student_dormitory where dorm_id = #{dormId}
     </delete>
+
+    <update id="changDeleteDormStatus1" parameterType="Long">
+        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = IF
+            ((SELECT COUNT(c.bed_status) FROM
+                    (
+                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
+                    ) AS c
+             ) = 4,1,2)
+
+        WHERE dorm_id IN (
+            SELECT a.dorm_id FROM
+                (
+                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+                )AS a
+        )
+    </update>
+
+    <update id="changDeleteDormStatus3" parameterType="Long">
+        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = IF
+            ((SELECT COUNT(c.bed_status) FROM
+                    (
+                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
+                    ) AS c
+             ) = 4,3,4)
+
+        WHERE dorm_id IN (
+            SELECT a.dorm_id FROM
+                (
+                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+                )AS a
+        )
+    </update>
+
+    <update id="changDeleteDormStatus5" parameterType="Long">
+        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+        UPDATE fzu_dormitory
+        SET dorm_status = IF
+            ((SELECT COUNT(c.bed_status) FROM
+                    (
+                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
+                    ) AS c
+             ) = 4,5,6)
+
+        WHERE dorm_id IN (
+            SELECT a.dorm_id FROM
+                (
+                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+                )AS a
+        )
+    </update>
 </mapper>

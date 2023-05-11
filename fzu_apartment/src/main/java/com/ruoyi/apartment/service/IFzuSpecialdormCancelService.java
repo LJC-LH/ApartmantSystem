@@ -63,12 +63,15 @@ public interface IFzuSpecialdormCancelService
      */
     public int deleteFzuSpecialdormCancelByCancelId(Long cancelId);
 
-    List<SysUser> selectUserListByRoleId(SysUser sysUser1);
+    public List<SysUser> selectUserListByRoleId(SysUser sysUser1);
 
 //    List<FzuDormitoryInfo> selectDormIdByStudentId(FzuDormitoryInfo fzuDormitoryInfo);
 
-    List<FzuDormitoryInfo> selectDormIdByStudentId(@Param("userId") Long userId, @Param("dormStatus") List<String> dormStatus);
+    public List<FzuDormitoryInfo> selectDormIdByStudentId(@Param("userId") Long userId, @Param("dormStatus") List<String> dormStatus);
 
 
-    public int deleteFzuSpecialStuDormitoryByDormId(Long dormId);
+    public int removeAndUpdateStuDorm(FzuDormitoryInfo fzuDormitoryInfo);
+
+    public boolean hasPendingApplication(Long dormId);
+
 }

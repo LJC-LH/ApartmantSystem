@@ -10,6 +10,7 @@ import com.ruoyi.apartment.service.IFzuStuDormitoryService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -138,10 +139,18 @@ public class FzuSpecialdormApprovalController extends BaseController
     /**
      * 添加student_dorm数据
      */
-    @PostMapping("/addStudentDorm")
-    public AjaxResult addStudentDorm(@RequestBody FzuDormitoryInfo fzuDormitoryInfo) {
+    @PostMapping("/addAndUpdateStudentDorm")
+    @Transactional
+    public AjaxResult addAndUpdateStudentDorm(@RequestBody FzuDormitoryInfo fzuDormitoryInfo) {
         int i = fzuSpecialdormApprovalService.insertFzuStudentDormitory(fzuDormitoryInfo);
         if (i > 0){
+            if("2".equals(fzuDormitoryInfo.getDormStatus())){
+                fzuSpecialdormApprovalService.changAddDormStatus2(fzuDormitoryInfo.getDormId());
+            } else if ("4".equals(fzuDormitoryInfo.getDormStatus())) {
+                fzuSpecialdormApprovalService.changAddDormStatus4(fzuDormitoryInfo.getDormId());
+            } else if ("6".equals(fzuDormitoryInfo.getDormStatus())) {
+                fzuSpecialdormApprovalService.changAddDormStatus6(fzuDormitoryInfo.getDormId());
+            }
             return toAjax(i);
         }else{
             return error("该床位不为空，请检查填写信息是否正确！");
@@ -160,16 +169,16 @@ public class FzuSpecialdormApprovalController extends BaseController
     /**
      * 修改宿舍
      */
-    @PutMapping("/updateStudentdorm")
-    public AjaxResult updateStudentdorm(@RequestBody FzuStuDormitory fzuStuDormitory)
-    {
-        int i = fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory);
-        if(i>0){
-            return toAjax(i);
-        }else {
-            return warn("数据修改失败，请重新检查输入信息！");
-        }
-    }
+//    @PutMapping("/updateStudentdorm")
+//    public AjaxResult updateStudentdorm(@RequestBody FzuStuDormitory fzuStuDormitory)
+//    {
+//        int i = fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory);
+//        if(i>0){
+//            return toAjax(i);
+//        }else {
+//            return warn("数据修改失败，请重新检查输入信息！");
+//        }
+//    }
 
     /**
      * 查询宿舍列表

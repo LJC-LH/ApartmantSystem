@@ -1,9 +1,10 @@
 package com.ruoyi.apartment.service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
-import com.ruoyi.apartment.mapper.FzuStuDormitoryMapper;
+import com.ruoyi.apartment.mapper.FzuSysUserMapper;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
     @Autowired
     private FzuSpecialdormApprovalMapper fzuSpecialdormApprovalMapper;
 
-    @Autowired
-    private FzuStuDormitoryMapper fzuStuDormitoryMapper;
+    private FzuSysUserMapper fzuSysUserMapper;
+
 
     /**
      * 查询特殊宿舍申请
@@ -111,8 +112,9 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
     }
 
     @Override
-    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo) {
-        if(fzuStuDormitoryMapper.selectFzuStuDormitoryByDormId(fzuDormitoryInfo.getDormId()) == null) {
+    public Integer insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo) {
+        if(fzuSpecialdormApprovalMapper.selectFzuStuDormitoryByDormId(fzuDormitoryInfo.getDormId()) == 0) {
+            fzuDormitoryInfo.setCreateTime(new Date());
             return fzuSpecialdormApprovalMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
         }else{
             return 0;
@@ -130,4 +132,34 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
     {
         return fzuSpecialdormApprovalMapper.selectSysUserByUserId(userId);
     }
+
+    @Override
+    public void changAddDormStatus2(Long dormId) {
+
+        fzuSpecialdormApprovalMapper.changeAddBedStatus(dormId);
+        List<Long> dormIdList = fzuSpecialdormApprovalMapper.getDormIdList(dormId);
+        for (Long aLong : dormIdList) {
+            fzuSpecialdormApprovalMapper.changeDormStatus2(aLong);
+        }
+    };
+
+    @Override
+    public void changAddDormStatus4(Long dormId) {
+
+        fzuSpecialdormApprovalMapper.changeAddBedStatus(dormId);
+        List<Long> dormIdList = fzuSpecialdormApprovalMapper.getDormIdList(dormId);
+        for (Long aLong : dormIdList) {
+            fzuSpecialdormApprovalMapper.changeDormStatus4(aLong);
+        }
+    };
+
+    @Override
+    public void changAddDormStatus6(Long dormId) {
+
+        fzuSpecialdormApprovalMapper.changeAddBedStatus(dormId);
+        List<Long> dormIdList = fzuSpecialdormApprovalMapper.getDormIdList(dormId);
+        for (Long aLong : dormIdList) {
+            fzuSpecialdormApprovalMapper.changeDormStatus6(aLong);
+        }
+    };
 }

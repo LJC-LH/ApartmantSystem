@@ -105,6 +105,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where fzu_specialdorm_approval.fdy_id = u1.user_id and fzu_specialdorm_approval.xgc_id = u2.user_id and fzu_specialdorm_approval.manage_id = u3.user_id and approval_id = #{approvalId}
     </select>
 
+    <select id="selectFzuStuDormitoryByDormId" parameterType="Long" resultType="java.lang.Integer">
+        select COALESCE(count(*), 0) from fzu_student_dormitory
+        where dorm_id = #{dormId}
+    </select>
+
     <insert id="insertFzuSpecialdormApproval" parameterType="FzuSpecialdormApproval" useGeneratedKeys="true" keyProperty="approvalId">
         insert into fzu_specialdorm_approval
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -185,4 +190,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
         INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no) values(#{userId}, #{dormId}, #{bedNo})
     </insert>
+
+    <select id="getDormIdList" parameterType="Long" resultType="Long">
+        SELECT d.dorm_id FROM fzu_dormitory d
+        WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
+    </select>
+
+    <update id="changeAddBedStatus" parameterType="Long">
+        UPDATE fzu_dormitory SET bed_status = 2 WHERE dorm_id = #{dormId}
+    </update>
+
+    <update id="changeDormStatus2" parameterType="Long">
+        update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
+    </update>
+
+    <update id="changeDormStatu4" parameterType="Long">
+        update fzu_dormitory set dorm_status = 4 where dorm_id = #{dormId}
+    </update>
+
+    <update id="changeDormStatus6" parameterType="Long">
+        update fzu_dormitory set dorm_status = 6 where dorm_id = #{dormId}
+    </update>
 </mapper>

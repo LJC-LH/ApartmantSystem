@@ -61,6 +61,16 @@ public class FzuDormitoryInfo extends BaseEntity {
     // 宿舍类型
     private String dormType;
 
+    private String dormName;
+
+    public String getDormName() {
+        return dormName;
+    }
+
+    public void setDormName(String dormName) {
+        this.dormName = dormName;
+    }
+
     public String getDormType() {
         return dormType;
     }

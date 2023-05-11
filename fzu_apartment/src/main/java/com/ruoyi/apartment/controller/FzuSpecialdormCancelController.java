@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.FzuStuDormitory;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
+import com.ruoyi.apartment.service.IFzuSpecialdormApprovalService;
 import com.ruoyi.apartment.service.IFzuStuDormitoryService;
 import com.ruoyi.apartment.service.IFzuSysUserService;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -37,7 +38,7 @@ public class FzuSpecialdormCancelController extends BaseController
     private IFzuStuDormitoryService fzuStuDormitoryService;
 
     @Autowired
-    private IFzuSysUserService fzuSysUserService;
+    private IFzuSpecialdormApprovalService fzuSpecialdormApprovalService;
 
     /**
      * 查询特殊退宿申请列表
@@ -74,16 +75,29 @@ public class FzuSpecialdormCancelController extends BaseController
         return success(fzuSpecialdormCancelService.selectFzuSpecialdormCancelByCancelId(cancelId));
     }
 
+//    /**
+//     * 新增特殊退宿申请
+//     */
+//    @PreAuthorize("@ss.hasPermi('apartment:cancel:add')")
+//    @Log(title = "特殊退宿申请", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody FzuSpecialdormCancel fzuSpecialdormCancel)
+//    {
+//        return toAjax(fzuSpecialdormCancelService.insertFzuSpecialdormCancel(fzuSpecialdormCancel));
+//    }
     /**
      * 新增特殊退宿申请
      */
     @PreAuthorize("@ss.hasPermi('apartment:cancel:add')")
     @Log(title = "特殊退宿申请", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody FzuSpecialdormCancel fzuSpecialdormCancel)
-    {
+    public AjaxResult add(@RequestBody FzuSpecialdormCancel fzuSpecialdormCancel) {
+        if (fzuSpecialdormCancelService.hasPendingApplication(fzuSpecialdormCancel.getDormId())) {
+            return AjaxResult.error("该床位退宿审批中，请勿重复提交");
+        }
         return toAjax(fzuSpecialdormCancelService.insertFzuSpecialdormCancel(fzuSpecialdormCancel));
     }
+
 
     /**
      * 修改特殊退宿申请
@@ -144,28 +158,34 @@ public class FzuSpecialdormCancelController extends BaseController
         // 遍历查询结果，根据 dormStatus 设置 dormType
         for (FzuDormitoryInfo dorm : list) {
             String currentDormStatus = dorm.getDormStatus();
+            String dormType;
             if ("3".equals(currentDormStatus) || "4".equals(currentDormStatus)) {
-                dorm.setDormType("特殊宿舍");
+                dormType = "特殊宿舍";
             } else if ("5".equals(currentDormStatus) || "6".equals(currentDormStatus)) {
-                dorm.setDormType("健康驿站");
+                dormType = "健康驿站";
             } else {
-                dorm.setDormType("普通宿舍");
+                dormType = "普通宿舍";
             }
-        }
+            dorm.setDormType(dormType);
 
+            // 将 dormType 添加到 dormName 中
+            String newDormName = dorm.getDormName() + " (" + dormType + ")";
+            dorm.setDormName(newDormName);
+        }
         return getDataTable(list);
     }
-
-
-
 
     /**
      * 解除特殊宿舍绑定
      */
-    @PostMapping ("/removeStuDorm")
-    public AjaxResult removeStuDorm(Long dormId)
+    @PostMapping ("/removeAndUpdateStuDorm")
+    public AjaxResult removeAndUpdateStuDorm(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-        return toAjax(fzuSpecialdormCancelService.deleteFzuSpecialStuDormitoryByDormId(dormId));
+        if(fzuSpecialdormCancelService.removeAndUpdateStuDorm(fzuDormitoryInfo)>0){
+            return toAjax(fzuSpecialdormCancelService.removeAndUpdateStuDorm(fzuDormitoryInfo));
+        }else{
+            return error("解绑失败！");
+        }
     }
 
     /**
@@ -181,16 +201,16 @@ public class FzuSpecialdormCancelController extends BaseController
      * 修改宿舍
      */
 
-    @PutMapping("/updateStudentdorm")
-    public AjaxResult updateStudentdorm(@RequestBody FzuStuDormitory fzuStuDormitory)
-    {
-        int i = fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory);
-        if(i>0){
-            return toAjax(i);
-        }else {
-            return warn("数据修改失败，请重新检查输入信息！");
-        }
-    }
+//    @PutMapping("/updateStudentdorm")
+//    public AjaxResult updateStudentdorm(@RequestBody FzuStuDormitory fzuStuDormitory)
+//    {
+//        int i = fzuStuDormitoryService.updateFzuStuDormitory(fzuStuDormitory);
+//        if(i>0){
+//            return toAjax(i);
+//        }else {
+//            return warn("数据修改失败，请重新检查输入信息！");
+//        }
+//    }
 
     /**
      * 查询宿舍列表
@@ -206,10 +226,9 @@ public class FzuSpecialdormCancelController extends BaseController
     /**
      * 获取用户信息详细信息
      */
-    @PostMapping("/getUser")
-    public AjaxResult getUser(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
+    @GetMapping(value = "/getUser/{userId}")
+    public AjaxResult getUser(@PathVariable("userId") Long userId)
     {
-
-        return success(fzuSysUserService.selectFzuSysUserByUserId(fzuDormitoryInfo));
+        return success(fzuSpecialdormApprovalService.selectSysUserByUserId(userId));
     }
 }

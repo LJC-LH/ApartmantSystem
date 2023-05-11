@@ -70,7 +70,9 @@ public interface IFzuSpecialdormApprovalService
      */
     public List<SysUser> selectUserListByRoleId(SysUser sysUser);
 
-    public int insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
+
+
+    public Integer insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo);
 
     /**
      * 查询用户信息
@@ -79,5 +81,11 @@ public interface IFzuSpecialdormApprovalService
      * @return 用户信息
      */
     public SysUser selectSysUserByUserId(Long userId);
+
+    public void changAddDormStatus2(Long dormId);
+
+    public void changAddDormStatus4(Long dormId);
+
+    public void changAddDormStatus6(Long dormId);
 }
 

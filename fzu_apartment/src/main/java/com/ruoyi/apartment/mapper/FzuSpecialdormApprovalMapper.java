@@ -86,4 +86,16 @@ public interface FzuSpecialdormApprovalMapper
      * @return 用户信息
      */
     public SysUser selectSysUserByUserId(Long userId);
+
+    public Integer selectFzuStuDormitoryByDormId(Long dormId);
+
+    public void changeAddBedStatus(Long dormId);
+
+    public void changeDormStatus2(Long dormId);
+
+    public void changeDormStatus4(Long dormId);
+
+    public void changeDormStatus6(Long dormId);
+
+    public List<Long> getDormIdList(Long dormId);
 }

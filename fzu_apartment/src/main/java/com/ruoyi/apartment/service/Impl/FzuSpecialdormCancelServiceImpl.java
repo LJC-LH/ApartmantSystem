@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.FzuSpecialdormCancelMapper;
 import com.ruoyi.apartment.service.IFzuSpecialdormCancelService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 特殊退宿申请Service业务层处理
@@ -17,6 +18,7 @@ import com.ruoyi.apartment.service.IFzuSpecialdormCancelService;
  * @date 2023-02-09
  */
 @Service
+@Transactional
 public class FzuSpecialdormCancelServiceImpl implements IFzuSpecialdormCancelService
 {
     @Autowired
@@ -118,13 +120,32 @@ public class FzuSpecialdormCancelServiceImpl implements IFzuSpecialdormCancelSer
 
 
     /**
-     * 通过dormId删除学生与特殊宿舍绑定记录
+     * 通过dormId删除学生与特殊宿舍绑定记录并更新宿舍状态
      *
-     * @param dormId
+     * @param fzuDormitoryInfo
      * @return 结果
      */
     @Override
-    public int deleteFzuSpecialStuDormitoryByDormId(Long dormId) {
-        return fzuSpecialdormCancelMapper.deleteFzuSpecialStuDormitoryByDormId(dormId);
+    public int removeAndUpdateStuDorm(FzuDormitoryInfo fzuDormitoryInfo) {
+        int i = fzuSpecialdormCancelMapper.deleteFzuSpecialStuDormitoryByDormId(fzuDormitoryInfo.getDormId());
+        if(i>0){
+            if("1".equals(fzuDormitoryInfo.getDormStatus())){
+                fzuSpecialdormCancelMapper.changDeleteDormStatus1(fzuDormitoryInfo.getDormId());
+            } else if ("3".equals(fzuDormitoryInfo.getDormStatus())) {
+                fzuSpecialdormCancelMapper.changDeleteDormStatus3(fzuDormitoryInfo.getDormId());
+            } else if ("5".equals(fzuDormitoryInfo.getDormStatus())) {
+                fzuSpecialdormCancelMapper.changDeleteDormStatus5(fzuDormitoryInfo.getDormId());
+            }
+            return i;
+        }else{
+            return 0;
+        }
     }
+
+    @Override
+    public boolean hasPendingApplication(Long dormId) {
+        int count = fzuSpecialdormCancelMapper.findPendingApplicationByDormId(dormId);
+        return count > 0;
+    }
+
 }
