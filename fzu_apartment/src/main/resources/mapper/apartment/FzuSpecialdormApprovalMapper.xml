@@ -188,7 +188,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
-        INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no) values(#{userId}, #{dormId}, #{bedNo})
+        INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no,create_time) values(#{userId}, #{dormId}, #{bedNo}, #{createTime})
     </insert>
 
     <select id="getDormIdList" parameterType="Long" resultType="Long">
@@ -204,7 +204,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update fzu_dormitory set dorm_status = 2 where dorm_id = #{dormId}
     </update>
 
-    <update id="changeDormStatu4" parameterType="Long">
+    <update id="changeDormStatus4" parameterType="Long">
         update fzu_dormitory set dorm_status = 4 where dorm_id = #{dormId}
     </update>
 

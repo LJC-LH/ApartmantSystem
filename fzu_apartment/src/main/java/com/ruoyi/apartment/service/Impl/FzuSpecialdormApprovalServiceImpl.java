@@ -6,6 +6,7 @@ import java.util.List;
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.mapper.FzuSysUserMapper;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.FzuSpecialdormApprovalMapper;
@@ -114,7 +115,7 @@ public class FzuSpecialdormApprovalServiceImpl implements IFzuSpecialdormApprova
     @Override
     public Integer insertFzuStudentDormitory(FzuDormitoryInfo fzuDormitoryInfo) {
         if(fzuSpecialdormApprovalMapper.selectFzuStuDormitoryByDormId(fzuDormitoryInfo.getDormId()) == 0) {
-            fzuDormitoryInfo.setCreateTime(new Date());
+            fzuDormitoryInfo.setCreateTime(DateUtils.getNowDate());
             return fzuSpecialdormApprovalMapper.insertFzuStudentDormitory(fzuDormitoryInfo);
         }else{
             return 0;

@@ -1,9 +1,12 @@
 package com.ruoyi.apartment.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.util.Date;
 
 /**
  * 特殊退宿申请对象 fzu_specialdorm_cancel
@@ -67,7 +70,22 @@ public class FzuSpecialdormCancel extends BaseEntity
     @Excel(name = "公寓ID")
     private Long dormId;
 
+    /** 退宿时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Excel(name = "退宿时间", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date endTime;
+
     private String dormName;
+
+    public void setEndTime(Date endTime)
+    {
+        this.endTime = endTime;
+    }
+
+    public Date getEndTime()
+    {
+        return endTime;
+    }
 
     public String getDormName() { // Add this getter
         return dormName;
@@ -219,6 +237,7 @@ public class FzuSpecialdormCancel extends BaseEntity
             .append("manageName", getManageName())
             .append("fdyName", getFdyName())
             .append("xgcName", getXgcName())
+            .append("endTime", getEndTime())
             .toString();
     }
 }

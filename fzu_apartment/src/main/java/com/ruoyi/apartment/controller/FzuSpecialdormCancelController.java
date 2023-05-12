@@ -176,13 +176,14 @@ public class FzuSpecialdormCancelController extends BaseController
     }
 
     /**
-     * 解除特殊宿舍绑定
+     * 解除特殊宿舍绑定并更新宿舍状态
      */
     @PostMapping ("/removeAndUpdateStuDorm")
     public AjaxResult removeAndUpdateStuDorm(@RequestBody FzuDormitoryInfo fzuDormitoryInfo)
     {
-        if(fzuSpecialdormCancelService.removeAndUpdateStuDorm(fzuDormitoryInfo)>0){
-            return toAjax(fzuSpecialdormCancelService.removeAndUpdateStuDorm(fzuDormitoryInfo));
+        int result = fzuSpecialdormCancelService.removeAndUpdateStuDorm(fzuDormitoryInfo);
+        if(result > 0){
+            return toAjax(result);
         }else{
             return error("解绑失败！");
         }

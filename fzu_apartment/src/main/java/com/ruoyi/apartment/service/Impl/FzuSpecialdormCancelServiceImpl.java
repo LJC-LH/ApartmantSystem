@@ -1,6 +1,8 @@
 package com.ruoyi.apartment.service.Impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.apartment.domain.FzuDormitoryInfo;
 import com.ruoyi.apartment.domain.entity.FzuSpecialdormCancel;
@@ -118,29 +120,53 @@ public class FzuSpecialdormCancelServiceImpl implements IFzuSpecialdormCancelSer
         return fzuSpecialdormCancelMapper.selectDormIdByStudentId(userId, dormStatus);
     }
 
-
-    /**
-     * 通过dormId删除学生与特殊宿舍绑定记录并更新宿舍状态
-     *
-     * @param fzuDormitoryInfo
-     * @return 结果
-     */
+    @Transactional
     @Override
     public int removeAndUpdateStuDorm(FzuDormitoryInfo fzuDormitoryInfo) {
         int i = fzuSpecialdormCancelMapper.deleteFzuSpecialStuDormitoryByDormId(fzuDormitoryInfo.getDormId());
-        if(i>0){
-            if("1".equals(fzuDormitoryInfo.getDormStatus())){
-                fzuSpecialdormCancelMapper.changDeleteDormStatus1(fzuDormitoryInfo.getDormId());
-            } else if ("3".equals(fzuDormitoryInfo.getDormStatus())) {
-                fzuSpecialdormCancelMapper.changDeleteDormStatus3(fzuDormitoryInfo.getDormId());
-            } else if ("5".equals(fzuDormitoryInfo.getDormStatus())) {
-                fzuSpecialdormCancelMapper.changDeleteDormStatus5(fzuDormitoryInfo.getDormId());
+
+        if(i > 0) {
+            Map<String, Object> params = new HashMap<>();
+            params.put("dormId", fzuDormitoryInfo.getDormId());
+            params.put("dormStatus", fzuDormitoryInfo.getDormStatus());
+            fzuSpecialdormCancelMapper.updateBedStatus(params);
+            Map<String, Object> dormInfo = fzuSpecialdormCancelMapper.getDormInfo(params);
+            params.put("buildingNo", dormInfo.get("building_no"));
+            params.put("roomNo", dormInfo.get("room_no"));
+            int bedCount = fzuSpecialdormCancelMapper.getBedCount(params);
+            System.out.println(bedCount);
+            System.out.println(fzuDormitoryInfo.getDormStatus());
+            if(bedCount == 4 && (fzuDormitoryInfo.getDormStatus().equals("1") || fzuDormitoryInfo.getDormStatus().equals("3") || fzuDormitoryInfo.getDormStatus().equals("5"))) {
+                fzuSpecialdormCancelMapper.updateDormStatus(params);
             }
-            return i;
-        }else{
-            return 0;
         }
+        return i;
     }
+
+
+
+//    /**
+//     * 通过dormId删除学生与特殊宿舍绑定记录并更新宿舍状态
+//     *
+//     * @param fzuDormitoryInfo
+//     * @return 结果
+//     */
+//    @Override
+//    public int removeAndUpdateStuDorm(FzuDormitoryInfo fzuDormitoryInfo) {
+//        int i = fzuSpecialdormCancelMapper.deleteFzuSpecialStuDormitoryByDormId(fzuDormitoryInfo.getDormId());
+//        if(i>0){
+//            if("1".equals(fzuDormitoryInfo.getDormStatus())){
+//                fzuSpecialdormCancelMapper.changDeleteDormStatus1(fzuDormitoryInfo.getDormId());
+//            } else if ("3".equals(fzuDormitoryInfo.getDormStatus())) {
+//                fzuSpecialdormCancelMapper.changDeleteDormStatus3(fzuDormitoryInfo.getDormId());
+//            } else if ("5".equals(fzuDormitoryInfo.getDormStatus())) {
+//                fzuSpecialdormCancelMapper.changDeleteDormStatus5(fzuDormitoryInfo.getDormId());
+//            }
+//            return i;
+//        }else{
+//            return 0;
+//        }
+//    }
 
     @Override
     public boolean hasPendingApplication(Long dormId) {

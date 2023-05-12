@@ -21,11 +21,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="fdyName"    column="fdy_name"    />
         <result property="xgcName"    column="xgc_name"    />
         <result property="dormName"    column="dormName"    />
+        <result property="endTime"    column="end_time"    />
     </resultMap>
 
     <sql id="selectFzuSpecialdormCancelVo">
         select cancel_id, student_id, student_name, fdy_id, fdy_opinion, xgc_id, xgc_opinion, manage_id,
-               manage_opinion, cancel_status, fzu_specialdorm_cancel.dorm_id, fzu_specialdorm_cancel.remark, u1.nick_name as fdy_name,
+               manage_opinion, cancel_status, fzu_specialdorm_cancel.dorm_id, fzu_specialdorm_cancel.remark, fzu_specialdorm_cancel.end_time, u1.nick_name as fdy_name,
                u2.nick_name as xgc_name,u3.nick_name as manage_name,
                fzu_dormitory.building_no, fzu_dormitory.room_no, fzu_dormitory.bed_no,
                CONCAT(fzu_dormitory.building_no, '栋', fzu_dormitory.room_no, '床', fzu_dormitory.bed_no) AS dormName
@@ -48,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="manageOpinion != null  and manageOpinion != ''"> and manage_opinion = #{manageOpinion}</if>
             <if test="cancelStatus != null  and cancelStatus != ''"> and cancel_status = #{cancelStatus}</if>
             <if test="dormId != null "> and dorm_id = #{dormId}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
         </where>
     </select>
 
@@ -70,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cancelStatus != null">cancel_status,</if>
             <if test="dormId != null">dorm_id,</if>
             <if test="remark != null">remark,</if>
+            <if test="endTime != null">end_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="studentId != null">#{studentId},</if>
@@ -83,6 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cancelStatus != null">#{cancelStatus},</if>
             <if test="dormId != null">#{dormId},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="endTime != null">end_time,</if>
          </trim>
     </insert>
 
@@ -100,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cancelStatus != null">cancel_status = #{cancelStatus},</if>
             <if test="dormId != null">dorm_id = #{dormId},</if>
             <if test="remark != null">remark = #{remark},</if>
+            <if test="endTime != null">end_time,</if>
         </trim>
         where cancel_id = #{cancelId}
     </update>
@@ -154,57 +159,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from fzu_student_dormitory where dorm_id = #{dormId}
     </delete>
 
-    <update id="changDeleteDormStatus1" parameterType="Long">
-        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+    <update id="updateBedStatus" parameterType="java.util.Map">
         UPDATE fzu_dormitory
-        SET dorm_status = IF
-            ((SELECT COUNT(c.bed_status) FROM
-                    (
-                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
-                    ) AS c
-             ) = 4,1,2)
-
-        WHERE dorm_id IN (
-            SELECT a.dorm_id FROM
-                (
-                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
-                )AS a
-        )
+        SET bed_status = '1'
+        WHERE dorm_id = #{dormId};
     </update>
 
-    <update id="changDeleteDormStatus3" parameterType="Long">
-        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
+    <select id="getDormInfo" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT building_no, room_no
+        FROM fzu_dormitory
+        WHERE dorm_id = #{dormId};
+    </select>
+
+    <select id="getBedCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT COUNT(*)
+        FROM fzu_dormitory
+        WHERE bed_status = '1'
+          AND building_no = #{buildingNo}
+          AND room_no = #{roomNo};
+    </select>
+
+    <update id="updateDormStatus" parameterType="java.util.Map">
         UPDATE fzu_dormitory
-        SET dorm_status = IF
-            ((SELECT COUNT(c.bed_status) FROM
-                    (
-                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
-                    ) AS c
-             ) = 4,3,4)
-
-        WHERE dorm_id IN (
-            SELECT a.dorm_id FROM
-                (
-                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
-                )AS a
-        )
-    </update>
-
-    <update id="changDeleteDormStatus5" parameterType="Long">
-        UPDATE fzu_dormitory SET bed_status = 1 WHERE dorm_id = #{dormId};
-        UPDATE fzu_dormitory
-        SET dorm_status = IF
-            ((SELECT COUNT(c.bed_status) FROM
-                    (
-                        SELECT d.bed_status FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.bed_status = 1
-                    ) AS c
-             ) = 4,5,6)
-
-        WHERE dorm_id IN (
-            SELECT a.dorm_id FROM
-                (
-                    SELECT d.dorm_id FROM fzu_dormitory d WHERE d.building_no = (SELECT d.building_no FROM fzu_dormitory d WHERE dorm_id = #{dormId}) AND d.room_no = (SELECT d.room_no FROM fzu_dormitory d WHERE dorm_id = #{dormId})
-                )AS a
-        )
+        SET dorm_status = #{dormStatus}
+        WHERE building_no = #{buildingNo}
+          AND room_no = #{roomNo};
     </update>
 </mapper>
