@@ -78,17 +78,17 @@
     <update id="updateDormitory" parameterType="FzuStuDormitory">
         update fzu_dormitory
         <trim prefix="SET" suffixOverrides=",">
-            <if test="buildingNo != null and buildingNo != ''">building_no = #{buildingNo},</if>
-            <if test="roomNo != null and roomNo != ''">room_no = #{roomNo},</if>
+<!--            <if test="buildingNo != null and buildingNo != ''">building_no = #{buildingNo},</if>-->
+<!--            <if test="roomNo != null and roomNo != ''">room_no = #{roomNo},</if>-->
             <if test="fees != null">fees = #{fees},</if>
             <if test="feesStatus != null">fees_status = #{feesStatus},</if>
             <if test="feesCategory != null">fees_category = #{feesCategory},</if>
             <if test="dormStatus != null">dorm_status = #{dormStatus},</if>
 <!--            <if test="contactPerson != null">contact_person = #{contactPerson},</if>-->
 <!--            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>-->
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="bedNo != null  and bedNo != ''">bed_no = #{bedNo},</if>
-            <if test="bedStatus != null  and bedStatus != ''">bed_status = #{bedStatus},</if>
+<!--            <if test="remark != null">remark = #{remark},</if>-->
+<!--            <if test="bedNo != null  and bedNo != ''">bed_no = #{bedNo},</if>-->
+<!--            <if test="bedStatus != null  and bedStatus != ''">bed_status = #{bedStatus},</if>-->
             <if test="deptId != null">dept_id = #{deptId},</if>
         </trim>
         where building_no = #{buildingNo} and room_no = #{roomNo}
@@ -97,18 +97,18 @@
     <update id="updateBed" parameterType="FzuStuDormitory">
         update fzu_dormitory
         <trim prefix="SET" suffixOverrides=",">
-            <if test="buildingNo != null and buildingNo != ''">building_no = #{buildingNo},</if>
-            <if test="roomNo != null and roomNo != ''">room_no = #{roomNo},</if>
-            <if test="fees != null">fees = #{fees},</if>
-            <if test="feesStatus != null">fees_status = #{feesStatus},</if>
-            <if test="feesCategory != null">fees_category = #{feesCategory},</if>
-            <if test="dormStatus != null">dorm_status = #{dormStatus},</if>
+<!--            <if test="buildingNo != null and buildingNo != ''">building_no = #{buildingNo},</if>-->
+<!--            <if test="roomNo != null and roomNo != ''">room_no = #{roomNo},</if>-->
+<!--            <if test="fees != null">fees = #{fees},</if>-->
+<!--            <if test="feesStatus != null">fees_status = #{feesStatus},</if>-->
+<!--            <if test="feesCategory != null">fees_category = #{feesCategory},</if>-->
+<!--            <if test="dormStatus != null">dorm_status = #{dormStatus},</if>-->
 <!--            <if test="contactPerson != null">contact_person = #{contactPerson},</if>-->
 <!--            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>-->
             <if test="remark != null">remark = #{remark},</if>
-            <if test="bedNo != null  and bedNo != ''">bed_no = #{bedNo},</if>
+<!--            <if test="bedNo != null  and bedNo != ''">bed_no = #{bedNo},</if>-->
             <if test="bedStatus != null  and bedStatus != ''">bed_status = #{bedStatus},</if>
-            <if test="deptId != null">dept_id = #{deptId},</if>
+<!--            <if test="deptId != null">dept_id = #{deptId},</if>-->
         </trim>
         where dorm_id = #{dormId}
     </update>

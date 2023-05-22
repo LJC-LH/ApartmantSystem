@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.RepairOrderMapper">
-    
+
     <resultMap type="RepairOrder" id="RepairOrderResult">
         <result property="repairId"    column="repair_id"    />
         <result property="studentId"    column="student_id"    />
@@ -39,12 +39,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createAt != null "> and create_at = #{createAt}</if>
         </where>
     </select>
-    
+
     <select id="selectRepairOrderByRepairId" parameterType="Long" resultMap="RepairOrderResult">
         <include refid="selectRepairOrderVo"/>
         where repair_id = #{repairId}
     </select>
-        
+
     <insert id="insertRepairOrder" parameterType="fzuCompleteOrders">
         insert into fzu_repair_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -100,14 +100,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteRepairOrderByRepairIds" parameterType="String">
-        delete from fzu_repair_orders where repair_id in 
+        delete from fzu_repair_orders where repair_id in
         <foreach item="repairId" collection="array" open="(" separator="," close=")">
             #{repairId}
         </foreach>
     </delete>
 
     <select id="selectInfo" resultMap="RepairOrderResult" parameterType="long">
-        select building_no, room_no from fzu_dormitory where dorm_id = (select dorm_id from fzu_student_dormitory where student_id = ${studentId})
+        select building_no, room_no from fzu_dormitory where dorm_id = (select dorm_id from fzu_student_dormitory where student_id = ${studentId}) AND dorm_status = 2;
     </select>
 
     <update id="updateEvaluate" parameterType="fzuCompleteOrders">

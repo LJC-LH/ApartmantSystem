@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.ruoyi.apartment.mapper.FzuStuDormitoryMapper;
 import com.ruoyi.apartment.domain.FzuStuDormitory;
 import com.ruoyi.apartment.service.IFzuStuDormitoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Validator;
 
@@ -25,6 +26,7 @@ import javax.validation.Validator;
  * @date 2023-02-15
  */
 @Service
+@Transactional
 public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
 {
     private static final Logger log = LoggerFactory.getLogger(FzuStuDormitoryServiceImpl.class);
@@ -105,8 +107,8 @@ public class FzuStuDormitoryServiceImpl implements IFzuStuDormitoryService
             j = fzuStuDormitoryMapper.updateBed(bedInfo);
         }
         fzuStuDormitory.setBedNo(null);
-        i = fzuStuDormitoryMapper.updateDormitory(fzuStuDormitory);
-        k = fzuStuDormitoryMapper.updateBed(fzuStuDormitory);
+        i = fzuStuDormitoryMapper.updateDormitory(fzuStuDormitory); //更新其他字段，同宿舍4条记录同步更新
+        k = fzuStuDormitoryMapper.updateBed(fzuStuDormitory);  //只更新一个床位状态和remark字段
         return (i > j) ? (i > k ? i : k) : (j > k ? j : k);
     }
 

@@ -29,7 +29,7 @@ public class FzuStuDormitory extends BaseEntity
 
     /** 欠费金额 */
     @Excel(name = "欠费金额")
-    private Long fees;
+    private Double fees;
 
     /** 是否欠费 */
     @Excel(name = "是否欠费", readConverterExp = "0=未欠费,1=已欠费", prompt = "填写：未欠费、已欠费",combo = "未欠费,已欠费")
@@ -122,12 +122,12 @@ public class FzuStuDormitory extends BaseEntity
     {
         return roomNo;
     }
-    public void setFees(Long fees)
+    public void setFees(Double fees)
     {
         this.fees = fees;
     }
 
-    public Long getFees()
+    public Double getFees()
     {
         return fees;
     }

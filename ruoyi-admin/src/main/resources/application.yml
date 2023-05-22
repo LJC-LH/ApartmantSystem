@@ -8,10 +8,10 @@ ruoyi:
   copyrightYear: 2023
   # 实例演示开关
   demoEnabled: true
-  # 文件路径 示例（ Windows配置th，Linux配置 /home/ruoyi/uploadPath）
-  profile: D:/ruoyi/uploadPath
-
-  apartment: D:/ruoyi/apartment
+  # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 images/uploadPath）
+  profile: images/uploadPath
+  # 维修图片路径 示例（ Windows配置D:/ruoyi/apartment，Linux配置images/apartment）
+  apartment: images/apartment
   # 获取ip地址开关
   addressEnabled: false
   # 验证码类型 math 数组计算 char 字符验证
