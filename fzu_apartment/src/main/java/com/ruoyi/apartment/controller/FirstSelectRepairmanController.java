@@ -71,7 +71,7 @@ public class FirstSelectRepairmanController extends BaseController
     @GetMapping(value = "/{repairId}")
     public AjaxResult getInfo(@PathVariable("repairId") Long repairId)
     {
-        return success(repairResultService.selectRepairResultByRepairId(repairId));
+        return success(firstSelectRepairmanService.selectFirstSelectRepairmanByRepairId(repairId));
     }
 
     /**

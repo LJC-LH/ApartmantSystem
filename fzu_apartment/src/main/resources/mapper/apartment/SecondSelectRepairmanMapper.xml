@@ -27,6 +27,8 @@
         <result property="nickName" column="nick_name" />
         <result property="userName" column="user_name" />
         <result property="firstRepairmanName" column="first_repairman_name" />
+        <result property="firstRepairmanPhone" column="first_repairman_phone" />
+        <result property="studentPhone" column="student_phone" />
         <collection property="stuImagesURL" ofType="String"
                     javaType="List"
                     jdbcType="VARCHAR"
@@ -56,11 +58,10 @@
         select picture_url from fzu_picture_save where order_id = #{repairId} and picture_type = 3
     </select>
 
-
     <sql id="selectSecondSelectRepairmanVo">
-        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name, u2.nick_name as first_repairman_name
+        select repair_id, student_id, building_no, room_no, damage_description, fix_type, create_at, fix_status, first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch, evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time, second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name, u2.nick_name as first_repairman_name,
+        u2.phonenumber as first_repairman_phone,u1.phonenumber as student_phone <!-- 添加学生电话号码 -->
         from fzu_repair_orders, sys_user u1, sys_user u2
-
     </sql>
 
     <select id="selectSecondSelectRepairmanList" parameterType="SecondSelectRepairman" resultMap="SecondSelectRepairmanResult">
@@ -175,3 +176,4 @@
         </foreach>
     </delete>
 </mapper>
+

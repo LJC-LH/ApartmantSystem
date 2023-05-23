@@ -106,6 +106,26 @@ public class SecondSelectRepairman extends BaseEntity
 
     private String secondaryRepairmanName;
 
+    private String firstRepairmanPhone;
+
+    public String getFirstRepairmanPhone() {
+        return firstRepairmanPhone;
+    }
+
+    public void setFirstRepairmanPhone(String firstRepairmanPhone) {
+        this.firstRepairmanPhone = firstRepairmanPhone;
+    }
+
+    public String getStudentPhone() {
+        return studentPhone;
+    }
+
+    public void setStudentPhone(String studentPhone) {
+        this.studentPhone = studentPhone;
+    }
+
+    private String studentPhone;
+
     private List<String> stuImagesURL;
 
     private List<String> onceImagesURL;

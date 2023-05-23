@@ -1,6 +1,8 @@
 package com.ruoyi.apartment.domain;
 
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -99,10 +101,60 @@ public class FirstSelectRepairman extends BaseEntity
     private Date secondActualCompletionTime;
 
     /** 第二次维修内容（维修人员填写） */
-    @Excel(name = "第二次维修内容", readConverterExp = "维=修人员填写")
+    @Excel(name = "第二次维修内容", readConverterExp = "维修人员填写")
     private String secondWorkContent;
 
     private String firstRepairmanName;
+
+    private String firstRepairmanPhone;
+
+    private String studentPhone;
+
+    private List<String> stuImagesURL;
+
+    private List<String> onceImagesURL;
+
+    public List<String> getStuImagesURL() {
+        return stuImagesURL;
+    }
+
+    public void setStuImagesURL(List<String> stuImagesURL) {
+        this.stuImagesURL = stuImagesURL;
+    }
+
+    public List<String> getOnceImagesURL() {
+        return onceImagesURL;
+    }
+
+    public void setOnceImagesURL(List<String> onceImagesURL) {
+        this.onceImagesURL = onceImagesURL;
+    }
+
+    public List<String> getSecondImagesURL() {
+        return secondImagesURL;
+    }
+
+    public void setSecondImagesURL(List<String> secondImagesURL) {
+        this.secondImagesURL = secondImagesURL;
+    }
+
+    private List<String> secondImagesURL;
+
+    public String getStudentPhone() {
+        return studentPhone;
+    }
+
+    public void setStudentPhone(String studentPhone) {
+        this.studentPhone = studentPhone;
+    }
+
+    public String getFirstRepairmanPhone() {
+        return firstRepairmanPhone;
+    }
+
+    public void setFirstRepairmanPhone(String firstRepairmanPhone) {
+        this.firstRepairmanPhone = firstRepairmanPhone;
+    }
 
     public String getFirstRepairmanName() {
         return firstRepairmanName;
