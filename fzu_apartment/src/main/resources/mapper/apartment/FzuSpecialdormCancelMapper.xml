@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cancelStatus != null">#{cancelStatus},</if>
             <if test="dormId != null">#{dormId},</if>
             <if test="remark != null">#{remark},</if>
-            <if test="endTime != null">end_time,</if>
+            <if test="endTime != null">#{endTime},</if>
          </trim>
     </insert>
 
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cancelStatus != null">cancel_status = #{cancelStatus},</if>
             <if test="dormId != null">dorm_id = #{dormId},</if>
             <if test="remark != null">remark = #{remark},</if>
-            <if test="endTime != null">end_time,</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
         </trim>
         where cancel_id = #{cancelId}
     </update>
