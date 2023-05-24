@@ -41,8 +41,6 @@ public class SecondSelectRepairmanController extends BaseController
     @Autowired
     private IFirstSelectRepairmanService firstSelectRepairmanService;
 
-    @Autowired
-    private IRepairResultService repairResultService;
 
     /**
      * 查询二次派单列表

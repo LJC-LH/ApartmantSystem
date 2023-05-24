@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.apartment.service.IFirstSelectRepairmanService;
 import com.ruoyi.apartment.service.IRepairResultService;
+import com.ruoyi.apartment.service.ISecondSelectRepairmanService;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class ManagerOpinionController extends BaseController
     private IFirstSelectRepairmanService firstSelectRepairmanService;
 
     @Autowired
-    private IRepairResultService repairResultService;
+    private ISecondSelectRepairmanService secondSelectRepairmanService;
 
     /**
      * 查询领导审批列表
@@ -76,7 +77,7 @@ public class ManagerOpinionController extends BaseController
     @GetMapping(value = "/{repairId}")
     public AjaxResult getInfo(@PathVariable("repairId") Long repairId)
     {
-        return success(repairResultService.selectRepairResultByRepairId(repairId));
+        return success(secondSelectRepairmanService.selectSecondSelectRepairmanByRepairId(repairId));
     }
 
     /**
