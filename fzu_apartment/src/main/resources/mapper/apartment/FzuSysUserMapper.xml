@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.FzuSysUserMapper">
-    
+
     <resultMap type="FzuDormitoryInfo" id="FzuSysUserResult">
         <result property="userId"    column="user_id"    />
         <result property="dormId"    column="dorm_id"    />
@@ -80,12 +80,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE  fzu_student_dormitory.dorm_id = fzu_dormitory.dorm_id AND sys_user.dept_id = (SELECT sys_user.dept_id FROM sys_user WHERE sys_user.user_name = 222210141) AND sys_user.user_id = fzu_student_dormitory.student_id
 
     </select>
-    
+
     <select id="selectFzuSysUserByUserId" parameterType="FzuDormitoryInfo" resultMap="FzuSysUserResult">
         <include refid="selectFzuSysUserVo"/>
         where s.dorm_id = #{dormId} AND u.user_id = #{userId} AND u.user_id = s.student_id AND s.dorm_id = d.dorm_id
     </select>
-        
+
     <insert id="insertFzuSysUser" parameterType="FzuDormitoryInfo" useGeneratedKeys="true" keyProperty="userId">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -231,7 +231,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertFzuStudentDormitory" parameterType="FzuDormitoryInfo">
         INSERT INTO fzu_student_dormitory (student_id, dorm_id, bed_no, create_time) SELECT #{userId}, #{dormId}, #{bedNo}, #{createTime}
             WHERE NOT EXISTS (SELECT * FROM fzu_student_dormitory
-            WHERE ((dorm_id = #{dormId} AND bed_no = #{bedNo}) OR (student_id = #{userId})))
+            WHERE (dorm_id = #{dormId} AND bed_no = #{bedNo}))
     </insert>
 
     <update id="changAddDormStatus" parameterType="Long">

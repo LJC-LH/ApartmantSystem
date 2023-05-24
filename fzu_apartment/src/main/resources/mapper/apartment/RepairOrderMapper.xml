@@ -37,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
             <if test="createAt != null "> and create_at = #{createAt}</if>
+            <if test="fixType != null"> and fix_type = #{fixType}</if>
         </where>
     </select>
 
@@ -54,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="roomNo != null">room_no,</if>
             <if test="createAt != null">create_at,</if>
             <if test="fixStatus != null">fix_status,</if>
+            <if test="fixType != null">fix_type,</if>
             <if test="isSecondDispatch != null">is_second_dispatch,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -63,6 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="roomNo != null">#{roomNo},</if>
             <if test="createAt != null">#{createAt},</if>
             <if test="fixStatus != null">#{fixStatus},</if>
+            <if test="fixType != null">#{fixType},</if>
             <if test="isSecondDispatch != null">#{isSecondDispatch},</if>
          </trim>
         <selectKey resultType="Long" order="AFTER" keyProperty="repairId">
@@ -107,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <select id="selectInfo" resultMap="RepairOrderResult" parameterType="long">
-        select building_no, room_no from fzu_dormitory where dorm_id = (select dorm_id from fzu_student_dormitory where student_id = ${studentId}) AND dorm_status = 2;
+        select building_no, room_no from fzu_dormitory where dorm_id in (select dorm_id from fzu_student_dormitory where student_id = ${studentId}) AND dorm_status = 2;
     </select>
 
     <update id="updateEvaluate" parameterType="fzuCompleteOrders">

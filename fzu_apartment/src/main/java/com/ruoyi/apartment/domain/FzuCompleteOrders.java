@@ -99,6 +99,16 @@ public class FzuCompleteOrders {
 
     private String studentName;
 
+    private String studentPhonenumber;
+
+    public String getStudentPhonenumber() {
+        return studentPhonenumber;
+    }
+
+    public void setStudentPhonenumber(String studentPhonenumber) {
+        this.studentPhonenumber = studentPhonenumber;
+    }
+
     private String repairmanName;
 
     private String secondaryRepairmanName;

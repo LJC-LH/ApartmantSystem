@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.apartment.mapper.RepairResultMapper">
-    
+
     <resultMap type="FzuCompleteOrders" id="FzuCompleteOrdersResult">
         <result property="repairId"    column="repair_id"    />
         <result property="studentId"    column="student_id"    />
@@ -27,6 +27,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <association property="studentName"
                      javaType="String"
                      select="getStudentName"
+                     column="repair_id"/>
+        <association property="studentPhonenumber"
+                     javaType="String"
+                     select="getStudentPhonenumber"
                      column="repair_id"/>
         <association property="repairmanName"
                      javaType="String"
@@ -69,6 +73,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select nick_name  from sys_user where user_id = (select student_id from fzu_repair_orders where repair_id = #{repairId})
     </select>
 
+    <select id="getStudentPhonenumber" resultType="String">
+        select phonenumber  from sys_user where user_id = (select student_id from fzu_repair_orders where repair_id = #{repairId})
+    </select>
+
     <select id="getRepairmanName" resultType="String">
         select nick_name  from sys_user where user_id = (select first_repairman_id from fzu_repair_orders where repair_id = #{repairId})
     </select>
@@ -84,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectRepairResultList" parameterType="RepairResult" resultMap="FzuCompleteOrdersResult">
         <include refid="selectRepairResultVo"/>
-        <where> (fix_status = "1" or fix_status = "4") and ( first_repairman_id = #{firstRepairmanId} or secondary_repairman_id = #{firstRepairmanId})
+        <where> (fix_status = "1" or fix_status = "4" or fix_status = "2") and ( first_repairman_id = #{firstRepairmanId} or secondary_repairman_id = #{firstRepairmanId})
             <if test="studentId != null "> and student_id = #{studentId}</if>
             <if test="buildingNo != null  and buildingNo != ''"> and building_no = #{buildingNo}</if>
             <if test="roomNo != null  and roomNo != ''"> and room_no = #{roomNo}</if>
@@ -103,12 +111,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="secondWorkContent != null  and secondWorkContent != ''"> and second_work_content = #{secondWorkContent}</if>
         </where>
     </select>
-    
+
     <select id="selectRepairResultByRepairId" parameterType="Long" resultMap="FzuCompleteOrdersResult">
         <include refid="selectRepairResultVo"/>
         where repair_id = #{repairId}
     </select>
-        
+
     <insert id="insertRepairResult" parameterType="RepairResult">
         insert into fzu_repair_orders
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -185,7 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteRepairResultByRepairIds" parameterType="String">
-        delete from fzu_repair_orders where repair_id in 
+        delete from fzu_repair_orders where repair_id in
         <foreach item="repairId" collection="array" open="(" separator="," close=")">
             #{repairId}
         </foreach>

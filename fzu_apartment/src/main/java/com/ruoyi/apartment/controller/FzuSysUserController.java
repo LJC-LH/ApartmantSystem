@@ -127,7 +127,7 @@ public class FzuSysUserController extends BaseController
         fzuDormitoryInfo.setCreateTime(DateUtils.getNowDate());  //设置插入时间
         int i = fzuSysUserService.insertFzuStudentDormitory(fzuDormitoryInfo);
         if (i < 1){
-            return error("该学生已分配或宿舍床位已满，请检查输入信息");
+            return error("该宿舍床位已使用，请检查输入信息");
         }
         fzuSysUserService.changAddDormStatus(fzuDormitoryInfo.getDormId());
         return toAjax(i);

@@ -94,10 +94,8 @@
             first_repairman_id, first_work_content, first_completion_time, campus_management_opinion, is_second_dispatch,
             evaluate_content, evaluate_rate, secondary_repairman_id, second_expected_completion_time,
             second_actual_completion_time, second_work_content, u1.nick_name, u1.user_name,
-            first_repairman.phonenumber as first_repairman_phone,u1.phonenumber as student_phone <!-- 添加学生电话号码 -->
-        from fzu_repair_orders
-                 left join sys_user as first_repairman on fzu_repair_orders.first_repairman_id = first_repairman.user_id
-           , sys_user u1
+            u1.phonenumber as student_phone <!-- 添加学生电话号码 -->
+        from fzu_repair_orders, sys_user u1
     </sql>
 
     <select id="selectFirstSelectRepairmanList" parameterType="FirstSelectRepairman" resultMap="FirstSelectRepairmanResult">
@@ -137,7 +135,6 @@
     <select id="selectFirstSelectRepairmanByRepairId" parameterType="Long" resultMap="FirstSelectRepairmanResult">
         <include refid="selectFirstSelectRepairmanVo"/>
         where u1.user_id = fzu_repair_orders.student_id
-        and first_repairman.user_id = fzu_repair_orders.first_repairman_id
         and repair_id = #{repairId}
     </select>
 
